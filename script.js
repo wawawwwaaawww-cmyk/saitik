@@ -2170,84 +2170,32 @@ function initHeaderShrink() {
 }
 
 /**
- * Initialize sticky bottom CTA bar
+ * Initialize call button in header (NEW)
  */
-function initStickyBottomBar() {
-    const stickyBar = document.querySelector('.sticky-bottom-bar');
-    if (!stickyBar) return;
+function initCallButtonAnalytics() {
+    const callBtn = document.querySelector('.call-btn');
     
-    const showThreshold = 400;
-    let isVisible = false;
-    
-    function handleScroll() {
-        const currentScroll = window.scrollY;
-        const windowHeight = window.innerHeight;
-        const documentHeight = document.documentElement.scrollHeight;
-        const distanceFromBottom = documentHeight - (currentScroll + windowHeight);
-        
-        // Show after scrolling 400px
-        const shouldShow = currentScroll > showThreshold;
-        
-        // Hide near footer (within 200px of bottom)
-        const nearBottom = distanceFromBottom < 200;
-        
-        // Check if mobile menu is open
-        const menuOpen = document.querySelector('.mobile-nav-sheet.is-open');
-        
-        if (shouldShow && !nearBottom && !menuOpen) {
-            if (!isVisible) {
-                stickyBar.classList.add('visible');
-                stickyBar.classList.remove('hidden');
-                isVisible = true;
-            }
-        } else {
-            if (isVisible) {
-                stickyBar.classList.remove('visible');
-                stickyBar.classList.add('hidden');
-                isVisible = false;
-            }
-        }
-    }
-    
-    // Throttle scroll events
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                handleScroll();
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
-    
-    // Track CTA clicks in sticky bar
-    const stickyCTAs = stickyBar.querySelectorAll('[data-analytics-event="cta_click"]');
-    stickyCTAs.forEach(cta => {
-        cta.addEventListener('click', () => {
-            const position = cta.getAttribute('data-position') || 'sticky_bottom';
-            const channel = cta.getAttribute('data-channel') || 'unknown';
-            trackCTAClick(position, channel, window.location.pathname);
+    if (callBtn) {
+        callBtn.addEventListener('click', () => {
+            trackCTAClick('header_call_button', 'call', window.location.pathname);
+            console.log('Analytics Event: header_call_button clicked');
         });
-    });
-    
-    // Initial check
-    handleScroll();
+    }
 }
 
 /**
- * Track header CTA clicks
+ * Track header CTA clicks (phone number in brand text)
  */
 function initHeaderCTAAnalytics() {
-    const headerCTAs = document.querySelectorAll('.header-mobile-cta, .header-mobile-wa');
+    // Track phone number in header text
+    const logoPhone = document.querySelector('.logo-phone');
     
-    headerCTAs.forEach(cta => {
-        cta.addEventListener('click', () => {
-            const position = cta.getAttribute('data-position') || 'header';
-            const channel = cta.getAttribute('data-channel') || 'unknown';
-            trackCTAClick(position, channel, window.location.pathname);
+    if (logoPhone) {
+        logoPhone.addEventListener('click', () => {
+            trackCTAClick('header_tel', 'call', window.location.pathname);
+            console.log('Analytics Event: header_tel clicked');
         });
-    });
+    }
 }
 
 /**
@@ -2259,13 +2207,19 @@ function initMobileHeader() {
     
     initMobileNavigation();
     initHeaderShrink();
-    initStickyBottomBar();
+    initCallButtonAnalytics();
     initHeaderCTAAnalytics();
 }
 
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     initMobileHeader();
+    
+    // Remove sticky bottom bar on mobile (insurance fallback)
+    if (window.matchMedia('(max-width: 960px)').matches) {
+        const stickyBars = document.querySelectorAll('.sticky-bottom-bar, .sticky, .sticky-bar, .mobile-sticky, #sticky-cta, .btn-sticky-call');
+        stickyBars.forEach(element => element.remove());
+    }
 });
 
 // Re-initialize on resize (debounced)
