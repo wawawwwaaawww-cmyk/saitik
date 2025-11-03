@@ -522,5 +522,21 @@
     <button class="cta-button primary sticky-mobile-button">🚑 Вызвать врача</button>
     <script src="script.js"></script>
 
+    <div id="application-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" aria-label="Закрыть окно">&times;</span>
+            <h2>Оставьте заявку</h2>
+            <p>Мы перезвоним в течении 2-х минут</p>
+            <p>Врач будет у Вас через 30-40 минут</p>
+            <form id="modal-application-form" novalidate>
+                <input type="text" id="modal-name" name="name" placeholder="Имя (Необязательно)">
+                
+                <input type="tel" id="modal-phone" name="phone" placeholder="Телефон*" inputmode="tel" required>
+                
+                <button type="submit" class="cta-button primary">Отправить заявку</button>
+            </form>
+        </div>
+    </div>
+
 </body>
 </html>
