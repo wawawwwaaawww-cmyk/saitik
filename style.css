@@ -6746,6 +6746,10 @@ main > .danger-signals {
     height: 100%; /* Полная высота */
     overflow: auto; /* Включить прокрутку, если содержимое слишком большое */
     background-color: rgba(0,0,0,0.6); /* Черный фон с прозрачностью */
+}
+
+/* When modal is shown (via JS setting display: flex) */
+.modal[style*="display: flex"] {
     display: flex;
     align-items: center;
     justify-content: center;
