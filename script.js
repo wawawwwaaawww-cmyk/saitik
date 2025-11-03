@@ -1664,3 +1664,202 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Export functions for potential external use
 window.initServicePagesMobile = initServicePagesMobile;
+
+/**
+ * ========================================
+ * HOMEPAGE MOBILE FUNCTIONALITY
+ * ========================================
+ */
+
+/**
+ * Initialize hero CTA analytics tracking
+ */
+function initHeroCTAAnalytics() {
+    const heroButtons = document.querySelectorAll('.hero-buttons .cta-button');
+    
+    heroButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            const channel = index === 0 ? 'call' : 'consult';
+            trackCTAClick('hero', channel, window.location.pathname);
+        });
+    });
+}
+
+/**
+ * Initialize timeline/methods horizontal scroller analytics
+ */
+function initTimelineScrollerAnalytics() {
+    const timeline = document.querySelector('.timeline');
+    if (!timeline) return;
+    
+    // Track when timeline enters viewport
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                trackSliderInteraction('view', 'patient_journey', 0);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+    
+    observer.observe(timeline);
+    
+    // Track scroll interactions
+    let scrollTimeout;
+    timeline.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            const scrollLeft = timeline.scrollLeft;
+            const itemWidth = 280 + 16; // Item width + gap
+            const currentIndex = Math.round(scrollLeft / itemWidth);
+            trackSliderInteraction('scroll', 'patient_journey', currentIndex);
+        }, 300);
+    });
+}
+
+/**
+ * Initialize sticky mobile button for homepage
+ */
+function initHomepageStickyButton() {
+    const stickyButton = document.querySelector('.sticky-mobile-button');
+    if (!stickyButton) return;
+    
+    const footer = document.querySelector('.site-footer');
+    let ticking = false;
+    let lastScrollY = 0;
+    const scrollThreshold = 300;
+    
+    function updateStickyButton() {
+        const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+        const footerTop = footer ? footer.getBoundingClientRect().top + currentScrollY : Infinity;
+        const windowHeight = window.innerHeight;
+        const scrollBottom = currentScrollY + windowHeight;
+        
+        // Show button after scrolling past threshold
+        if (currentScrollY > scrollThreshold) {
+            // Hide when footer is visible
+            if (scrollBottom >= footerTop - 100) {
+                stickyButton.classList.remove('visible');
+                stickyButton.classList.add('hidden-at-bottom');
+            } else {
+                stickyButton.classList.add('visible');
+                stickyButton.classList.remove('hidden-at-bottom');
+            }
+        } else {
+            stickyButton.classList.remove('visible');
+        }
+        
+        lastScrollY = currentScrollY;
+        ticking = false;
+    }
+    
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(updateStickyButton);
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', requestTick);
+    
+    // Track sticky CTA click
+    stickyButton.addEventListener('click', () => {
+        trackCTAClick('sticky_mobile', 'call', window.location.pathname);
+    });
+}
+
+/**
+ * Add accordion behavior to guarantees section (mobile only)
+ */
+function initGuaranteesAccordion() {
+    if (window.innerWidth > 960) return;
+    
+    const guaranteeItems = document.querySelectorAll('.proof-item');
+    
+    guaranteeItems.forEach((item, index) => {
+        const content = item.querySelector('.proof-item__content');
+        const heading = item.querySelector('h3');
+        
+        if (!content || !heading) return;
+        
+        // Make item clickable
+        item.style.cursor = 'pointer';
+        item.setAttribute('role', 'button');
+        item.setAttribute('aria-expanded', 'true');
+        item.setAttribute('tabindex', '0');
+        
+        // Initially collapse items beyond the first 3
+        if (index >= 3) {
+            content.style.maxHeight = '0';
+            content.style.overflow = 'hidden';
+            content.style.transition = 'max-height 0.3s ease';
+            item.setAttribute('aria-expanded', 'false');
+            
+            // Add collapsed visual indicator
+            heading.style.position = 'relative';
+            heading.innerHTML += ' <span style="float: right; font-size: 1.5rem; line-height: 1;">+</span>';
+        } else {
+            content.style.maxHeight = 'none';
+        }
+        
+        // Toggle on click
+        item.addEventListener('click', () => {
+            const isExpanded = item.getAttribute('aria-expanded') === 'true';
+            
+            if (isExpanded && index >= 3) {
+                content.style.maxHeight = '0';
+                item.setAttribute('aria-expanded', 'false');
+                const indicator = heading.querySelector('span');
+                if (indicator) indicator.textContent = '+';
+                trackAccordionToggle('guarantees', false, heading.textContent.replace(/[+−]/, '').trim());
+            } else if (!isExpanded) {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                item.setAttribute('aria-expanded', 'true');
+                const indicator = heading.querySelector('span');
+                if (indicator) indicator.textContent = '−';
+                trackAccordionToggle('guarantees', true, heading.textContent.replace(/[+−]/, '').trim());
+            }
+        });
+        
+        // Keyboard support
+        item.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                item.click();
+            }
+        });
+    });
+}
+
+/**
+ * Initialize all homepage mobile functionality
+ */
+function initHomepageMobile() {
+    // Only on index.html
+    if (!window.location.pathname.endsWith('index.html') && window.location.pathname !== '/') return;
+    
+    // Only on mobile
+    if (window.innerWidth > 960) return;
+    
+    initHeroCTAAnalytics();
+    initTimelineScrollerAnalytics();
+    initHomepageStickyButton();
+    initGuaranteesAccordion();
+}
+
+// Initialize on DOM content loaded
+document.addEventListener('DOMContentLoaded', () => {
+    initHomepageMobile();
+});
+
+// Re-initialize on window resize (debounced)
+let homepageResizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(homepageResizeTimeout);
+    homepageResizeTimeout = setTimeout(() => {
+        initHomepageMobile();
+    }, 250);
+});
+
+// Export for potential external use
+window.initHomepageMobile = initHomepageMobile;
