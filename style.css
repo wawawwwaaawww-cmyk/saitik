@@ -276,6 +276,15 @@ body {
     transform-origin: 1px;
 }
 
+/* Hide mobile-only elements on desktop */
+.header-mobile-cta,
+.header-mobile-wa,
+.mobile-nav-overlay,
+.mobile-nav-sheet,
+.sticky-bottom-bar {
+    display: none;
+}
+
 h1, h2, h3 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
@@ -7282,5 +7291,268 @@ main > .danger-signals {
 
     .full-width-bg .container {
         padding-inline: 16px;
+    }
+
+    /* ========================================
+       MOBILE HEADER OVERHAUL
+       ======================================== */
+    
+    /* Header shrink on scroll */
+    .site-header.shrink {
+        height: 64px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .site-header.shrink .logo img {
+        height: 32px;
+    }
+    
+    .site-header.shrink .logo-text {
+        font-size: 0.9em;
+    }
+    
+    /* Hide desktop nav on mobile */
+    .site-header .nav {
+        display: none;
+    }
+    
+    /* Hide desktop actions */
+    .site-header .actions {
+        display: none;
+    }
+    
+    /* Mobile header layout */
+    .site-header .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 0 16px;
+        grid-template-columns: unset;
+    }
+    
+    /* Logo on left */
+    .logo {
+        flex: 0 1 auto;
+        justify-self: unset;
+    }
+    
+    .logo-text {
+        display: none;
+    }
+    
+    .logo img {
+        height: 36px;
+    }
+    
+    /* Mobile CTAs in header (centered group) */
+    .header-mobile-cta,
+    .header-mobile-wa {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        min-height: 48px;
+        border-radius: 50%;
+        background: #03d3dd;
+        color: white;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    
+    .header-mobile-cta:active,
+    .header-mobile-wa:active {
+        transform: scale(0.95);
+        background: #02bccc;
+    }
+    
+    .header-mobile-wa {
+        background: #25D366;
+    }
+    
+    .header-mobile-wa:active {
+        background: #1fb855;
+    }
+    
+    /* Show burger menu */
+    .burger-menu {
+        display: flex;
+        margin-left: auto;
+    }
+    
+    /* Mobile Navigation Bottom Sheet */
+    .mobile-nav-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1998;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+    
+    .mobile-nav-overlay.is-open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .mobile-nav-sheet {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-radius: 24px 24px 0 0;
+        padding: 24px 16px;
+        padding-bottom: calc(24px + env(safe-area-inset-bottom));
+        z-index: 1999;
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+    }
+    
+    .mobile-nav-sheet.is-open {
+        transform: translateY(0);
+    }
+    
+    .mobile-nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        margin-bottom: 24px;
+    }
+    
+    .mobile-nav-links a {
+        padding: 16px 8px;
+        font-size: 18px;
+        font-weight: 500;
+        color: #0b1220;
+        text-decoration: none;
+        border-bottom: 1px solid #f0f0f0;
+        transition: color 0.2s ease, background 0.2s ease;
+    }
+    
+    .mobile-nav-links a:last-child {
+        border-bottom: none;
+    }
+    
+    .mobile-nav-links a:active {
+        background: #f6f8f9;
+    }
+    
+    .mobile-nav-links a.active {
+        color: #03d3dd;
+        font-weight: 600;
+    }
+    
+    .mobile-nav-ctas {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 16px;
+    }
+    
+    .mobile-nav-cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 52px;
+        padding: 14px 20px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    
+    .mobile-nav-cta--call {
+        background: #03d3dd;
+        color: white;
+    }
+    
+    .mobile-nav-cta--call:active {
+        background: #02bccc;
+        transform: scale(0.98);
+    }
+    
+    .mobile-nav-cta--wa {
+        background: #25D366;
+        color: white;
+    }
+    
+    .mobile-nav-cta--wa:active {
+        background: #1fb855;
+        transform: scale(0.98);
+    }
+    
+    /* Sticky Bottom CTA Bar */
+    .sticky-bottom-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: #e0e0e0;
+        z-index: 998;
+        opacity: 0;
+        transform: translateY(100%);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.15);
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    .sticky-bottom-bar.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .sticky-bottom-bar.hidden {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    
+    .sticky-bottom-cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 56px;
+        padding: 12px 16px;
+        font-size: 16px;
+        font-weight: 600;
+        text-decoration: none;
+        color: white;
+        transition: all 0.2s ease;
+    }
+    
+    .sticky-bottom-cta--call {
+        background: #03d3dd;
+    }
+    
+    .sticky-bottom-cta--call:active {
+        background: #02bccc;
+    }
+    
+    .sticky-bottom-cta--wa {
+        background: #25D366;
+    }
+    
+    .sticky-bottom-cta--wa:active {
+        background: #1fb855;
+    }
+    
+    .sticky-bottom-cta svg {
+        flex-shrink: 0;
+    }
+    
+    /* Hide old mobile nav */
+    .mobile-nav {
+        display: none !important;
     }
 }

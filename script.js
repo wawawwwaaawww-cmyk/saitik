@@ -1863,3 +1863,303 @@ window.addEventListener('resize', () => {
 
 // Export for potential external use
 window.initHomepageMobile = initHomepageMobile;
+
+/**
+ * ========================================
+ * MOBILE HEADER OVERHAUL
+ * ========================================
+ */
+
+/**
+ * Initialize mobile navigation bottom sheet
+ */
+function initMobileNavigation() {
+    const burger = document.querySelector('.burger-menu');
+    const overlay = document.querySelector('.mobile-nav-overlay');
+    const sheet = document.querySelector('.mobile-nav-sheet');
+    const stickyBar = document.querySelector('.sticky-bottom-bar');
+    
+    if (!burger || !overlay || !sheet) return;
+    
+    let isOpen = false;
+    let focusableElements = [];
+    let firstFocusableElement = null;
+    let lastFocusableElement = null;
+    
+    // Get all focusable elements in the sheet
+    function updateFocusableElements() {
+        focusableElements = Array.from(
+            sheet.querySelectorAll(
+                'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            )
+        );
+        firstFocusableElement = focusableElements[0];
+        lastFocusableElement = focusableElements[focusableElements.length - 1];
+    }
+    
+    // Open menu
+    function openMenu() {
+        isOpen = true;
+        overlay.classList.add('is-open');
+        sheet.classList.add('is-open');
+        burger.classList.add('is-active');
+        burger.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+        
+        // Hide sticky bar when menu is open
+        if (stickyBar) {
+            stickyBar.classList.add('hidden');
+        }
+        
+        // Update focusable elements and focus first link
+        updateFocusableElements();
+        setTimeout(() => {
+            if (firstFocusableElement) {
+                firstFocusableElement.focus();
+            }
+        }, 300);
+        
+        // Track analytics
+        trackAnalyticsEvent('mobile_menu_open', {
+            page: window.location.pathname,
+            timestamp: new Date().toISOString()
+        });
+    }
+    
+    // Close menu
+    function closeMenu() {
+        isOpen = false;
+        overlay.classList.remove('is-open');
+        sheet.classList.remove('is-open');
+        burger.classList.remove('is-active');
+        burger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        
+        // Show sticky bar again if it was visible
+        if (stickyBar && window.scrollY > 400) {
+            stickyBar.classList.remove('hidden');
+        }
+        
+        // Return focus to burger
+        burger.focus();
+        
+        // Track analytics
+        trackAnalyticsEvent('mobile_menu_close', {
+            page: window.location.pathname,
+            timestamp: new Date().toISOString()
+        });
+    }
+    
+    // Toggle menu
+    function toggleMenu() {
+        if (isOpen) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    }
+    
+    // Burger click
+    burger.addEventListener('click', toggleMenu);
+    
+    // Overlay click
+    overlay.addEventListener('click', closeMenu);
+    
+    // ESC key to close
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isOpen) {
+            closeMenu();
+        }
+        
+        // Tab trap
+        if (e.key === 'Tab' && isOpen) {
+            if (e.shiftKey) {
+                // Shift + Tab
+                if (document.activeElement === firstFocusableElement) {
+                    e.preventDefault();
+                    lastFocusableElement.focus();
+                }
+            } else {
+                // Tab
+                if (document.activeElement === lastFocusableElement) {
+                    e.preventDefault();
+                    firstFocusableElement.focus();
+                }
+            }
+        }
+    });
+    
+    // Track CTA clicks in mobile menu
+    const menuCTAs = sheet.querySelectorAll('[data-analytics-event="cta_click"]');
+    menuCTAs.forEach(cta => {
+        cta.addEventListener('click', () => {
+            const position = cta.getAttribute('data-position') || 'mobile_menu';
+            const channel = cta.getAttribute('data-channel') || 'unknown';
+            trackCTAClick(position, channel, window.location.pathname);
+        });
+    });
+}
+
+/**
+ * Initialize header shrink on scroll
+ */
+function initHeaderShrink() {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+    
+    let lastScroll = 0;
+    const shrinkThreshold = 32;
+    
+    function handleScroll() {
+        const currentScroll = window.scrollY;
+        
+        if (currentScroll > shrinkThreshold) {
+            header.classList.add('shrink');
+        } else {
+            header.classList.remove('shrink');
+        }
+        
+        lastScroll = currentScroll;
+    }
+    
+    // Throttle scroll events
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                handleScroll();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+    
+    // Initial check
+    handleScroll();
+}
+
+/**
+ * Initialize sticky bottom CTA bar
+ */
+function initStickyBottomBar() {
+    const stickyBar = document.querySelector('.sticky-bottom-bar');
+    if (!stickyBar) return;
+    
+    const showThreshold = 400;
+    let isVisible = false;
+    
+    function handleScroll() {
+        const currentScroll = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        const distanceFromBottom = documentHeight - (currentScroll + windowHeight);
+        
+        // Show after scrolling 400px
+        const shouldShow = currentScroll > showThreshold;
+        
+        // Hide near footer (within 200px of bottom)
+        const nearBottom = distanceFromBottom < 200;
+        
+        // Check if mobile menu is open
+        const menuOpen = document.querySelector('.mobile-nav-sheet.is-open');
+        
+        if (shouldShow && !nearBottom && !menuOpen) {
+            if (!isVisible) {
+                stickyBar.classList.add('visible');
+                stickyBar.classList.remove('hidden');
+                isVisible = true;
+            }
+        } else {
+            if (isVisible) {
+                stickyBar.classList.remove('visible');
+                stickyBar.classList.add('hidden');
+                isVisible = false;
+            }
+        }
+    }
+    
+    // Throttle scroll events
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                handleScroll();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+    
+    // Track CTA clicks in sticky bar
+    const stickyCTAs = stickyBar.querySelectorAll('[data-analytics-event="cta_click"]');
+    stickyCTAs.forEach(cta => {
+        cta.addEventListener('click', () => {
+            const position = cta.getAttribute('data-position') || 'sticky_bottom';
+            const channel = cta.getAttribute('data-channel') || 'unknown';
+            trackCTAClick(position, channel, window.location.pathname);
+        });
+    });
+    
+    // Initial check
+    handleScroll();
+}
+
+/**
+ * Track header CTA clicks
+ */
+function initHeaderCTAAnalytics() {
+    const headerCTAs = document.querySelectorAll('.header-mobile-cta, .header-mobile-wa');
+    
+    headerCTAs.forEach(cta => {
+        cta.addEventListener('click', () => {
+            const position = cta.getAttribute('data-position') || 'header';
+            const channel = cta.getAttribute('data-channel') || 'unknown';
+            trackCTAClick(position, channel, window.location.pathname);
+        });
+    });
+}
+
+/**
+ * Initialize all mobile header functionality
+ */
+function initMobileHeader() {
+    // Only run on mobile viewport
+    if (window.innerWidth > 960) return;
+    
+    initMobileNavigation();
+    initHeaderShrink();
+    initStickyBottomBar();
+    initHeaderCTAAnalytics();
+}
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+    initMobileHeader();
+});
+
+// Re-initialize on resize (debounced)
+let mobileHeaderResizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(mobileHeaderResizeTimeout);
+    mobileHeaderResizeTimeout = setTimeout(() => {
+        // Clean up if switching to desktop
+        if (window.innerWidth > 960) {
+            const overlay = document.querySelector('.mobile-nav-overlay');
+            const sheet = document.querySelector('.mobile-nav-sheet');
+            const burger = document.querySelector('.burger-menu');
+            
+            if (overlay) overlay.classList.remove('is-open');
+            if (sheet) sheet.classList.remove('is-open');
+            if (burger) {
+                burger.classList.remove('is-active');
+                burger.setAttribute('aria-expanded', 'false');
+            }
+            document.body.style.overflow = '';
+        } else {
+            initMobileHeader();
+        }
+    }, 250);
+});
+
+// Export for external use
+window.initMobileHeader = initMobileHeader;
