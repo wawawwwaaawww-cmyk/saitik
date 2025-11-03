@@ -6,55 +6,39 @@
       "use": "@vercel/static"
     }
   ],
-  "routes": [
+  "cleanUrls": false,
+  "rewrites": [
     {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
+      "source": "/",
+      "destination": "/index.html"
     },
     {
-      "src": "/style.css",
-      "dest": "/style.css"
+      "source": "/about",
+      "destination": "/about.html"
     },
     {
-      "src": "/script.js",
-      "dest": "/script.js"
+      "source": "/contacts",
+      "destination": "/contacts.html"
     },
     {
-      "src": "/(.*\\.(html|css|js|png|jpg|jpeg|svg|gif|ico|webp|woff|woff2|ttf|eot))",
-      "dest": "/$1"
+      "source": "/vyvod-iz-zapoya",
+      "destination": "/vyvod-iz-zapoya.html"
     },
     {
-      "src": "/about",
-      "dest": "/about.html"
+      "source": "/snyatie-lomki",
+      "destination": "/snyatie-lomki.html"
     },
     {
-      "src": "/contacts",
-      "dest": "/contacts.html"
+      "source": "/kodirovanie",
+      "destination": "/kodirovanie.html"
     },
     {
-      "src": "/vyvod-iz-zapoya",
-      "dest": "/vyvod-iz-zapoya.html"
+      "source": "/snyatie-pohmelya",
+      "destination": "/snyatie-pohmelya.html"
     },
     {
-      "src": "/snyatie-lomki",
-      "dest": "/snyatie-lomki.html"
-    },
-    {
-      "src": "/kodirovanie",
-      "dest": "/kodirovanie.html"
-    },
-    {
-      "src": "/snyatie-pohmelya",
-      "dest": "/snyatie-pohmelya.html"
-    },
-    {
-      "src": "/kapelnitsa-ot-pohmelya",
-      "dest": "/kapelnitsa-ot-pohmelya.html"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
+      "source": "/kapelnitsa-ot-pohmelya",
+      "destination": "/kapelnitsa-ot-pohmelya.html"
     }
-  ],
-  "cleanUrls": false
+  ]
 }
