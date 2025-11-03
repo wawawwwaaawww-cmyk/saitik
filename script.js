@@ -1,3 +1,87 @@
+/**
+ * Глобальная функция аналитики для централизованного отслеживания событий
+ */
+window.trackAnalyticsEvent = (eventName, payload = {}) => {
+    console.log(`Analytics Event: ${eventName}`, payload);
+    
+    // В реальном проекте здесь будет код для отправки в аналитическую систему
+    // Например, для Google Analytics:
+    // if (typeof gtag === 'function') {
+    //     gtag('event', eventName, {
+    //         'event_category': payload.category || 'User Interaction',
+    //         'event_label': payload.label || '',
+    //         'value': payload.value || 0,
+    //         'custom_parameter_1': payload.page || window.location.pathname,
+    //         'custom_parameter_2': payload.position || '',
+    //         'custom_parameter_3': payload.channel || ''
+    //     });
+    // }
+    
+    // Для Яндекс.Метрики:
+    // if (typeof ym === 'function') {
+    //     ym(YANDEX_COUNTER_ID, 'reachGoal', eventName, payload);
+    // }
+    
+    // Для dataLayer (GTAG):
+    if (typeof dataLayer !== 'undefined') {
+        window.dataLayer.push({
+            event: eventName,
+            ...payload
+        });
+    }
+};
+
+/**
+ * Вспомогательные функции для отслеживания конкретных типов событий
+ */
+window.trackCTAClick = (position, channel, page = null) => {
+    trackAnalyticsEvent('cta_click', {
+        position: position, // hero, sticky, section, footer
+        channel: channel,  // call, whatsapp, telegram, form
+        page: page || window.location.pathname,
+        timestamp: new Date().toISOString()
+    });
+};
+
+window.trackFormSubmit = (formName, formData = {}) => {
+    trackAnalyticsEvent('form_submit', {
+        form_name: formName,
+        page: window.location.pathname,
+        timestamp: new Date().toISOString(),
+        ...formData
+    });
+};
+
+window.trackFormError = (formName, errorType, errorMessage = '') => {
+    trackAnalyticsEvent('form_error', {
+        form_name: formName,
+        error_type: errorType, // validation, network, server_error
+        error_message: errorMessage,
+        page: window.location.pathname,
+        timestamp: new Date().toISOString()
+    });
+};
+
+window.trackSliderInteraction = (action, sliderName, currentIndex = null) => {
+    trackAnalyticsEvent('slider_interaction', {
+        action: action, // view, next, prev
+        slider_name: sliderName,
+        current_index: currentIndex,
+        page: window.location.pathname,
+        timestamp: new Date().toISOString()
+    });
+};
+
+window.trackAccordionToggle = (sectionName, isExpanded, accordionTitle = '') => {
+    trackAnalyticsEvent('accordion_toggle', {
+        section_name: sectionName,
+        is_expanded: isExpanded,
+        accordion_title: accordionTitle,
+        page: window.location.pathname,
+        timestamp: new Date().toISOString()
+    });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     /**
      * Логика модального окна заявки
@@ -863,33 +947,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // --- Analytics Events ---
-        window.dataLayer = window.dataLayer || [];
-
-        const trackCtaClick = (place, channel) => {
-            window.dataLayer.push({
-                event: 'cta_click',
-                place: place,
-                channel: channel
-            });
-            console.log(`cta_click: place=${place}, channel=${channel}`);
-        };
-
-        // Hero buttons
-        document.querySelector('.contact-hero .btn--call').addEventListener('click', () => trackCtaClick('hero', 'call'));
-        document.querySelector('.contact-hero .btn--wa').addEventListener('click', () => trackCtaClick('hero', 'whatsapp'));
-        document.querySelector('.contact-hero .btn--tg').addEventListener('click', () => trackCtaClick('hero', 'telegram'));
-
-        // Contact options buttons
-        document.querySelector('.contact-options .btn--call').addEventListener('click', () => trackCtaClick('contact-options', 'call'));
-        document.querySelector('.contact-options .btn--wa').addEventListener('click', () => trackCtaClick('contact-options', 'whatsapp'));
-        document.querySelector('.contact-options .btn--tg').addEventListener('click', () => trackCtaClick('contact-options', 'telegram'));
-
-        // Sticky bar buttons
-        document.querySelector('.sticky-bar .btn--call').addEventListener('click', () => trackCtaClick('sticky', 'call'));
-        document.querySelector('.sticky-bar .btn--wa').addEventListener('click', () => trackCtaClick('sticky', 'whatsapp'));
-        
-        // Footer CTA
-        document.querySelector('.cta-bottom .btn').addEventListener('click', () => trackCtaClick('footer', 'form_scroll'));
+        // Используем централизованную аналитику вместо локальной
+        // Кнопки уже обрабатываются в initCTAAnalytics()
 
 
         // --- Form Validation ---
@@ -901,15 +960,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 const agreement = callbackForm.querySelector('input[type="checkbox"]');
                 let isValid = true;
 
+                // Clear previous errors
+                callbackForm.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+                
                 // Validate phone
-                if (phoneInput.value.length < 10) { // Simple validation
-                    alert('Проверьте номер: нужен формат +7...');
+                const phone = phoneInput.value.replace(/\D/g, ''); // Remove all non-digits
+                if (phone.length < 10) {
+                    phoneInput.classList.add('error');
+                    phoneInput.setAttribute('aria-invalid', 'true');
+                    phoneInput.setAttribute('aria-describedby', 'phone-error');
+                    
+                    // Create or update error message
+                    let errorMsg = document.getElementById('phone-error');
+                    if (!errorMsg) {
+                        errorMsg = document.createElement('div');
+                        errorMsg.id = 'phone-error';
+                        errorMsg.className = 'error-message';
+                        errorMsg.style.color = '#e53e3e';
+                        errorMsg.style.fontSize = '14px';
+                        errorMsg.style.marginTop = '4px';
+                        phoneInput.parentNode.appendChild(errorMsg);
+                    }
+                    errorMsg.textContent = 'Проверьте номер: нужен формат +7 (XXX) XXX-XX-XX';
                     isValid = false;
                 }
 
                 // Validate agreement
                 if (!agreement.checked) {
-                    alert('Необходимо согласие на обработку персональных данных.');
+                    agreement.classList.add('error');
+                    agreement.setAttribute('aria-invalid', 'true');
+                    
+                    // Create or update error message
+                    let agreementError = document.getElementById('agreement-error');
+                    if (!agreementError) {
+                        agreementError = document.createElement('div');
+                        agreementError.id = 'agreement-error';
+                        agreementError.className = 'error-message';
+                        agreementError.style.color = '#e53e3e';
+                        agreementError.style.fontSize = '14px';
+                        agreementError.style.marginTop = '4px';
+                        agreement.parentNode.appendChild(agreementError);
+                    }
+                    agreementError.textContent = 'Необходимо согласие на обработку персональных данных';
                     isValid = false;
                 }
 
@@ -922,6 +1014,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log('lead_submit');
                     alert('Спасибо! Мы свяжемся в ближайшие минуты.');
                     callbackForm.reset();
+                    
+                    // Clear error messages
+                    callbackForm.querySelectorAll('.error-message').forEach(el => el.remove());
                 }
             });
         }
