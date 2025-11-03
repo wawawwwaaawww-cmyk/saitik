@@ -2163,3 +2163,264 @@ window.addEventListener('resize', () => {
 
 // Export for external use
 window.initMobileHeader = initMobileHeader;
+
+/**
+ * ========================================
+ * CONTACTS PAGE REDESIGN - BELOW HERO
+ * ========================================
+ */
+
+/**
+ * Initialize map modal with lazy loading
+ */
+function initMapModal() {
+    const mapButton = document.querySelector('[data-open-map]');
+    if (!mapButton) return;
+    
+    mapButton.addEventListener('click', () => {
+        // Track analytics
+        trackEvent('map_open', {
+            page: 'contacts',
+            source: 'area_section'
+        });
+        
+        // Create modal
+        const modal = document.createElement('div');
+        modal.className = 'map-modal';
+        modal.innerHTML = `
+            <div class="map-modal-overlay"></div>
+            <div class="map-modal-content">
+                <button class="map-modal-close" aria-label="Закрыть карту">&times;</button>
+                <iframe 
+                    src="https://yandex.ru/map-widget/v1/?um=constructor%3Axxxxxxxxxxxxxxxx&amp;source=constructor" 
+                    width="100%" 
+                    height="400" 
+                    frameborder="0"
+                    loading="lazy"
+                    title="Карта выезда по Оренбургской области"
+                ></iframe>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        document.body.style.overflow = 'hidden';
+        
+        // Close handlers
+        const closeBtn = modal.querySelector('.map-modal-close');
+        const overlay = modal.querySelector('.map-modal-overlay');
+        
+        const closeModal = () => {
+            modal.remove();
+            document.body.style.overflow = '';
+        };
+        
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', closeModal);
+        
+        // ESC key handler
+        const escHandler = (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                document.removeEventListener('keydown', escHandler);
+            }
+        };
+        document.addEventListener('keydown', escHandler);
+        
+        // Focus trap
+        const content = modal.querySelector('.map-modal-content');
+        const focusableElements = content.querySelectorAll('button, iframe, [tabindex]:not([tabindex="-1"])');
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        
+        firstElement.focus();
+        
+        content.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                if (e.shiftKey && document.activeElement === firstElement) {
+                    e.preventDefault();
+                    lastElement.focus();
+                } else if (!e.shiftKey && document.activeElement === lastElement) {
+                    e.preventDefault();
+                    firstElement.focus();
+                }
+            }
+        });
+    });
+}
+
+/**
+ * Validate phone number format
+ */
+function validatePhone(phone) {
+    const cleaned = phone.replace(/\D/g, '');
+    return cleaned.length === 11 && cleaned.startsWith('7');
+}
+
+/**
+ * Initialize callback form validation and submission
+ */
+function initCallbackForm() {
+    const form = document.getElementById('cb-form');
+    if (!form) return;
+    
+    const phoneInput = form.querySelector('input[name="phone"]');
+    const checkboxInput = form.querySelector('input[type="checkbox"]');
+    const submitButton = form.querySelector('button[type="submit"]');
+    const successMessage = form.querySelector('.form-success');
+    
+    // Phone mask (simple implementation)
+    if (phoneInput) {
+        phoneInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.startsWith('8')) value = '7' + value.slice(1);
+            if (!value.startsWith('7')) value = '7' + value;
+            
+            let formatted = '+7';
+            if (value.length > 1) {
+                formatted += ' (' + value.substring(1, 4);
+            }
+            if (value.length >= 5) {
+                formatted += ') ' + value.substring(4, 7);
+            }
+            if (value.length >= 8) {
+                formatted += '-' + value.substring(7, 9);
+            }
+            if (value.length >= 10) {
+                formatted += '-' + value.substring(9, 11);
+            }
+            
+            e.target.value = formatted;
+            
+            // Clear error on input
+            const errorEl = phoneInput.parentElement.querySelector('.error-message');
+            if (errorEl) errorEl.textContent = '';
+        });
+        
+        // Clear checkbox error on change
+        if (checkboxInput) {
+            checkboxInput.addEventListener('change', () => {
+                const errorEl = checkboxInput.closest('label').querySelector('.error-message');
+                if (errorEl) errorEl.textContent = '';
+            });
+        }
+    }
+    
+    // Form submission
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        let isValid = true;
+        
+        // Validate phone
+        if (phoneInput) {
+            const phoneValue = phoneInput.value;
+            const phoneError = phoneInput.parentElement.querySelector('.error-message');
+            
+            if (!validatePhone(phoneValue)) {
+                phoneError.textContent = 'Проверьте номер: нужен формат +7 (XXX) XXX-XX-XX';
+                isValid = false;
+                
+                // Track error
+                trackEvent('form_error', {
+                    form: 'callback',
+                    field: 'phone',
+                    error: 'invalid_format'
+                });
+            }
+        }
+        
+        // Validate checkbox
+        if (checkboxInput && !checkboxInput.checked) {
+            const checkboxError = checkboxInput.closest('label').querySelector('.error-message');
+            if (checkboxError) {
+                checkboxError.textContent = 'Необходимо согласие на обработку данных';
+                isValid = false;
+            }
+            
+            // Track error
+            trackEvent('form_error', {
+                form: 'callback',
+                field: 'agreement',
+                error: 'not_checked'
+            });
+        }
+        
+        if (!isValid) return;
+        
+        // Simulate submission
+        submitButton.disabled = true;
+        submitButton.textContent = 'Отправка...';
+        
+        setTimeout(() => {
+            // Hide form, show success
+            Array.from(form.children).forEach(child => {
+                if (!child.classList.contains('form-success')) {
+                    child.style.display = 'none';
+                }
+            });
+            
+            if (successMessage) {
+                successMessage.style.display = 'flex';
+            }
+            
+            // Track success
+            trackEvent('form_submit', {
+                form: 'callback',
+                channel: form.querySelector('select[name="channel"]')?.value || 'call',
+                page: 'contacts'
+            });
+            
+            // Reset after 5 seconds
+            setTimeout(() => {
+                form.reset();
+                Array.from(form.children).forEach(child => {
+                    child.style.display = '';
+                });
+                if (successMessage) {
+                    successMessage.style.display = 'none';
+                }
+                submitButton.disabled = false;
+                submitButton.textContent = 'Жду звонка';
+            }, 5000);
+        }, 1000);
+    });
+}
+
+/**
+ * Track contact CTA clicks
+ */
+function initContactCTAAnalytics() {
+    const ctaButtons = document.querySelectorAll('[data-analytics-event="contact_cta_click"]');
+    
+    ctaButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const position = button.getAttribute('data-position') || 'unknown';
+            const channel = button.getAttribute('data-channel') || 'unknown';
+            
+            trackEvent('contact_cta_click', {
+                position: position,
+                channel: channel,
+                page: 'contacts'
+            });
+        });
+    });
+}
+
+/**
+ * Initialize all contacts page functionality
+ */
+function initContactsPage() {
+    // Only on contacts.html
+    if (!window.location.pathname.includes('contacts')) return;
+    
+    initMapModal();
+    initCallbackForm();
+    initContactCTAAnalytics();
+}
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+    initContactsPage();
+});
+
+// Export for external use
+window.initContactsPage = initContactsPage;
