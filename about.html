@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-mobile-secondary.css">
 </head>
 <body>
 
@@ -148,25 +149,72 @@
         <section class="section team-section">
             <div class="stack">
                 <h2 class="section-title">Наша команда</h2>
-                <div class="team-cards">
-                    <div class="team-card">
-                        <img src="assets/placeholder.jpg" alt="Фото врача Ивановой Е.А.">
-                        <h3>Иванова Е.А.</h3>
-                        <p>врач-нарколог, 12 лет опыта</p>
-                    </div>
-                    <div class="team-card">
-                        <img src="assets/placeholder.jpg" alt="Фото психотерапевта Смирнова А.П.">
-                        <h3>Смирнов А.П.</h3>
-                        <p>психотерапевт, специалист по зависимостям</p>
-                    </div>
-                    <div class="team-card">
-                        <img src="assets/placeholder.jpg" alt="Фото консультанта Кузнецовой Л.В.">
-                        <h3>Кузнецова Л.В.</h3>
-                        <p>консультант по реабилитации</p>
+                <div class="team-cards-wrapper">
+                    <div class="team-cards">
+                        <div class="team-card">
+                            <img src="assets/placeholder.jpg" alt="Фото врача Ивановой Е.А." loading="lazy" decoding="async">
+                            <h3>Иванова Е.А.</h3>
+                            <p>врач-нарколог, 12 лет опыта</p>
+                        </div>
+                        <div class="team-card">
+                            <img src="assets/placeholder.jpg" alt="Фото психотерапевта Смирнова А.П." loading="lazy" decoding="async">
+                            <h3>Смирнов А.П.</h3>
+                            <p>психотерапевт, специалист по зависимостям</p>
+                        </div>
+                        <div class="team-card">
+                            <img src="assets/placeholder.jpg" alt="Фото консультанта Кузнецовой Л.В." loading="lazy" decoding="async">
+                            <h3>Кузнецова Л.В.</h3>
+                            <p>консультант по реабилитации</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- 5b. License Gallery -->
+        <section class="section license-section">
+            <div class="stack">
+                <h2 class="section-title">Лицензии и документы</h2>
+                <p class="section-subtitle">Все наши специалисты работают на основании действующих лицензий Минздрава РФ.</p>
+                <div class="license-gallery-wrapper">
+                    <div class="license-gallery">
+                        <div class="license-item" data-license-index="0">
+                            <img src="assets/placeholder.jpg" alt="Лицензия на медицинскую деятельность" loading="lazy" decoding="async">
+                            <p>Лицензия на медицинскую деятельность</p>
+                        </div>
+                        <div class="license-item" data-license-index="1">
+                            <img src="assets/placeholder.jpg" alt="Сертификат нарколога" loading="lazy" decoding="async">
+                            <p>Сертификат нарколога</p>
+                        </div>
+                        <div class="license-item" data-license-index="2">
+                            <img src="assets/placeholder.jpg" alt="Сертификат психотерапевта" loading="lazy" decoding="async">
+                            <p>Сертификат психотерапевта</p>
+                        </div>
+                        <div class="license-item" data-license-index="3">
+                            <img src="assets/placeholder.jpg" alt="Аккредитация специалиста" loading="lazy" decoding="async">
+                            <p>Аккредитация специалиста</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- License Modal -->
+        <div id="license-modal" class="license-modal" role="dialog" aria-modal="true" aria-labelledby="license-modal-title" style="display: none;">
+            <div class="license-modal__overlay"></div>
+            <div class="license-modal__content">
+                <button class="license-modal__close" aria-label="Закрыть" type="button">&times;</button>
+                <h2 id="license-modal-title" class="license-modal__title">Просмотр документа</h2>
+                <div class="license-modal__image-container">
+                    <img id="license-modal-image" src="" alt="" loading="lazy">
+                </div>
+                <div class="license-modal__controls">
+                    <button class="license-modal__nav license-modal__prev" aria-label="Предыдущий документ" type="button">← Предыдущий</button>
+                    <span class="license-modal__counter" aria-live="polite"></span>
+                    <button class="license-modal__nav license-modal__next" aria-label="Следующий документ" type="button">Следующий →</button>
+                </div>
+            </div>
+        </div>
 
         <!-- 6. Geography -->
         <section class="section geography-section">
