@@ -134,6 +134,137 @@ document.addEventListener('DOMContentLoaded', () => {
                 closeApplicationModal();
             }
         });
+
+        // Закрытие по клавише ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && applicationModal.style.display === 'flex') {
+                closeApplicationModal();
+            }
+        });
+    }
+
+    /**
+     * Обработка формы модального окна
+     */
+    const modalForm = document.getElementById('modal-application-form');
+    const modalPhoneInput = document.getElementById('modal-phone');
+    const modalNameInput = document.getElementById('modal-name');
+
+    if (modalForm && modalPhoneInput) {
+        // Маска телефона
+        modalPhoneInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            // Если первая цифра 8, заменяем на 7
+            if (value.startsWith('8')) {
+                value = '7' + value.slice(1);
+            }
+            
+            // Если нет 7 в начале, добавляем
+            if (!value.startsWith('7')) {
+                value = '7' + value;
+            }
+            
+            // Форматируем: +7 (XXX) XXX-XX-XX
+            let formatted = '+7';
+            if (value.length > 1) {
+                formatted += ' (' + value.substring(1, 4);
+            }
+            if (value.length >= 5) {
+                formatted += ') ' + value.substring(4, 7);
+            }
+            if (value.length >= 8) {
+                formatted += '-' + value.substring(7, 9);
+            }
+            if (value.length >= 10) {
+                formatted += '-' + value.substring(9, 11);
+            }
+            
+            e.target.value = formatted;
+        });
+
+        // Валидация телефона
+        function validatePhone(phone) {
+            const digitsOnly = phone.replace(/\D/g, '');
+            return digitsOnly.length === 11 && digitsOnly.startsWith('7');
+        }
+
+        // Обработка отправки формы
+        modalForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const phoneValue = modalPhoneInput.value;
+            const nameValue = modalNameInput ? modalNameInput.value.trim() : '';
+
+            // Проверяем только обязательное поле телефона
+            if (!validatePhone(phoneValue)) {
+                // Показываем ошибку
+                modalPhoneInput.style.borderColor = '#e74c3c';
+                modalPhoneInput.focus();
+                
+                // Создаем или обновляем сообщение об ошибке
+                let errorMsg = modalForm.querySelector('.phone-error');
+                if (!errorMsg) {
+                    errorMsg = document.createElement('div');
+                    errorMsg.className = 'phone-error';
+                    errorMsg.style.color = '#e74c3c';
+                    errorMsg.style.fontSize = '14px';
+                    errorMsg.style.marginTop = '4px';
+                    errorMsg.setAttribute('role', 'alert');
+                    modalPhoneInput.parentNode.insertBefore(errorMsg, modalPhoneInput.nextSibling);
+                }
+                errorMsg.textContent = 'Проверьте номер: нужен формат +7 (XXX) XXX-XX-XX';
+
+                // Трекаем ошибку валидации
+                if (typeof trackFormError === 'function') {
+                    trackFormError('modal_application', 'validation', 'Неверный формат телефона');
+                }
+
+                return;
+            }
+
+            // Убираем ошибку, если была
+            modalPhoneInput.style.borderColor = '';
+            const errorMsg = modalForm.querySelector('.phone-error');
+            if (errorMsg) {
+                errorMsg.remove();
+            }
+
+            // Имитируем отправку (в реальном проекте здесь будет AJAX запрос)
+            const submitButton = modalForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = 'Отправка...';
+
+            // Трекаем успешную отправку
+            if (typeof trackFormSubmit === 'function') {
+                trackFormSubmit('modal_application', {
+                    has_name: nameValue !== '',
+                    phone_length: phoneValue.replace(/\D/g, '').length
+                });
+            }
+
+            // Имитация отправки на сервер
+            setTimeout(() => {
+                // Успешная отправка
+                alert('Спасибо! Мы перезвоним вам в течение 2-х минут.');
+                
+                // Закрываем модальное окно и сбрасываем форму
+                closeApplicationModal();
+                modalForm.reset();
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
+            }, 1000);
+        });
+
+        // Очистка ошибки при вводе
+        modalPhoneInput.addEventListener('input', () => {
+            modalPhoneInput.style.borderColor = '';
+            const errorMsg = modalForm.querySelector('.phone-error');
+            if (errorMsg) {
+                errorMsg.remove();
+            }
+        });
     }
 
 
