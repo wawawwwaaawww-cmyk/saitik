@@ -3,40 +3,37 @@ document.addEventListener('DOMContentLoaded', () => {
      * Логика модального окна заявки
      */
     const applicationModal = document.getElementById('application-modal');
-    console.log('applicationModal element:', applicationModal); // Debug
+    console.log('applicationModal element:', applicationModal);
     const closeButton = applicationModal ? applicationModal.querySelector('.close-button') : null;
 
     const openModalButtons = document.querySelectorAll(
-        'button.cta-button.primary:not([href^="tel:"]):not([data-analytics-event^="footer_phone_click"]), ' + // Кнопки с классом primary, не являющиеся ссылками на телефон
-        'button.cta-button.secondary:not([href^="tel:"]):not([data-analytics-event^="footer_phone_click"]), ' + // Кнопки с классом secondary, не являющиеся ссылками на телефон
-        'a.cta-button.primary:not([href^="tel:"]):not([href*="wa.me"]):not([href*="t.me"]), ' + // Ссылки с классом primary, не являющиеся ссылками на телефон/мессенджеры
-        'a.cta-button.secondary:not([href^="tel:"]):not([href*="wa.me"]):not([href*="t.me"]), ' + // Ссылки с классом secondary, не являющиеся ссылками на телефон/мессенджеры
-        '.pre-footer-cta__buttons .cta-button.primary, ' + // Конкретная кнопка в pre-footer
-        '.pre-footer-cta__buttons .cta-button.secondary:not([href*="wa.me"]):not([href*="t.me"]), ' + // Конкретные кнопки в pre-footer, не являющиеся ссылками на мессенджеры
-        '.sticky-mobile-button' // Плавающая кнопка на мобильных
+        'button.cta-button.primary:not(form button), ' +
+        'button.cta-button.secondary, ' +
+        'a.cta-button.primary:not([href^="tel:"]):not([href*="wa.me"]):not([href*="t.me"]), ' +
+        'a.cta-button.secondary:not([href^="tel:"]):not([href*="wa.me"]):not([href*="t.me"]), ' +
+        '.sticky-mobile-button'
     );
-    console.log('openModalButtons elements:', openModalButtons); // Debug
+    console.log('openModalButtons count:', openModalButtons.length);
 
     function openApplicationModal() {
         if (applicationModal) {
             applicationModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Запретить прокрутку фона
+            document.body.style.overflow = 'hidden';
         }
     }
 
     function closeApplicationModal() {
         if (applicationModal) {
             applicationModal.style.display = 'none';
-            document.body.style.overflow = ''; // Разрешить прокрутку фона
+            document.body.style.overflow = '';
         }
     }
 
     if (applicationModal && closeButton) {
         openModalButtons.forEach(button => {
             button.addEventListener('click', (e) => {
-                // Дополнительная проверка, чтобы исключить ссылки "tel:", "wa.me" и "t.me"
                 if (button.tagName === 'A' && (button.href.startsWith('tel:') || button.href.includes('wa.me/') || button.href.includes('t.me/'))) {
-                    return; // Пропускаем, если это ссылка на звонок/мессенджер
+                    return;
                 }
                 e.preventDefault();
                 openApplicationModal();
@@ -50,6 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 closeApplicationModal();
             }
         });
+
+        const modalForm = applicationModal.querySelector('form');
+        if (modalForm) {
+            modalForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                console.log('Форма отправлена');
+                closeApplicationModal();
+            });
+        }
     }
 
 
