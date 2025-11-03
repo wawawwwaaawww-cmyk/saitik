@@ -1409,3 +1409,258 @@ function initTeamCardsAnalytics() {
         trackSliderInteraction('view', 'team_cards', 0);
     }
 }
+
+/**
+ * Service Pages Mobile Functionality
+ * Added for ticket: Services mobile refresh
+ */
+
+// FAQ Accordions
+function initServiceAccordions() {
+    const accordions = document.querySelectorAll('.faq-accordion');
+    
+    accordions.forEach(accordion => {
+        const header = accordion.querySelector('.faq-accordion__header');
+        const content = accordion.querySelector('.faq-accordion__content');
+        
+        if (!header || !content) return;
+        
+        header.addEventListener('click', () => {
+            const isExpanded = accordion.getAttribute('aria-expanded') === 'true';
+            const newExpanded = !isExpanded;
+            
+            accordion.setAttribute('aria-expanded', newExpanded);
+            
+            // Track analytics
+            const title = header.textContent.trim();
+            trackAccordionToggle('service_faq', newExpanded, title);
+        });
+        
+        // Initialize collapsed state
+        accordion.setAttribute('aria-expanded', 'false');
+    });
+}
+
+// Methods Segmented Control for Kodirovanie page
+function initMethodsSegmentedControl() {
+    const controlButtons = document.querySelectorAll('.methods-segmented-control__button');
+    const contentPanels = document.querySelectorAll('.methods-content-panel');
+    
+    if (controlButtons.length === 0 || contentPanels.length === 0) return;
+    
+    controlButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons and panels
+            controlButtons.forEach(btn => btn.classList.remove('active'));
+            contentPanels.forEach(panel => panel.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding panel
+            button.classList.add('active');
+            
+            // Map button index to panel ID
+            const panelMap = ['panel-detox', 'panel-coding', 'panel-rehab'];
+            const targetPanelId = panelMap[index];
+            if (targetPanelId) {
+                const targetPanel = document.getElementById(targetPanelId);
+                if (targetPanel) {
+                    targetPanel.classList.add('active');
+                }
+            }
+            
+            // Track analytics
+            trackAnalyticsEvent('methods_tab_switch', {
+                tab_index: index,
+                tab_name: button.textContent.trim(),
+                page: window.location.pathname,
+                timestamp: new Date().toISOString()
+            });
+        });
+    });
+    
+    // Set first tab as active
+    if (controlButtons.length > 0) {
+        controlButtons[0].click();
+    }
+}
+
+// Horizontal Scrollers with Analytics
+function initServiceScrollers() {
+    const scrollers = document.querySelectorAll('.scroller, .steps-grid-v2, .composition-v2__grid');
+    
+    scrollers.forEach(scroller => {
+        let currentIndex = 0;
+        const items = scroller.children;
+        const itemWidth = 280; // Fixed width from CSS
+        const gap = 16;
+        
+        // Determine scroller name for analytics
+        let scrollerName = 'unknown';
+        if (scroller.classList.contains('steps-grid-v2')) {
+            scrollerName = 'steps';
+        } else if (scroller.classList.contains('composition-v2__grid')) {
+            scrollerName = 'composition';
+        } else if (scroller.classList.contains('scroller')) {
+            scrollerName = 'general';
+        }
+        
+        // Track initial view
+        if (items.length > 0) {
+            trackSliderInteraction('view', scrollerName, 0);
+        }
+        
+        // Track scroll interactions
+        let scrollTimeout;
+        scroller.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const newIndex = Math.round(scroller.scrollLeft / (itemWidth + gap));
+                if (newIndex !== currentIndex) {
+                    currentIndex = newIndex;
+                    trackSliderInteraction('next', scrollerName, currentIndex);
+                }
+            }, 150);
+        });
+        
+        // Add controls if they don't exist
+        if (scroller.classList.contains('scroller') && !scroller.nextElementSibling?.classList.contains('scroller__controls')) {
+            const controls = document.createElement('div');
+            controls.className = 'scroller__controls';
+            
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'scroller__control';
+            prevBtn.innerHTML = '←';
+            prevBtn.setAttribute('aria-label', 'Предыдущий');
+            prevBtn.disabled = true;
+            
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'scroller__control';
+            nextBtn.innerHTML = '→';
+            nextBtn.setAttribute('aria-label', 'Следующий');
+            nextBtn.disabled = items.length <= 1;
+            
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    scroller.scrollTo({
+                        left: currentIndex * (itemWidth + gap),
+                        behavior: 'smooth'
+                    });
+                }
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                if (currentIndex < items.length - 1) {
+                    currentIndex++;
+                    scroller.scrollTo({
+                        left: currentIndex * (itemWidth + gap),
+                        behavior: 'smooth'
+                    });
+                }
+            });
+            
+            controls.appendChild(prevBtn);
+            controls.appendChild(nextBtn);
+            scroller.parentNode.insertBefore(controls, scroller.nextSibling);
+            
+            // Update button states on scroll
+            scroller.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    const newIndex = Math.round(scroller.scrollLeft / (itemWidth + gap));
+                    currentIndex = newIndex;
+                    
+                    prevBtn.disabled = currentIndex === 0;
+                    nextBtn.disabled = currentIndex >= items.length - 1;
+                }, 150);
+            });
+        }
+    });
+}
+
+// Sticky Mobile CTA
+function initStickyMobileCTA() {
+    const stickyCTA = document.querySelector('.sticky-mobile-cta');
+    if (!stickyCTA) return;
+    
+    const ctaButton = stickyCTA.querySelector('.sticky-mobile-cta__button');
+    if (!ctaButton) return;
+    
+    // Show/hide based on scroll position
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+    
+    function updateStickyCTA() {
+        const currentScrollY = window.scrollY;
+        const documentHeight = document.documentElement.scrollHeight;
+        const windowHeight = window.innerHeight;
+        const scrollThreshold = 300; // Show after scrolling 300px
+        
+        // Show if scrolled past threshold and not at bottom
+        if (currentScrollY > scrollThreshold && currentScrollY < documentHeight - windowHeight - 100) {
+            stickyCTA.classList.add('visible');
+        } else {
+            stickyCTA.classList.remove('visible');
+        }
+        
+        lastScrollY = currentScrollY;
+        ticking = false;
+    }
+    
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(updateStickyCTA);
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', requestTick);
+    
+    // Track CTA clicks
+    ctaButton.addEventListener('click', () => {
+        trackCTAClick('sticky_mobile', 'call', window.location.pathname);
+    });
+}
+
+// Calculator Placeholder with CTA
+function initCalculatorPlaceholders() {
+    const placeholders = document.querySelectorAll('.calculator-placeholder');
+    
+    placeholders.forEach(placeholder => {
+        const ctaButton = placeholder.querySelector('.cta-button');
+        if (ctaButton) {
+            ctaButton.addEventListener('click', () => {
+                trackCTAClick('calculator_placeholder', 'form', window.location.pathname);
+            });
+        }
+    });
+}
+
+// Initialize all service page functionality
+function initServicePagesMobile() {
+    // Only initialize on mobile
+    if (window.innerWidth > 960) return;
+    
+    initServiceAccordions();
+    initMethodsSegmentedControl();
+    initServiceScrollers();
+    initStickyMobileCTA();
+    initCalculatorPlaceholders();
+}
+
+// Initialize on DOM content loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize service pages functionality
+    initServicePagesMobile();
+    
+    // Re-initialize on window resize (debounced)
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            initServicePagesMobile();
+        }, 250);
+    });
+});
+
+// Export functions for potential external use
+window.initServicePagesMobile = initServicePagesMobile;

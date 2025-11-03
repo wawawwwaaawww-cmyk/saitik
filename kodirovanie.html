@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-mobile-secondary.css">
 </head>
 <body>
     <header class="site-header">
@@ -93,6 +94,14 @@
             <h2 id="methods-title" class="section-title">Врач подберёт метод именно для вас</h2>
             <p class="methods-sub">Перед назначением мы проводим консультацию, оцениваем состояние, противопоказания и мотивацию. Объясняем риски и альтернативы, фиксируем план и остаёмся на связи. Анонимно и бережно.</p>
           
+            <!-- Mobile Segmented Control -->
+            <div class="methods-segmented-control">
+                <button class="methods-segmented-control__button">Детокс</button>
+                <button class="methods-segmented-control__button">Кодирование</button>
+                <button class="methods-segmented-control__button">Реабилитация</button>
+            </div>
+
+            <!-- Desktop Carousel -->
             <div class="carousel" role="region" aria-roledescription="carousel" aria-label="Методы лечения">
               <!-- левый край -->
               <button class="nav-arrow nav-arrow--prev" aria-label="Предыдущий слайд" aria-controls="methods-track">
@@ -196,6 +205,67 @@
               <button class="nav-arrow nav-arrow--next" aria-label="Следующий слайд" aria-controls="methods-track">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
               </button>
+            </div>
+
+            <!-- Mobile Content Panels -->
+            <div class="methods-content-panel active" id="panel-detox">
+                <div class="faq-accordion" aria-expanded="false">
+                    <button class="faq-accordion__header">Что такое детоксикация?</button>
+                    <div class="faq-accordion__content">
+                        <p class="faq-accordion__text">Детоксикация — это комплекс процедур по очищению организма от продуктов распада алкоголя. Включает капельницы, инфузионную терапию и поддерживающие препараты.</p>
+                    </div>
+                </div>
+                <div class="faq-accordion" aria-expanded="false">
+                    <button class="faq-accordion__header">Кому подходит детокс?</button>
+                    <div class="faq-accordion__content">
+                        <p class="faq-accordion__text">Показан при запоях, похмелье, интоксикации. Подходит для пациентов с абстинентным синдромом легкой и средней тяжести.</p>
+                    </div>
+                </div>
+                <div class="calculator-placeholder">
+                    <div class="calculator-placeholder__text">от 2 900 ₽</div>
+                    <div class="calculator-placeholder__subtext">Вывод из запоя на дому</div>
+                    <button class="cta-button primary">Рассчитать стоимость</button>
+                </div>
+            </div>
+
+            <div class="methods-content-panel" id="panel-coding">
+                <div class="faq-accordion" aria-expanded="false">
+                    <button class="faq-accordion__header">Что такое кодирование?</button>
+                    <div class="faq-accordion__content">
+                        <p class="faq-accordion__text">Кодирование — формирование отвращения к алкоголю с помощью препаратов или психологических методик. Создает физическую или психологическую защиту от срывов.</p>
+                    </div>
+                </div>
+                <div class="faq-accordion" aria-expanded="false">
+                    <button class="faq-accordion__header">Какие методы кодирования существуют?</button>
+                    <div class="faq-accordion__content">
+                        <p class="faq-accordion__text">Медикаментозное (укол, вшивание), психотерапевтическое (гипноз, КПТ), комбинированное. Выбор зависит от состояния и пожеланий пациента.</p>
+                    </div>
+                </div>
+                <div class="calculator-placeholder">
+                    <div class="calculator-placeholder__text">от 4 500 ₽</div>
+                    <div class="calculator-placeholder__subtext">Кодирование с гарантией</div>
+                    <button class="cta-button primary">Рассчитать стоимость</button>
+                </div>
+            </div>
+
+            <div class="methods-content-panel" id="panel-rehab">
+                <div class="faq-accordion" aria-expanded="false">
+                    <button class="faq-accordion__header">Что входит в реабилитацию?</button>
+                    <div class="faq-accordion__content">
+                        <p class="faq-accordion__text">Комплексная поддержка: психотерапия, работа с семьей, социальная адаптация, профилактика срывов. Помогает вернуть к нормальной жизни.</p>
+                    </div>
+                </div>
+                <div class="faq-accordion" aria-expanded="false">
+                    <button class="faq-accordion__header">Кому нужна реабилитация?</button>
+                    <div class="faq-accordion__content">
+                        <p class="faq-accordion__text">Пациентам после детокса и кодирования, а также при длительной зависимости. Особенно важна при повторных срывах.</p>
+                    </div>
+                </div>
+                <div class="calculator-placeholder">
+                    <div class="calculator-placeholder__text">от 8 000 ₽</div>
+                    <div class="calculator-placeholder__subtext">Программа реабилитации</div>
+                    <button class="cta-button primary">Рассчитать стоимость</button>
+                </div>
             </div>
           
             <p class="methods-footnote">Информация на сайте не заменяет очную консультацию.</p>
@@ -470,6 +540,11 @@
             </div>
         </section>
     </main>
+
+<!-- STICKY MOBILE CTA -->
+<div class="sticky-mobile-cta">
+    <button class="sticky-mobile-cta__button">Получить консультацию</button>
+</div>
 
 <!-- PRE-FOOTER CTA SECTION -->
 <section class="pre-footer-cta">

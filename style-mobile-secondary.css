@@ -895,3 +895,653 @@
         min-width: auto;
     }
 }
+
+/* ===================================================================
+ * SERVICE PAGES MOBILE STYLES
+ * Added for ticket: Services mobile refresh
+ * ================================================================ */
+
+/* --- Service Page Hero: Warning Banner + Dual CTA Stack --- */
+@media (max-width: 960px) {
+    .hero-service,
+    .hero-coding {
+        min-height: auto;
+        padding: 120px 20px 60px;
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        position: relative;
+    }
+
+    .hero-service::before,
+    .hero-coding::before {
+        content: "⚠️ ВНИМАНИЕ";
+        position: absolute;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.95);
+        color: #d32f2f;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 14px;
+        z-index: 10;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .hero-title {
+        font-size: clamp(1.75rem, 5vw, 2.25rem);
+        line-height: 1.2;
+        margin-bottom: 16px;
+        margin-top: 40px;
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 24px;
+        opacity: 0.95;
+    }
+
+    .service-features,
+    .hero-features {
+        display: none; /* Hide feature grid on mobile */
+    }
+
+    .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .hero-buttons .cta-button {
+        width: 100%;
+        min-height: 52px;
+        font-size: 16px;
+        border-radius: 12px;
+    }
+
+    .hero-cta-note {
+        text-align: center;
+        margin-top: 16px;
+        font-size: 14px;
+        opacity: 0.9;
+    }
+}
+
+/* --- Price Cards: Single Column Stack --- */
+@media (max-width: 960px) {
+    .prices-section {
+        padding: 40px 20px;
+    }
+
+    .price-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .price-card {
+        width: 100%;
+        padding: 20px;
+        border-radius: 12px;
+        border: 2px solid #f0f0f0;
+        background: white;
+        position: relative;
+    }
+
+    .price-card.popular::before {
+        content: "ПОПУЛЯРНЫЙ";
+        position: absolute;
+        top: -10px;
+        left: 20px;
+        background: #03d3dd;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .price-card h3 {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .price-card-description {
+        font-size: 14px;
+        margin-bottom: 12px;
+        line-height: 1.4;
+    }
+
+    .price-card-composition-title {
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+
+    .price-card-composition {
+        font-size: 13px;
+        margin-bottom: 16px;
+        color: #666;
+    }
+
+    .price-card-price {
+        font-size: 24px;
+        font-weight: 700;
+        color: #03d3dd;
+        margin-bottom: 16px;
+    }
+
+    .price-card .cta-button {
+        width: 100%;
+        min-height: 48px;
+    }
+}
+
+/* --- Danger Signals: Single Column with Accent Borders --- */
+@media (max-width: 960px) {
+    .danger-signals,
+    .threat-v2,
+    .steps-section-v2,
+    .composition-v2,
+    .real-results-v2,
+    .proof,
+    .motivation-section {
+        padding: 40px 20px;
+    }
+
+    .danger-signals__grid,
+    .threat-v2__main-grid,
+    .steps-grid-v2,
+    .composition-v2__grid,
+    .proof-items,
+    .motivation-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .danger-signals__symptoms-card,
+    .threat-v2__content,
+    .info-card,
+    .threat-v2-card,
+    .step-card-v2,
+    .composition-v2-card,
+    .proof-item,
+    .motivation-card {
+        width: 100%;
+        padding: 20px;
+        border-radius: 12px;
+        border-left: 4px solid #03d3dd;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .danger-signals__info-column,
+    .threat-v2__cta-aside {
+        margin-top: 20px;
+    }
+
+    .symptoms-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .symptom-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 15px;
+        line-height: 1.4;
+    }
+
+    .symptom-icon {
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        background: #ff6b6b;
+        border-radius: 50%;
+        margin-top: 2px;
+    }
+
+    .threat-v2__cards-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .threat-v2-card__icon {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .threat-v2-card__title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .threat-v2-card__text {
+        font-size: 14px;
+        line-height: 1.4;
+        color: #666;
+    }
+}
+
+/* --- Steps Section: Horizontal Scroll --- */
+@media (max-width: 960px) {
+    .steps-grid-v2 {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding: 0 0 20px 0;
+        gap: 16px;
+    }
+
+    .steps-grid-v2::-webkit-scrollbar {
+        display: none;
+    }
+
+    .step-card-v2 {
+        flex: 0 0 280px;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        border-left: 4px solid #03d3dd;
+    }
+
+    .step-card-v2__icon {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+
+    .step-card-v2__title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .step-card-v2__text {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+}
+
+/* --- Composition Section: Horizontal Scroll --- */
+@media (max-width: 960px) {
+    .composition-v2__grid {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding: 0 0 20px 0;
+        gap: 16px;
+    }
+
+    .composition-v2__grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .composition-v2-card {
+        flex: 0 0 240px;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        border-left: 4px solid #03d3dd;
+    }
+
+    .composition-v2-card__icon {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .composition-v2-card__title {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+    .composition-v2-card__text {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+}
+
+/* --- Proof Section: Single Column --- */
+@media (max-width: 960px) {
+    .proof-item {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 20px;
+        border-left: 4px solid #03d3dd;
+    }
+
+    .proof-icon {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    .proof-item__content h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .proof-item__content p {
+        font-size: 14px;
+        line-height: 1.4;
+        color: #666;
+    }
+}
+
+/* --- Motivation Section: Single Column --- */
+@media (max-width: 960px) {
+    .motivation-card {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 20px;
+        border-left: 4px solid #03d3dd;
+    }
+
+    .motivation-card-icon {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    .motivation-card__content h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .motivation-card__content p {
+        font-size: 14px;
+        line-height: 1.4;
+        color: #666;
+    }
+
+    .motivation-cta {
+        text-align: center;
+        margin-top: 24px;
+    }
+}
+
+/* --- FAQ Accordions for Long Content --- */
+@media (max-width: 960px) {
+    .faq-accordion {
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        margin-bottom: 12px;
+        overflow: hidden;
+        background: white;
+    }
+
+    .faq-accordion__header {
+        padding: 16px 20px;
+        background: #f8f9fa;
+        border: none;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 600;
+        transition: background-color 0.2s;
+    }
+
+    .faq-accordion__header:hover {
+        background: #e9ecef;
+    }
+
+    .faq-accordion__header::after {
+        content: "+";
+        font-size: 20px;
+        transition: transform 0.2s;
+    }
+
+    .faq-accordion[aria-expanded="true"] .faq-accordion__header::after {
+        transform: rotate(45deg);
+    }
+
+    .faq-accordion__content {
+        padding: 0 20px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    }
+
+    .faq-accordion[aria-expanded="true"] .faq-accordion__content {
+        padding: 0 20px 20px;
+        max-height: 500px;
+    }
+
+    .faq-accordion__text {
+        font-size: 14px;
+        line-height: 1.5;
+        color: #666;
+    }
+}
+
+/* --- Kodirovanie Page: Segmented Control --- */
+@media (max-width: 960px) {
+    /* Hide desktop carousel on mobile */
+    .carousel {
+        display: none;
+    }
+
+    .methods-segmented-control {
+        display: flex;
+        background: #f0f0f0;
+        border-radius: 12px;
+        padding: 4px;
+        margin-bottom: 24px;
+        gap: 4px;
+    }
+
+    .methods-segmented-control__button {
+        flex: 1;
+        padding: 12px 16px;
+        border: none;
+        background: transparent;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: #666;
+    }
+
+    .methods-segmented-control__button.active {
+        background: white;
+        color: #03d3dd;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .methods-content-panel {
+        display: none;
+    }
+
+    .methods-content-panel.active {
+        display: block;
+    }
+
+    /* Hide calculator widgets on mobile */
+    .calculator-widget,
+    .price-calculator {
+        display: none !important;
+    }
+
+    /* Replace with "от..." text */
+    .calculator-placeholder {
+        display: block;
+        text-align: center;
+        padding: 24px 20px;
+        background: #f8f9fa;
+        border-radius: 12px;
+        margin: 20px 0;
+    }
+
+    .calculator-placeholder__text {
+        font-size: 18px;
+        font-weight: 600;
+        color: #03d3dd;
+        margin-bottom: 12px;
+    }
+
+    .calculator-placeholder__subtext {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 16px;
+    }
+}
+
+/* Hide mobile elements on desktop for kodirovanie page */
+@media (min-width: 961px) {
+    .methods-segmented-control {
+        display: none !important;
+    }
+
+    .methods-content-panel {
+        display: none !important;
+    }
+
+    .calculator-placeholder {
+        display: none !important;
+    }
+}
+
+/* --- Sticky CTA and Header Integration --- */
+@media (max-width: 960px) {
+    /* Ensure proper scroll margin for anchors */
+    html {
+        scroll-padding-top: 80px; /* Account for fixed header */
+    }
+
+    .section[id] {
+        scroll-margin-top: 80px;
+    }
+
+    /* Sticky bottom CTA */
+    .sticky-mobile-cta {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 16px 20px;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        transform: translateY(100%);
+        transition: transform 0.3s ease-out;
+    }
+
+    .sticky-mobile-cta.visible {
+        transform: translateY(0);
+    }
+
+    .sticky-mobile-cta__button {
+        width: 100%;
+        min-height: 52px;
+        background: #03d3dd;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .sticky-mobile-cta__button:hover {
+        background: #02b5bd;
+    }
+
+    /* Add padding to bottom of main content to avoid overlap */
+    main {
+        padding-bottom: 80px;
+    }
+}
+
+/* --- Horizontal Scrollers with Analytics Support --- */
+@media (max-width: 960px) {
+    .scroller {
+        position: relative;
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding: 0 0 20px 0;
+    }
+
+    .scroller::-webkit-scrollbar {
+        display: none;
+    }
+
+    .scroller__track {
+        display: flex;
+        gap: 16px;
+        padding: 0 env(safe-area-inset-right, 20px) 0 env(safe-area-inset-left, 20px);
+    }
+
+    .scroller__item {
+        flex: 0 0 280px;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        border-left: 4px solid #03d3dd;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .scroller__controls {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 16px;
+    }
+
+    .scroller__control {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid #03d3dd;
+        background: white;
+        color: #03d3dd;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+
+    .scroller__control:hover {
+        background: #03d3dd;
+        color: white;
+    }
+
+    .scroller__control:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
