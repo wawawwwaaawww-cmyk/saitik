@@ -1,0 +1,60 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "**/*.{html,css,js,png,jpg,jpeg,svg,gif,ico,webp,woff,woff2,ttf,eot}",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/style.css",
+      "dest": "/style.css"
+    },
+    {
+      "src": "/script.js",
+      "dest": "/script.js"
+    },
+    {
+      "src": "/(.*\\.(html|css|js|png|jpg|jpeg|svg|gif|ico|webp|woff|woff2|ttf|eot))",
+      "dest": "/$1"
+    },
+    {
+      "src": "/about",
+      "dest": "/about.html"
+    },
+    {
+      "src": "/contacts",
+      "dest": "/contacts.html"
+    },
+    {
+      "src": "/vyvod-iz-zapoya",
+      "dest": "/vyvod-iz-zapoya.html"
+    },
+    {
+      "src": "/snyatie-lomki",
+      "dest": "/snyatie-lomki.html"
+    },
+    {
+      "src": "/kodirovanie",
+      "dest": "/kodirovanie.html"
+    },
+    {
+      "src": "/snyatie-pohmelya",
+      "dest": "/snyatie-pohmelya.html"
+    },
+    {
+      "src": "/kapelnitsa-ot-pohmelya",
+      "dest": "/kapelnitsa-ot-pohmelya.html"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
+    }
+  ],
+  "cleanUrls": false
+}
