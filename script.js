@@ -1,3 +1,253 @@
+/**
+ * Централизованная функция аналитики
+ * Унифицированный обработчик всех событий аналитики
+ */
+window.trackEvent = function(eventName, payload = {}) {
+    const eventData = {
+        event: eventName,
+        timestamp: new Date().toISOString(),
+        page: window.location.pathname,
+        ...payload
+    };
+    
+    // Логирование в консоль для отладки
+    console.log(`Analytics Event: ${eventName}`, eventData);
+    
+    // В реальном проекте здесь будет отправка в систему аналитики
+    // Пример для Google Analytics 4:
+    // if (typeof gtag === 'function') {
+    //     gtag('event', eventName, {
+    //         custom_parameter_1: payload.location,
+    //         custom_parameter_2: payload.channel,
+    //         custom_parameter_3: payload.action
+    //     });
+    // }
+    
+    // Пример для Яндекс.Метрики:
+    // if (typeof ym === 'function') {
+    //     ym(XXXXXX, 'reachGoal', eventName);
+    // }
+    
+    return eventData;
+};
+
+/**
+ * Инициализация аналитики для CTA кнопок
+ */
+window.initCTAAnalytics = function() {
+    // CTA кнопки в hero секции
+    const heroCTAs = document.querySelectorAll('.hero-buttons .cta-button');
+    heroCTAs.forEach(button => {
+        button.addEventListener('click', () => {
+            const text = button.textContent.trim();
+            trackEvent('cta_click', {
+                location: 'hero',
+                button_text: text,
+                type: text.toLowerCase().includes('вызвать') ? 'primary' : 'secondary'
+            });
+        });
+    });
+    
+    // Sticky кнопка на мобильных
+    const stickyCTA = document.querySelector('.sticky-mobile-button');
+    if (stickyCTA) {
+        stickyCTA.addEventListener('click', () => {
+            trackEvent('cta_click', {
+                location: 'sticky_mobile',
+                button_text: stickyCTA.textContent.trim(),
+                type: 'primary'
+            });
+        });
+    }
+    
+    // Кнопки в секциях
+    const sectionCTAs = document.querySelectorAll('.section .cta-button:not(.hero-buttons .cta-button):not(.sticky-mobile-button)');
+    sectionCTAs.forEach(button => {
+        button.addEventListener('click', () => {
+            const section = button.closest('section');
+            const sectionClass = section ? section.className : 'unknown';
+            trackEvent('cta_click', {
+                location: 'section',
+                section_class: sectionClass,
+                button_text: button.textContent.trim(),
+                type: button.classList.contains('primary') ? 'primary' : 'secondary'
+            });
+        });
+    });
+    
+    // Кнопки звонков
+    const callButtons = document.querySelectorAll('a[href^="tel:"], .btn--call');
+    callButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const location = button.closest('.hero, .contact-hero, .contact-options, .sticky-bar, .pre-footer-cta');
+            const locationName = location ? location.className.split(' ')[0] : 'unknown';
+            trackEvent('call_click', {
+                location: locationName,
+                phone_number: button.getAttribute('href')?.replace('tel:', '') || 'not_available'
+            });
+        });
+    });
+    
+    // WhatsApp кнопки
+    const whatsappButtons = document.querySelectorAll('a[href*="wa.me"], .btn--wa');
+    whatsappButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            trackEvent('whatsapp_click', {
+                location: getButtonLocation(button),
+                url: button.getAttribute('href') || 'not_available'
+            });
+        });
+    });
+    
+    // Telegram кнопки
+    const telegramButtons = document.querySelectorAll('a[href*="t.me"], .btn--tg');
+    telegramButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            trackEvent('telegram_click', {
+                location: getButtonLocation(button),
+                url: button.getAttribute('href') || 'not_available'
+            });
+        });
+    });
+};
+
+/**
+ * Вспомогательная функция для определения местоположения кнопки
+ */
+function getButtonLocation(button) {
+    const parent = button.closest('.hero, .contact-hero, .contact-options, .sticky-bar, .pre-footer-cta, .site-footer');
+    if (parent) {
+        return parent.className.split(' ')[0];
+    }
+    return 'unknown';
+}
+
+/**
+ * Инициализация аналитики для форм
+ */
+window.initFormAnalytics = function() {
+    const forms = document.querySelectorAll('form');
+    
+    forms.forEach(form => {
+        // Отправка формы
+        form.addEventListener('submit', (e) => {
+            const formName = form.id || form.className || 'unknown_form';
+            const phoneInput = form.querySelector('input[type="tel"]');
+            const phone = phoneInput ? phoneInput.value : 'not_provided';
+            
+            // Простая валидация телефона
+            const isValidPhone = phone && phone.length >= 10;
+            
+            if (isValidPhone) {
+                trackEvent('form_submit', {
+                    form_name: formName,
+                    phone_length: phone.length,
+                    has_comment: form.querySelector('textarea')?.value.length > 0
+                });
+            } else {
+                trackEvent('form_error', {
+                    form_name: formName,
+                    error_type: 'invalid_phone',
+                    phone_length: phone ? phone.length : 0
+                });
+            }
+        });
+        
+        // Ошибки валидации
+        const inputs = form.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.addEventListener('invalid', (e) => {
+                trackEvent('form_error', {
+                    form_name: form.id || form.className || 'unknown_form',
+                    field_name: input.name || input.id || 'unknown_field',
+                    error_type: 'validation_error',
+                    error_message: e.target.validationMessage
+                });
+            });
+        });
+    });
+};
+
+/**
+ * Инициализация аналитики для слайдеров
+ */
+window.initSliderAnalytics = function() {
+    const sliders = document.querySelectorAll('.reviews, .car-track');
+    
+    sliders.forEach(slider => {
+        let currentSlide = 0;
+        const slides = slider.querySelectorAll('.review-card, .car-slide');
+        
+        if (slides.length === 0) return;
+        
+        // View событие при появлении слайдера
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    trackEvent('slider_view', {
+                        slider_type: slider.classList.contains('reviews') ? 'reviews' : 'methods',
+                        total_slides: slides.length
+                    });
+                    observer.unobserve(slider);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        observer.observe(slider);
+        
+        // Клик на кнопки навигации
+        const nextButton = slider.querySelector('.slider-next, .car-next');
+        const prevButton = slider.querySelector('.slider-prev, .car-prev');
+        
+        if (nextButton) {
+            nextButton.addEventListener('click', () => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                trackEvent('slider_next', {
+                    slider_type: slider.classList.contains('reviews') ? 'reviews' : 'methods',
+                    current_slide: currentSlide,
+                    total_slides: slides.length
+                });
+            });
+        }
+        
+        if (prevButton) {
+            prevButton.addEventListener('click', () => {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                trackEvent('slider_prev', {
+                    slider_type: slider.classList.contains('reviews') ? 'reviews' : 'methods',
+                    current_slide: currentSlide,
+                    total_slides: slides.length
+                });
+            });
+        }
+    });
+};
+
+/**
+ * Инициализация аналитики для аккордеонов
+ */
+window.initAccordionAnalytics = function() {
+    const accordionItems = document.querySelectorAll('.faq-item, .timeline-step, .js-accordion-title');
+    
+    accordionItems.forEach(item => {
+        const toggle = item.querySelector('.faq-question, .step-accordion__toggle, .js-accordion-title');
+        
+        if (toggle) {
+            toggle.addEventListener('click', () => {
+                const isExpanded = item.classList.contains('active') || 
+                               item.querySelector('.faq-answer, .step-accordion__content, .js-accordion-content')?.style.maxHeight !== '0px';
+                
+                trackEvent('accordion_toggle', {
+                    accordion_type: item.classList.contains('faq-item') ? 'faq' : 
+                                   item.classList.contains('timeline-step') ? 'timeline' : 'footer',
+                    item_title: toggle.textContent.trim().substring(0, 50),
+                    action: isExpanded ? 'collapse' : 'expand'
+                });
+            });
+        }
+    });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     /**
      * Логика модального окна заявки
@@ -31,6 +281,100 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Enhanced modal form handling
+    const modalForm = applicationModal ? applicationModal.querySelector('form') : null;
+    if (modalForm) {
+        modalForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const nameInput = modalForm.querySelector('input[type="text"]');
+            const phoneInput = modalForm.querySelector('input[type="tel"]');
+            
+            // Basic validation
+            if (!nameInput.value.trim()) {
+                nameInput.classList.add('error');
+                nameInput.focus();
+                return;
+            }
+            
+            if (!phoneInput.value.trim() || phoneInput.value.replace(/\D/g, '').length < 10) {
+                phoneInput.classList.add('error');
+                phoneInput.focus();
+                return;
+            }
+            
+            // Analytics will be tracked by initFormAnalytics()
+            trackEvent('modal_form_submit', {
+                name_length: nameInput.value.length,
+                phone_length: phoneInput.value.length
+            });
+            
+            // Show success and close modal
+            alert('Спасибо! Мы перезвоним в течение 2 минут.');
+            closeApplicationModal();
+            modalForm.reset();
+        });
+        
+        // Clear errors on input
+        [modalForm.querySelector('input[type="text"]'), modalForm.querySelector('input[type="tel"]')].forEach(input => {
+            input.addEventListener('input', () => {
+                input.classList.remove('error');
+            });
+        });
+    }
+
+    // Enhanced chat widget form handling
+    const chatForm = document.querySelector('.chat-widget__form');
+    if (chatForm) {
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const phoneInput = chatForm.querySelector('input[type="tel"]');
+            
+            // Basic validation
+            if (!phoneInput.value.trim() || phoneInput.value.replace(/\D/g, '').length < 10) {
+                phoneInput.classList.add('error');
+                phoneInput.focus();
+                return;
+            }
+            
+            // Analytics will be tracked by initFormAnalytics()
+            trackEvent('chat_form_submit', {
+                phone_length: phoneInput.value.length
+            });
+            
+            // Show success
+            const chatWindow = chatForm.closest('.chat-widget__window');
+            const successMessage = document.createElement('div');
+            successMessage.style.cssText = `
+                background: #10b981;
+                color: white;
+                padding: 16px;
+                border-radius: 8px;
+                text-align: center;
+                font-weight: 600;
+            `;
+            successMessage.textContent = '✓ Спасибо! Врач перезвонит через 1 минуту.';
+            
+            chatWindow.innerHTML = '';
+            chatWindow.appendChild(successMessage);
+            
+            // Auto close after 3 seconds
+            setTimeout(() => {
+                const chatWidget = document.querySelector('.chat-widget');
+                if (chatWidget) {
+                    chatWidget.classList.remove('is-open');
+                }
+            }, 3000);
+        });
+        
+        // Clear errors on input
+        const chatPhoneInput = chatForm.querySelector('input[type="tel"]');
+        chatPhoneInput.addEventListener('input', () => {
+            chatPhoneInput.classList.remove('error');
+        });
+    }
+
     if (applicationModal && closeButton) {
         openModalButtons.forEach(button => {
             button.addEventListener('click', (e) => {
@@ -50,6 +394,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 closeApplicationModal();
             }
         });
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && applicationModal.style.display === 'flex') {
+                closeApplicationModal();
+            }
+        });
+
+        // Focus management
+        const modalContent = applicationModal.querySelector('.modal-content');
+        const focusableElements = modalContent.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements[focusableElements.length - 1];
+
+        modalContent.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                if (e.shiftKey) {
+                    if (document.activeElement === firstFocusable) {
+                        e.preventDefault();
+                        lastFocusable.focus();
+                    }
+                } else {
+                    if (document.activeElement === lastFocusable) {
+                        e.preventDefault();
+                        firstFocusable.focus();
+                    }
+                }
+            }
+        });
+
+        // Set initial focus when modal opens
+        const originalOpenApplicationModal = openApplicationModal;
+        openApplicationModal = function() {
+            originalOpenApplicationModal();
+            if (firstFocusable) {
+                setTimeout(() => firstFocusable.focus(), 100);
+            }
+        };
     }
 
 
@@ -113,6 +495,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize the new logic
     initHangoverRisksAnalytics();
+    
+    // Initialize centralized analytics
+    initCTAAnalytics();
+    initFormAnalytics();
+    initSliderAnalytics();
+    initAccordionAnalytics();
 
     /**
      * 2. Пульс кнопок CTA
@@ -892,37 +1280,110 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.cta-bottom .btn').addEventListener('click', () => trackCtaClick('footer', 'form_scroll'));
 
 
-        // --- Form Validation ---
+        // --- Enhanced Form Validation ---
         const callbackForm = document.getElementById('callback-form');
         if (callbackForm) {
+            // Remove existing error classes on input
+            const clearErrors = () => {
+                callbackForm.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+            };
+
+            // Phone validation function
+            const validatePhone = (phone) => {
+                const cleaned = phone.replace(/\D/g, '');
+                return cleaned.length >= 10 && cleaned.startsWith('7') && cleaned.length <= 11;
+            };
+
+            // Show error message
+            const showError = (input, message) => {
+                input.classList.add('error');
+                
+                // Create or update error message
+                let errorDiv = input.parentNode.querySelector('.error-message');
+                if (!errorDiv) {
+                    errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message';
+                    errorDiv.style.color = '#e53e3e';
+                    errorDiv.style.fontSize = '14px';
+                    errorDiv.style.marginTop = '4px';
+                    input.parentNode.appendChild(errorDiv);
+                }
+                errorDiv.textContent = message;
+            };
+
             callbackForm.addEventListener('submit', (e) => {
                 e.preventDefault();
+                clearErrors();
+                
                 const phoneInput = callbackForm.querySelector('input[type="tel"]');
                 const agreement = callbackForm.querySelector('input[type="checkbox"]');
+                const channelSelect = callbackForm.querySelector('select');
                 let isValid = true;
 
                 // Validate phone
-                if (phoneInput.value.length < 10) { // Simple validation
-                    alert('Проверьте номер: нужен формат +7...');
+                if (!phoneInput.value.trim()) {
+                    showError(phoneInput, 'Пожалуйста, введите номер телефона');
+                    isValid = false;
+                } else if (!validatePhone(phoneInput.value)) {
+                    showError(phoneInput, 'Проверьте номер: нужен формат +7 (XXX) XXX-XX-XX');
                     isValid = false;
                 }
 
                 // Validate agreement
                 if (!agreement.checked) {
+                    agreement.classList.add('error');
                     alert('Необходимо согласие на обработку персональных данных.');
                     isValid = false;
                 }
 
                 if (isValid) {
+                    // Analytics event will be tracked by initFormAnalytics()
+                    
+                    // Simulate form submission
+                    window.dataLayer = window.dataLayer || [];
                     window.dataLayer.push({
                         event: 'lead_submit',
                         form_name: 'callback-form',
-                        channel: callbackForm.querySelector('select').value
+                        channel: channelSelect ? channelSelect.value : 'not_selected',
+                        phone_length: phoneInput.value.length
                     });
-                    console.log('lead_submit');
-                    alert('Спасибо! Мы свяжемся в ближайшие минуты.');
-                    callbackForm.reset();
+                    
+                    // Show success message
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'success-message';
+                    successMessage.style.cssText = `
+                        background: #10b981;
+                        color: white;
+                        padding: 12px 16px;
+                        border-radius: 8px;
+                        margin-top: 16px;
+                        font-weight: 600;
+                    `;
+                    successMessage.textContent = '✓ Спасибо! Мы свяжемся в ближайшие минуты.';
+                    
+                    // Replace form with success message
+                    callbackForm.parentNode.replaceChild(successMessage, callbackForm);
+                    
+                    // Log for debugging
+                    console.log('lead_submit', {
+                        form_name: 'callback-form',
+                        channel: channelSelect ? channelSelect.value : 'not_selected'
+                    });
+                } else {
+                    // Analytics error event will be tracked by initFormAnalytics()
+                    phoneInput.focus();
                 }
+            });
+
+            // Clear errors on input
+            phoneInput.addEventListener('input', () => {
+                phoneInput.classList.remove('error');
+                const errorDiv = phoneInput.parentNode.querySelector('.error-message');
+                if (errorDiv) errorDiv.remove();
+            });
+
+            agreement.addEventListener('change', () => {
+                agreement.classList.remove('error');
             });
         }
     }

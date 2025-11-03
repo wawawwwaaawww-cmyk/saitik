@@ -7,6 +7,102 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+    @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2) format('woff2');
+    }
+    @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYMZ9hiA.woff2) format('woff2');
+    }
+    @font-face {
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Ew-.woff2) format('woff2');
+    }
+    @font-face {
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w-.woff2) format('woff2');
+    }
+    </style>
+    <style>
+    /* Critical CSS for mobile performance */
+    @media (max-width: 768px) {
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.5;
+            margin: 0;
+            padding: 70px 0 0 0;
+        }
+        
+        .cta-button {
+            background: #03d3dd;
+            color: white;
+            padding: 18px 30px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: clamp(1rem, 4vw, 1.1rem);
+            min-height: 48px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+        
+        .cta-button:hover {
+            background: #02bccc;
+            transform: translateY(-1px);
+        }
+        
+        .cta-button:focus {
+            outline: 3px solid rgba(3, 211, 221, 0.45);
+            outline-offset: 2px;
+        }
+        
+        input[type="tel"], 
+        input[type="text"], 
+        textarea, 
+        select {
+            width: 100%;
+            min-height: 48px;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            background: white;
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        input:focus, 
+        textarea:focus, 
+        select:focus {
+            outline: none;
+            border-color: #03d3dd;
+            box-shadow: 0 0 0 3px rgba(3, 211, 221, 0.2);
+        }
+    }
+    </style>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,7 +110,7 @@
     <header class="site-header">
         <div class="container">
             <div class="logo">
-                <img src="assets/logo.png" alt="Логотип Свой Нарколог">
+                <img src="assets/logo.png" alt="Логотип Свой Нарколог" loading="lazy" decoding="async">
                 <div class="logo-text">
                     <span class="logo-title">Свой Нарколог</span>
                     <a href="tel:+78000000000" class="logo-phone">8 (800) 000-00-00</a>
@@ -65,8 +161,8 @@
             <h1 class="hero-title">Вызов нарколога на дом за 30 минут — круглосуточно и анонимно</h1>
             <p class="hero-subtitle">Вывод из запоя, снятие похмелья и кодирование. Частная скорая помощь 24/7.</p>
             <div class="hero-buttons">
-                <button class="cta-button primary">Вызвать врача сейчас</button>
-                <button class="cta-button secondary">Получить консультацию бесплатно</button>
+                <button class="cta-button primary" aria-label="Вызвать врача на дом немедленно">Вызвать врача сейчас</button>
+                <button class="cta-button secondary" aria-label="Получить бесплатную консультацию">Получить консультацию бесплатно</button>
             </div>
             <p class="hero-cta-note">📞 Звонок бесплатный. Врач перезвонит за 1 минуту.</p>
         </div>
@@ -78,7 +174,7 @@
                 <a href="vyvod-iz-zapoya.html" class="service-card__link"></a>
                 <div class="service-card__icon">
                     <!-- Место для иконки -->
-                    <img src="assets/unnamed.jpg" alt="Иконка услуги Вывод из запоя">
+                    <img src="assets/unnamed.jpg" alt="Иконка услуги Вывод из запоя" loading="lazy" decoding="async">
                 </div>
                 <h3 class="service-card__title">Вывод из запоя</h3>
                 <p class="service-card__subtitle">Моментальное облегчение и детоксикация</p>
@@ -90,13 +186,13 @@
                 </ul>
                 <p class="service-card__price">от 2 900 ₽</p>
                 <p class="service-card__accent-line">💧 Анонимно • Круглосуточно • Эффективно</p>
-                <button class="service-card__cta cta-button primary">Вызвать врача сейчас</button>
+                <button class="service-card__cta cta-button primary" aria-label="Вызвать врача для вывода из запоя">Вызвать врача сейчас</button>
             </div>
             <div class="service-card service-card--link-wrapper">
                 <a href="snyatie-pohmelya.html" class="service-card__link"></a>
                 <div class="service-card__icon">
                     <!-- Место для иконки -->
-                    <img src="assets/unnamed (1).jpg" alt="Иконка услуги Снятие похмелья">
+                    <img src="assets/unnamed (1).jpg" alt="Иконка услуги Снятие похмелья" loading="lazy" decoding="async">
                 </div>
                 <h3 class="service-card__title">Снятие похмелья</h3>
                 <p class="service-card__subtitle">Быстрое восстановление после застолья</p>
@@ -108,13 +204,13 @@
                 </ul>
                 <p class="service-card__price">от 2 000 ₽</p>
                 <p class="service-card__accent-line">💧 Анонимно • Круглосуточно • Эффективно</p>
-                <button class="service-card__cta cta-button primary">Заказать детокс-капельницу</button>
+                <button class="service-card__cta cta-button primary" aria-label="Заказать детокс-капельницу для снятия похмелья">Заказать детокс-капельницу</button>
             </div>
             <div class="service-card service-card--link-wrapper">
                 <a href="kodirovanie.html" class="service-card__link"></a>
                 <div class="service-card__icon">
                     <!-- Место для иконки -->
-                    <img src="assets/unnamed (2).jpg" alt="Иконка услуги Кодирование от алкоголизма">
+                    <img src="assets/unnamed (2).jpg" alt="Иконка услуги Кодирование от алкоголизма" loading="lazy" decoding="async">
                 </div>
                 <h3 class="service-card__title">Кодирование от алкоголизма</h3>
                 <p class="service-card__subtitle">Надежный метод для полного отказа от алкоголя</p>
@@ -126,7 +222,7 @@
                 </ul>
                 <p class="service-card__price">от 4 900 ₽</p>
                 <p class="service-card__accent-line">💧 Анонимно • Круглосуточно • Эффективно</p>
-                <button class="service-card__cta cta-button primary">Кодироваться анонимно</button>
+                <button class="service-card__cta cta-button primary" aria-label="Кодироваться от алкоголизма анонимно">Кодироваться анонимно</button>
             </div>
         </section>
 
@@ -522,11 +618,11 @@
                 <div class="pre-footer-cta__buttons">
                     <button class="cta-button primary" data-analytics-event="footer_cta_call_doctor_click">Вызвать врача 24/7</button>
                     <a href="https://wa.me/78000000000" target="_blank" class="cta-button secondary" data-analytics-event="footer_whatsapp_click">
-                        <img src="assets/whatsapp.png" alt="WhatsApp" width="20" height="20" style="margin-right: 8px;">
+                        <img src="assets/whatsapp.png" alt="WhatsApp" width="20" height="20" style="margin-right: 8px;" loading="lazy" decoding="async">
                         Написать в WhatsApp
                     </a>
                     <a href="https://t.me/your_username" target="_blank" class="cta-button secondary" data-analytics-event="footer_telegram_click">
-                        <img src="assets/Telegram.png" alt="Telegram" width="20" height="20" style="margin-right: 8px;">
+                        <img src="assets/Telegram.png" alt="Telegram" width="20" height="20" style="margin-right: 8px;" loading="lazy" decoding="async">
                         Написать в Telegram
                     </a>
                 </div>
@@ -548,8 +644,8 @@
                     <p class="site-footer__brand-name">[Название юр-лица/бренд]</p>
                     <a href="tel:88000000000" class="site-footer__phone" data-analytics-event="footer_phone_click">8 (800) 000-00-00</a>
                     <div class="site-footer__messengers">
-                        <a href="https://wa.me/78000000000" target="_blank" aria-label="Написать в WhatsApp" data-analytics-event="footer_whatsapp_click"><img src="assets/whatsapp.png" alt="WhatsApp" width="28" height="28"></a>
-                        <a href="https://t.me/your_username" target="_blank" aria-label="Написать в Telegram" data-analytics-event="footer_telegram_click"><img src="assets/Telegram.png" alt="Telegram" width="28" height="28"></a>
+                        <a href="https://wa.me/78000000000" target="_blank" aria-label="Написать в WhatsApp" data-analytics-event="footer_whatsapp_click"><img src="assets/whatsapp.png" alt="WhatsApp" width="28" height="28" loading="lazy" decoding="async"></a>
+                        <a href="https://t.me/your_username" target="_blank" aria-label="Написать в Telegram" data-analytics-event="footer_telegram_click"><img src="assets/Telegram.png" alt="Telegram" width="28" height="28" loading="lazy" decoding="async"></a>
                     </div>
                     <p><strong>Время работы:</strong> Круглосуточно, без выходных</p>
                     <p class="site-footer__disclaimer--small">В экстренных ситуациях — звоните 112</p>
@@ -656,19 +752,23 @@
         <p id="live-feed-text">Семья из ЦАО только что оставила благодарность бригаде №3.</p>
     </div>
 </body>
-    &lt;div id="application-modal" class="modal"&gt;
-        &lt;div class="modal-content"&gt;
-            &lt;span class="close-button"&gt;&amp;times;&lt;/span&gt;
-            &lt;h2&gt;Оставьте заявку&lt;/h2&gt;
-            &lt;p&gt;Мы перезвоним в течении 2-х минут&lt;/p&gt;
-            &lt;p&gt;Врач будет у Вас через 30-40 минут&lt;/p&gt;
-            &lt;form&gt;
-                &lt;input type="text" placeholder="Ваше имя"&gt;
-                &lt;input type="tel" placeholder="Ваш телефон"&gt;
-                &lt;button type="submit" class="cta-button primary"&gt;Отправить&lt;/button&gt;
-            &lt;/form&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
+    <div id="application-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" aria-label="Закрыть модальное окно">&times;</span>
+            <h2>Оставьте заявку</h2>
+            <p>Мы перезвоним в течении 2-х минут</p>
+            <p>Врач будет у Вас через 30-40 минут</p>
+            <form>
+                <label for="modal-name">Ваше имя</label>
+                <input type="text" id="modal-name" placeholder="Ваше имя" required>
+                
+                <label for="modal-phone">Ваш телефон</label>
+                <input type="tel" id="modal-phone" placeholder="Ваш телефон" inputmode="tel" required>
+                
+                <button type="submit" class="cta-button primary">Отправить</button>
+            </form>
+        </div>
+    </div>
 </html>
     <div class="chat-widget">
         <button class="chat-widget__toggle" aria-label="Открыть чат">💬</button>
@@ -679,7 +779,8 @@
             </div>
             <div class="chat-widget__body">
                 <form action="#" method="post" class="chat-widget__form">
-                    <input type="tel" name="phone" placeholder="Ваш номер телефона" required>
+                    <label for="chat-phone">Ваш номер телефона</label>
+                    <input type="tel" id="chat-phone" name="phone" placeholder="Ваш номер телефона" inputmode="tel" required>
                     <button type="submit" class="cta-button primary">Жду звонка</button>
                 </form>
             </div>
