@@ -1022,3 +1022,390 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+/* ===================================================================
+ * MOBILE SECONDARY PAGES FUNCTIONALITY
+ * ================================================================ */
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize License Gallery Modal
+    initLicenseGalleryModal();
+    
+    // Initialize Pricing Tabs
+    initPricingTabs();
+    
+    // Initialize Enhanced Contact Form
+    initEnhancedContactForm();
+    
+    // Initialize Team Cards Analytics
+    initTeamCardsAnalytics();
+});
+
+/**
+ * License Gallery Modal - Touch zoom modal with keyboard navigation
+ */
+function initLicenseGalleryModal() {
+    const modal = document.getElementById('license-modal');
+    if (!modal) return;
+
+    const modalImage = document.getElementById('license-modal-image');
+    const modalTitle = document.getElementById('license-modal-title');
+    const modalCounter = modal.querySelector('.license-modal__counter');
+    const closeBtn = modal.querySelector('.license-modal__close');
+    const prevBtn = modal.querySelector('.license-modal__prev');
+    const nextBtn = modal.querySelector('.license-modal__next');
+    const overlay = modal.querySelector('.license-modal__overlay');
+    const licenseItems = document.querySelectorAll('.license-item');
+
+    if (!licenseItems.length) return;
+
+    let currentIndex = 0;
+    const totalItems = licenseItems.length;
+
+    const openModal = (index) => {
+        currentIndex = index;
+        updateModalContent();
+        modal.classList.add('is-open');
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        
+        trackAnalyticsEvent('license_gallery.open', {
+            license_index: index,
+            page: window.location.pathname
+        });
+
+        setTimeout(() => {
+            closeBtn.focus();
+        }, 100);
+    };
+
+    const closeModal = () => {
+        modal.classList.remove('is-open');
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+        
+        trackAnalyticsEvent('license_gallery.close', {
+            page: window.location.pathname
+        });
+    };
+
+    const updateModalContent = () => {
+        const currentItem = licenseItems[currentIndex];
+        const img = currentItem.querySelector('img');
+        const text = currentItem.querySelector('p');
+
+        modalImage.src = img.src;
+        modalImage.alt = img.alt;
+        modalTitle.textContent = text ? text.textContent : 'Документ';
+        modalCounter.textContent = `${currentIndex + 1} / ${totalItems}`;
+
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === totalItems - 1;
+
+        trackAnalyticsEvent('license_gallery.view', {
+            license_index: currentIndex,
+            page: window.location.pathname
+        });
+    };
+
+    const navigatePrev = () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateModalContent();
+            trackAnalyticsEvent('license_gallery.prev', {
+                license_index: currentIndex
+            });
+        }
+    };
+
+    const navigateNext = () => {
+        if (currentIndex < totalItems - 1) {
+            currentIndex++;
+            updateModalContent();
+            trackAnalyticsEvent('license_gallery.next', {
+                license_index: currentIndex
+            });
+        }
+    };
+
+    licenseItems.forEach((item, index) => {
+        item.addEventListener('click', () => openModal(index));
+        item.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openModal(index);
+            }
+        });
+        item.setAttribute('tabindex', '0');
+        item.setAttribute('role', 'button');
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', closeModal);
+    prevBtn.addEventListener('click', navigatePrev);
+    nextBtn.addEventListener('click', navigateNext);
+
+    modal.addEventListener('keydown', (e) => {
+        if (!modal.classList.contains('is-open')) return;
+
+        switch(e.key) {
+            case 'Escape':
+                closeModal();
+                break;
+            case 'ArrowLeft':
+                navigatePrev();
+                break;
+            case 'ArrowRight':
+                navigateNext();
+                break;
+            case 'Tab':
+                const focusableElements = modal.querySelectorAll('button:not([disabled])');
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+
+                if (e.shiftKey && document.activeElement === firstElement) {
+                    e.preventDefault();
+                    lastElement.focus();
+                } else if (!e.shiftKey && document.activeElement === lastElement) {
+                    e.preventDefault();
+                    firstElement.focus();
+                }
+                break;
+        }
+    });
+}
+
+/**
+ * Pricing Tabs - Segmented control for filtering service groups
+ */
+function initPricingTabs() {
+    const pricingSection = document.querySelector('.pricing-section');
+    if (!pricingSection) return;
+
+    const tabs = pricingSection.querySelectorAll('.pricing-tab');
+    const contents = pricingSection.querySelectorAll('.pricing-content');
+
+    if (!tabs.length || !contents.length) return;
+
+    tabs.forEach((tab, index) => {
+        tab.setAttribute('role', 'tab');
+        tab.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+        tab.setAttribute('aria-controls', `pricing-panel-${index}`);
+        tab.setAttribute('id', `pricing-tab-${index}`);
+
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
+            tab.setAttribute('aria-selected', 'true');
+
+            contents.forEach(c => c.classList.remove('active'));
+            const targetContent = pricingSection.querySelector(`#pricing-panel-${index}`);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+
+            trackAnalyticsEvent('pricing_tabs.switch', {
+                tab_index: index,
+                tab_name: tab.textContent.trim(),
+                page: window.location.pathname
+            });
+        });
+
+        tab.addEventListener('keydown', (e) => {
+            let newIndex = index;
+            
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                newIndex = (index + 1) % tabs.length;
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                newIndex = (index - 1 + tabs.length) % tabs.length;
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                newIndex = 0;
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                newIndex = tabs.length - 1;
+            }
+
+            if (newIndex !== index) {
+                tabs[newIndex].click();
+                tabs[newIndex].focus();
+            }
+        });
+    });
+
+    contents.forEach((content, index) => {
+        content.setAttribute('role', 'tabpanel');
+        content.setAttribute('id', `pricing-panel-${index}`);
+        content.setAttribute('aria-labelledby', `pricing-tab-${index}`);
+        if (index !== 0) {
+            content.classList.remove('active');
+        } else {
+            content.classList.add('active');
+        }
+    });
+
+    initPricingCards();
+}
+
+/**
+ * Pricing Cards - Collapsible cards on mobile
+ */
+function initPricingCards() {
+    const pricingCards = document.querySelectorAll('.pricing-card');
+    
+    pricingCards.forEach((card, index) => {
+        const header = card.querySelector('.pricing-card__header');
+        if (!header) return;
+
+        if (window.innerWidth <= 768) {
+            header.addEventListener('click', () => {
+                const isExpanded = card.classList.contains('expanded');
+                card.classList.toggle('expanded');
+
+                trackAnalyticsEvent('pricing_card.toggle', {
+                    card_index: index,
+                    is_expanded: !isExpanded,
+                    page: window.location.pathname
+                });
+            });
+
+            header.setAttribute('role', 'button');
+            header.setAttribute('aria-expanded', 'false');
+            header.setAttribute('tabindex', '0');
+
+            header.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    header.click();
+                }
+            });
+        }
+
+        const ctaButtons = card.querySelectorAll('.pricing-card__cta .cta-button');
+        ctaButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                trackAnalyticsEvent('pricing_card.cta_click', {
+                    card_index: index,
+                    page: window.location.pathname
+                });
+            });
+        });
+    });
+}
+
+/**
+ * Enhanced Contact Form with proper validation and analytics
+ */
+function initEnhancedContactForm() {
+    const form = document.getElementById('callback-form');
+    if (!form) return;
+
+    const phoneInput = form.querySelector('input[name="phone"]');
+    const agreeCheckbox = form.querySelector('input[name="agree"]');
+    const formSuccess = form.querySelector('.form-success');
+
+    const validatePhone = (phone) => {
+        const cleaned = phone.replace(/\D/g, '');
+        return cleaned.length === 11 && cleaned.startsWith('7');
+    };
+
+    const showError = (input, message) => {
+        input.classList.add('error');
+        const errorMsg = input.closest('.form-group').querySelector('.error-message');
+        if (errorMsg) {
+            errorMsg.textContent = message;
+            errorMsg.classList.add('visible');
+        }
+    };
+
+    const clearError = (input) => {
+        input.classList.remove('error');
+        const errorMsg = input.closest('.form-group').querySelector('.error-message');
+        if (errorMsg) {
+            errorMsg.classList.remove('visible');
+        }
+    };
+
+    phoneInput?.addEventListener('input', () => {
+        clearError(phoneInput);
+    });
+
+    agreeCheckbox?.addEventListener('change', () => {
+        const errorMsg = agreeCheckbox.closest('.form-group').querySelector('.error-message');
+        if (errorMsg) {
+            errorMsg.classList.remove('visible');
+        }
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        let isValid = true;
+
+        if (phoneInput && !validatePhone(phoneInput.value)) {
+            showError(phoneInput, 'Введите корректный номер телефона');
+            isValid = false;
+            trackFormError('callback-form', 'phone_validation', 'Некорректный номер телефона');
+        }
+
+        if (agreeCheckbox && !agreeCheckbox.checked) {
+            const errorMsg = agreeCheckbox.closest('.form-group').querySelector('.error-message');
+            if (errorMsg) {
+                errorMsg.textContent = 'Необходимо согласие на обработку данных';
+                errorMsg.classList.add('visible');
+            }
+            isValid = false;
+            trackFormError('callback-form', 'agreement_validation', 'Отсутствует согласие');
+        }
+
+        if (isValid) {
+            const formData = {
+                phone: phoneInput.value,
+                channel: form.querySelector('select[name="channel"]')?.value || 'call',
+                comment: form.querySelector('textarea[name="comment"]')?.value || ''
+            };
+
+            trackFormSubmit('callback-form', formData);
+
+            form.style.display = 'none';
+            if (formSuccess) {
+                formSuccess.style.display = 'flex';
+            }
+
+            setTimeout(() => {
+                form.reset();
+                form.style.display = 'block';
+                if (formSuccess) {
+                    formSuccess.style.display = 'none';
+                }
+            }, 5000);
+        }
+    });
+}
+
+/**
+ * Team Cards Analytics - Track when team section is viewed
+ */
+function initTeamCardsAnalytics() {
+    const teamSection = document.querySelector('.team-section');
+    if (!teamSection) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                trackAnalyticsEvent('team_section.view', {
+                    page: window.location.pathname
+                });
+                observer.unobserve(teamSection);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    observer.observe(teamSection);
+
+    const teamCards = teamSection.querySelectorAll('.team-card');
+    if (window.innerWidth <= 768 && teamCards.length > 0) {
+        trackSliderInteraction('view', 'team_cards', 0);
+    }
+}
