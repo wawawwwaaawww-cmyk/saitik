@@ -6518,6 +6518,55 @@ main > .danger-signals {
     .cta-band .cta-button {
         width: 100%;
     }
+
+    /* ========================================
+       TEXT COLORS FIX - Match Desktop
+       Added for ticket: Исправить цвета текста
+       ======================================== */
+    
+    /* All basic text - BLACK */
+    body,
+    main,
+    p,
+    span:not(.badge):not(.icon),
+    div,
+    h1, h2, h3, h4, h5, h6,
+    .hero-title,
+    .hero-subtitle,
+    .section-title,
+    .card-title,
+    .service-card h3,
+    .service-card p,
+    li {
+        color: #111 !important;
+    }
+    
+    /* All buttons - WHITE text */
+    button:not(.burger-menu),
+    .btn,
+    .cta-button,
+    .primary-btn,
+    .cta-btn,
+    input[type="submit"],
+    input[type="button"] {
+        color: #fff !important;
+    }
+    
+    /* Exception: Call button with turquoise bg - BLACK text */
+    .call-btn,
+    .call-btn__text {
+        color: #000 !important;
+    }
+    
+    /* Mobile nav CTAs - specific colors */
+    .mobile-nav-cta--call {
+        color: #000 !important;
+    }
+    
+    .mobile-nav-cta--wa,
+    .mobile-nav-cta--tg {
+        color: #fff !important;
+    }
 }
 
 /* Стили для открытого мобильного меню */
@@ -7440,6 +7489,19 @@ main > .danger-signals {
   .cta-row,.cta-slim{flex-direction:column; align-items:stretch;}
   .risk-layout-grid {grid-template-columns: 1fr;}
   .risk-grid{grid-template-columns:repeat(2, 1fr);}
+  
+  /* Text colors fix */
+  body, p, h1, h2, h3, h4, h5, h6, li, span:not(.badge) {
+    color: #111 !important;
+  }
+  
+  button, .btn, .cta-button {
+    color: #fff !important;
+  }
+  
+  .call-btn {
+    color: #000 !important;
+  }
 }
 
 @media (max-width: 600px) {
@@ -8633,6 +8695,48 @@ main > .danger-signals {
     .mobile-nav {
         display: none !important;
     }
+    
+    /* ========================================
+       TEXT COLORS FIX - Homepage Mobile
+       ======================================== */
+    
+    /* All basic text - BLACK */
+    body, main, p, span:not(.badge), div,
+    h1, h2, h3, h4, h5, h6,
+    .hero-title, .hero-subtitle, .hero-cta-note,
+    .section-title,
+    .service-card h3, .service-card p,
+    .review-card h3, .review-card p,
+    .guarantee-item h3, .guarantee-item p,
+    .proof-item h3, .proof-item p,
+    .step-card h3, .step-card p,
+    li {
+        color: #111 !important;
+    }
+    
+    /* All buttons - WHITE text */
+    button:not(.burger-menu):not(.close-button),
+    .btn,
+    .cta-button,
+    .primary-btn,
+    input[type="submit"],
+    input[type="button"] {
+        color: #fff !important;
+    }
+    
+    /* Service cards on mobile - WHITE text on images */
+    .service-card__title,
+    .service-card__subtitle,
+    .service-card__lead {
+        color: #fff !important;
+    }
+    
+    /* Exception: Call button - BLACK text */
+    .call-btn,
+    .call-btn__text,
+    .mobile-nav-cta--call {
+        color: #000 !important;
+    }
 }
 
 /* ========================================
@@ -9817,5 +9921,33 @@ main > .danger-signals {
     /* Скрыть десктопные элементы */
     .desktop-only {
         display: none !important;
+    }
+    
+    /* ========================================
+       TEXT COLORS FIX - Mobile Base Setup
+       ======================================== */
+    
+    /* All basic text - BLACK */
+    body, main, article, section,
+    p, span:not(.badge):not(.icon),
+    div, li, label,
+    h1, h2, h3, h4, h5, h6,
+    .text, .description, .title, .subtitle {
+        color: #111 !important;
+    }
+    
+    /* All buttons - WHITE text */
+    button:not(.burger-menu):not(.close-button),
+    .btn, .btn-mobile,
+    .cta-button, .primary-btn, .cta-btn,
+    input[type="submit"],
+    input[type="button"] {
+        color: #fff !important;
+    }
+    
+    /* Exception: Call button - BLACK text on turquoise */
+    .call-btn,
+    .call-btn__text {
+        color: #000 !important;
     }
 }

@@ -2844,3 +2844,179 @@
         scroll-margin-top: 80px;
     }
 }
+
+/* ===================================================================
+ * MOBILE TEXT COLORS FIX
+ * Ensures all text colors match desktop version
+ * Added for ticket: Исправить цвета текста на мобильной версии
+ * ================================================================ */
+
+@media (max-width: 960px) {
+    /* ========================================
+     * ALL BASIC TEXT - BLACK
+     * ======================================== */
+    body,
+    p,
+    span,
+    div,
+    h1, h2, h3, h4, h5, h6,
+    .hero-title,
+    .hero-subtitle,
+    .hero-lead,
+    .section-title,
+    .section-subtitle,
+    .card-title,
+    .card-subtitle,
+    .service-card__title,
+    .service-card__subtitle,
+    .service-card__lead,
+    .service-card__description,
+    .price-card h3,
+    .price-card p,
+    .price-card__title,
+    .price-card__description,
+    .review-card p,
+    .review-card h3,
+    .review-card__name,
+    .review-card__text,
+    .faq-item__question,
+    .faq-item__answer,
+    .team-card h3,
+    .team-card p,
+    .contact-cta-card__title,
+    .contact-cta-card__desc,
+    .callback-form__title,
+    .callback-form__subtitle,
+    .callback-form__label,
+    .info-card h3,
+    .info-card p,
+    .step-card h3,
+    .step-card p,
+    .guarantee-item h3,
+    .guarantee-item p,
+    .proof-item h3,
+    .proof-item p,
+    .usp-content h3,
+    .usp-content p,
+    .withdrawal-alert__card h3,
+    .withdrawal-alert__card li,
+    .risk-card h3,
+    .risk-card p,
+    .method-card h3,
+    .method-card p,
+    .composition-card h3,
+    .composition-card p,
+    li,
+    label,
+    .text,
+    .description,
+    .title,
+    .subtitle {
+        color: #111 !important;
+    }
+
+    /* ========================================
+     * ALL BUTTON TEXT - WHITE
+     * ======================================== */
+    button,
+    .btn,
+    .cta-btn,
+    .cta-button,
+    .primary-btn,
+    .secondary-btn,
+    .form-submit,
+    .modal-btn,
+    .price-card__btn,
+    .service-card__btn,
+    .hero-buttons button,
+    .hero-buttons .btn,
+    .callback-form button[type="submit"],
+    input[type="submit"],
+    input[type="button"],
+    .pricing-card button,
+    .pricing-card .btn,
+    .lead-form button,
+    .contact-form button,
+    .bottom-cta button,
+    .bottom-cta .btn,
+    .cta-buttons button,
+    .cta-buttons .btn,
+    .wide-card button,
+    .wide-card .btn {
+        color: #fff !important;
+    }
+
+    /* ========================================
+     * EXCEPTION: CALL BUTTON IN HEADER
+     * Black text on turquoise background
+     * ======================================== */
+    .call-btn,
+    .call-btn__text {
+        background: #03d3dd !important;
+        color: #000 !important;
+    }
+
+    /* ========================================
+     * EXCEPTION: SUBMIT BUTTONS WITH TURQUOISE BG
+     * Black text for better contrast
+     * ======================================== */
+    .callback-form button[type="submit"],
+    button.primary[style*="background: #03d3dd"],
+    .cta-button.primary {
+        color: #000 !important;
+    }
+
+    /* ========================================
+     * MUTED/SECONDARY TEXT - GRAY
+     * But still readable
+     * ======================================== */
+    .muted,
+    .secondary-text,
+    .callback-form__subtitle,
+    .callback-form__promise,
+    .price-card-note,
+    .disclaimer,
+    .note {
+        color: #666 !important;
+    }
+
+    /* ========================================
+     * LINK COLORS - KEEP BLACK OR ACCENT
+     * ======================================== */
+    a:not(.btn):not(.cta-button):not(.call-btn) {
+        color: #111;
+    }
+
+    a:not(.btn):not(.cta-button):not(.call-btn):hover {
+        color: #03d3dd;
+    }
+
+    /* ========================================
+     * BADGE TEXT - WHITE ON COLORED BG
+     * ======================================== */
+    .badge,
+    .contact-cta-card__badge,
+    .warning-badge,
+    .hero-badge {
+        color: #fff !important;
+    }
+
+    /* ========================================
+     * SPECIAL CASES - PRESERVE EXISTING COLORS
+     * ======================================== */
+    .license-item p {
+        color: #6A6A6A !important; /* Keep existing gray for license captions */
+    }
+
+    .contact-cta-card__desc {
+        color: #666 !important; /* Keep gray for CTA card descriptions */
+    }
+
+    .usp-content p {
+        color: #666 !important; /* Keep gray for USP descriptions */
+    }
+
+    .usp-content .more {
+        color: #999 !important; /* Keep lighter gray for additional info */
+    }
+}
