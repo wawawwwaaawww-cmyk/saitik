@@ -1975,7 +1975,8 @@ function initHomepageMobile() {
     initHeroCTAAnalytics();
     initTimelineScrollerAnalytics();
     initHomepageStickyButton();
-    initGuaranteesAccordion();
+    // Disabled accordion - show all guarantee items on mobile
+    // initGuaranteesAccordion();
 }
 
 // Initialize on DOM content loaded
