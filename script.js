@@ -692,6 +692,46 @@ function initWarningModal() {
 }
 
 /**
+ * FAQ Accordion for snyatie-lomki.html
+ * Only one item can be open at a time
+ */
+function initFAQ() {
+    const faqHeads = document.querySelectorAll('.faq-head');
+    if (!faqHeads.length) return;
+
+    faqHeads.forEach(head => {
+        head.addEventListener('click', () => {
+            const item = head.closest('.faq-item');
+            const isOpen = item.classList.contains('is-open');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('is-open'));
+            
+            // Open current item if it was closed
+            if (!isOpen) {
+                item.classList.add('is-open');
+                
+                // Track analytics
+                trackAnalyticsEvent('faq_toggle', {
+                    question: head.querySelector('h3').textContent,
+                    action: 'open',
+                    page: window.location.pathname,
+                    timestamp: new Date().toISOString()
+                });
+            } else {
+                // Track close
+                trackAnalyticsEvent('faq_toggle', {
+                    question: head.querySelector('h3').textContent,
+                    action: 'close',
+                    page: window.location.pathname,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        });
+    });
+}
+
+/**
  * Main initialization
  */
 document.addEventListener('DOMContentLoaded', () => {
@@ -710,6 +750,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initTimelineObserver();
     initMobileHeader();
     initFooterAccordion();
+    
+    // FAQ accordion (snyatie-lomki.html)
+    if (window.innerWidth <= 960) {
+        initFAQ();
+    }
     
     console.log('✅ Все скрипты инициализированы');
 });
