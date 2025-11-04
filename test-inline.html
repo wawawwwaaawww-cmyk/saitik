@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Burger Test</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .burger { 
+            width: 40px; 
+            height: 40px; 
+            border: 2px solid #000; 
+            background: #f0f0f0;
+            cursor: pointer;
+            position: relative;
+        }
+        .menu { 
+            display: none; 
+            padding: 20px; 
+            background: #fff; 
+            border: 1px solid #ccc; 
+            margin-top: 10px;
+        }
+        .menu.is-open { display: block; }
+    </style>
+</head>
+<body>
+    <h1>Simple Burger Test</h1>
+    <button class="burger-menu burger" id="test-burger">☰</button>
+    <div class="mobile-nav-overlay"></div>
+    <div class="mobile-nav-sheet menu">
+        <p>Menu is OPEN!</p>
+        <nav class="mobile-nav-links">
+            <a href="#">Link 1</a>
+        </nav>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // Simple inline test
+        setTimeout(() => {
+            const burger = document.querySelector('.burger-menu');
+            console.log('TEST: Burger element:', burger);
+            if (burger) {
+                burger.click();
+                console.log('TEST: Burger clicked programmatically');
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

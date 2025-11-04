@@ -2006,12 +2006,26 @@ window.initHomepageMobile = initHomepageMobile;
  * Initialize mobile navigation bottom sheet
  */
 function initMobileNavigation() {
+    console.log('=== ИНИЦИАЛИЗАЦИЯ МОБИЛЬНОГО МЕНЮ ===');
+    console.log('Ширина экрана:', window.innerWidth);
+    
     const burger = document.querySelector('.burger-menu');
     const overlay = document.querySelector('.mobile-nav-overlay');
     const sheet = document.querySelector('.mobile-nav-sheet');
     const stickyBar = document.querySelector('.sticky-bottom-bar');
     
-    if (!burger || !overlay || !sheet) return;
+    console.log('Элементы найдены:', {
+        burger: !!burger,
+        overlay: !!overlay,
+        sheet: !!sheet
+    });
+    
+    if (!burger || !overlay || !sheet) {
+        console.error('❌ ОШИБКА: Не найдены элементы мобильного меню!');
+        return;
+    }
+    
+    console.log('✅ Все элементы найдены, добавляем обработчики');
     
     let isOpen = false;
     let focusableElements = [];
@@ -2031,12 +2045,14 @@ function initMobileNavigation() {
     
     // Open menu
     function openMenu() {
+        console.log('📂 ОТКРЫВАЕМ МЕНЮ...');
         isOpen = true;
         overlay.classList.add('is-open');
         sheet.classList.add('is-open');
         burger.classList.add('is-active');
         burger.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
+        console.log('✅ Меню ОТКРЫТО');
         
         // Hide sticky bar when menu is open
         if (stickyBar) {
@@ -2060,12 +2076,14 @@ function initMobileNavigation() {
     
     // Close menu
     function closeMenu() {
+        console.log('🔒 ЗАКРЫВАЕМ МЕНЮ...');
         isOpen = false;
         overlay.classList.remove('is-open');
         sheet.classList.remove('is-open');
         burger.classList.remove('is-active');
         burger.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
+        console.log('✅ Меню ЗАКРЫТО');
         
         // Show sticky bar again if it was visible
         if (stickyBar && window.scrollY > 400) {
@@ -2084,6 +2102,7 @@ function initMobileNavigation() {
     
     // Toggle menu
     function toggleMenu() {
+        console.log('🔥 КЛИК ПО БУРГЕРУ! Текущее состояние:', isOpen ? 'ОТКРЫТО' : 'ЗАКРЫТО');
         if (isOpen) {
             closeMenu();
         } else {
@@ -2092,7 +2111,14 @@ function initMobileNavigation() {
     }
     
     // Burger click
-    burger.addEventListener('click', toggleMenu);
+    burger.addEventListener('click', (e) => {
+        console.log('=== Событие клика на бургер зафиксировано ===');
+        e.preventDefault();
+        e.stopPropagation();
+        toggleMenu();
+    });
+    
+    console.log('✅ Обработчик клика добавлен на бургер');
     
     // Overlay click
     overlay.addEventListener('click', closeMenu);
@@ -2214,6 +2240,10 @@ function initMobileHeader() {
 
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('=== DOMContentLoaded - MOBILE HEADER ===');
+    console.log('Window width:', window.innerWidth);
+    console.log('Is mobile:', window.innerWidth <= 960);
+    
     initMobileHeader();
     
     // Remove sticky bottom bar on mobile (insurance fallback)
@@ -2221,6 +2251,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const stickyBars = document.querySelectorAll('.sticky-bottom-bar, .sticky, .sticky-bar, .mobile-sticky, #sticky-cta, .btn-sticky-call');
         stickyBars.forEach(element => element.remove());
     }
+    
+    console.log('=== MOBILE HEADER INITIALIZATION COMPLETE ===');
 });
 
 // Re-initialize on resize (debounced)
@@ -2567,3 +2599,26 @@ window.debugMobileWidth = function() {
 //         debugMobileWidth();
 //     }
 // }, 2000);
+
+// === FINAL BURGER MENU CHECK ===
+console.log('=== SCRIPT.JS ЗАГРУЖЕН ПОЛНОСТЬЮ ===');
+console.log('Финальная проверка элементов:');
+setTimeout(() => {
+    const burger = document.querySelector('.burger-menu');
+    const overlay = document.querySelector('.mobile-nav-overlay');
+    const sheet = document.querySelector('.mobile-nav-sheet');
+    
+    console.log('ФИНАЛЬНАЯ ПРОВЕРКА:');
+    console.log('  burger:', burger);
+    console.log('  overlay:', overlay);
+    console.log('  sheet:', sheet);
+    
+    if (burger) {
+        const styles = window.getComputedStyle(burger);
+        console.log('Burger styles:');
+        console.log('  display:', styles.display);
+        console.log('  pointer-events:', styles.pointerEvents);
+        console.log('  z-index:', styles.zIndex);
+        console.log('  position:', styles.position);
+    }
+}, 1000);
