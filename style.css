@@ -5882,10 +5882,11 @@ main > .danger-signals {
         opacity: 0;
         pointer-events: none;
         transition: transform .2s ease, opacity .2s ease;
-        padding: 52px 16px 16px;
+        padding: 12px 16px 16px !important; /* БАГ 3: убрать лишнее пустое пространство - уменьшен верхний отступ с 52px до 12px */
         z-index: 99;
         max-height: calc(100vh - 56px);
         overflow-y: auto;
+        min-height: auto !important; /* БАГ 3: убрать min-height */
     }
     
     .mobile-nav-sheet.is-open {
@@ -5931,6 +5932,7 @@ main > .danger-signals {
         display: grid;
         gap: 10px;
         margin-bottom: 16px;
+        min-height: auto !important; /* БАГ 3: убрать любые min-height */
     }
     
     .mobile-nav-links a {
@@ -6055,7 +6057,7 @@ main > .danger-signals {
     .hero .cta-button.primary,
     .hero .btn--primary {
         background: var(--accent);
-        color: #000;
+        color: #fff !important; /* БАГ 2: белый текст вместо черного */
         box-shadow: 0 12px 24px rgba(3,211,221,.35);
     }
     
@@ -6182,7 +6184,7 @@ main > .danger-signals {
     
     /* ========================================
        BENEFITS GRID - 2x2 on mobile
-       БАГ 4: Исправление отображения гарантий
+       БАГ 4: Исправление отображения гарантий - ПОЛНАЯ ВИДИМОСТЬ ИКОНОК
        ======================================== */
     .benefits-grid,
     .proof-items,
@@ -6211,12 +6213,12 @@ main > .danger-signals {
     .benefits-grid img,
     .proof-item img,
     .proof-icon {
-        width: 56px !important; /* БАГ 4: увеличен размер и добавлен padding */
-        height: 56px !important;
-        object-fit: contain !important; /* contain вместо cover */
+        width: 60px !important; /* БАГ 4: увеличен с 56px до 60px */
+        height: 60px !important;
+        object-fit: contain !important; /* contain вместо cover - НЕ обрезаем */
         border-radius: var(--radius-12);
         margin-bottom: var(--space-1);
-        padding: 4px; /* внутренний отступ для видимости краев */
+        padding: 6px !important; /* БАГ 4: увеличен внутренний отступ до 6px */
         flex-shrink: 0;
     }
     
@@ -6275,10 +6277,14 @@ main > .danger-signals {
     }
     
     .btn--primary,
-    .cta-button.primary {
-        background: var(--accent);
+    .cta-button.primary,
+    button[type="submit"],
+    form .btn,
+    form .cta-button {
+        background: var(--accent) !important;
         color: #fff !important; /* БАГ 2: белый текст вместо черного */
         box-shadow: 0 12px 24px rgba(3,211,221,.35);
+        border: 0 !important;
     }
     
     .btn--ghost,
@@ -6473,6 +6479,14 @@ main > .danger-signals {
     .full-width-bg .container {
         padding-left: var(--space-3);
         padding-right: var(--space-3);
+    }
+    
+    /* БАГ 4: Гарантии/Proof section - убрать overflow clipping */
+    .proof,
+    .guarantees,
+    .proof-section {
+        padding: var(--space-7) var(--space-3) !important;
+        overflow: visible !important;
     }
     
     /* ========================================
@@ -9397,11 +9411,12 @@ main > .danger-signals {
         opacity: 0;
         pointer-events: none;
         transition: transform .2s ease, opacity .2s ease;
-        padding: 12px 16px 16px;
+        padding: 12px 16px 16px !important; /* БАГ 3: убрать пустое место */
         z-index: 99;
         max-height: calc(100vh - 56px);
         overflow-y: auto;
         border-radius: 0; /* Remove bottom sheet radius */
+        min-height: auto !important; /* БАГ 3: убрать min-height */
     }
     
     .mobile-nav-sheet.is-open {
@@ -9414,6 +9429,7 @@ main > .danger-signals {
         display: grid;
         gap: 10px;
         margin-bottom: 16px;
+        min-height: auto !important; /* БАГ 3: убрать любые min-height */
     }
     
     .mobile-nav-links a {

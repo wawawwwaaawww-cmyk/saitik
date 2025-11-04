@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Test</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
+        .test { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .pass { background: #d4edda; border-color: #c3e6cb; }
+        .fail { background: #f8d7da; border-color: #f5c6cb; }
+        h2 { margin-top: 0; }
+        code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>Mobile Bug Tests (≤960px)</h1>
+    
+    <div class="test">
+        <h2>✅ БАГ 1: "Путь пациента" секция видна</h2>
+        <p>Проверка: <code>.timeline</code>, <code>.steps-section-v2</code>, <code>.patient-journey</code></p>
+        <p>CSS: <code>display: block/flex !important; visibility: visible !important; opacity: 1 !important;</code></p>
+        <p>Статус: <strong>ИСПРАВЛЕНО</strong> в style.css lines 6367-6376 и 8169-8189</p>
+    </div>
+    
+    <div class="test">
+        <h2>✅ БАГ 2: Кнопки голубые с белым текстом</h2>
+        <p>Проверка: <code>.hero .cta-button.primary</code></p>
+        <p>CSS: <code>color: #fff !important;</code> вместо <code>color: #000;</code></p>
+        <p>Статус: <strong>ИСПРАВЛЕНО</strong> в style.css line 6058</p>
+    </div>
+    
+    <div class="test">
+        <h2>✅ БАГ 3: Нет пустого места в меню</h2>
+        <p>Проверка: <code>.mobile-nav-sheet</code></p>
+        <p>CSS: <code>padding: 12px 16px 16px !important;</code> (уменьшен с 52px до 12px)</p>
+        <p>CSS: <code>min-height: auto !important;</code></p>
+        <p>Статус: <strong>ИСПРАВЛЕНО</strong> в style.css lines 5885, 5889, 5935</p>
+    </div>
+    
+    <div class="test">
+        <h2>✅ БАГ 4: Иконки гарантий не обрезаны</h2>
+        <p>Проверка: <code>.proof-item img</code>, <code>.proof-icon</code></p>
+        <p>CSS: <code>width: 60px; height: 60px; padding: 6px; object-fit: contain;</code></p>
+        <p>CSS: <code>.proof { overflow: visible !important; }</code></p>
+        <p>Статус: <strong>ИСПРАВЛЕНО</strong> в style.css lines 6216-6222, 6481-6486</p>
+    </div>
+    
+    <div class="test">
+        <h2>✅ БАГ 5: vyvod-iz-zapoya нормальный</h2>
+        <p>Проверка: Все сетки в 1 колонку</p>
+        <p>CSS: <code>.danger-signals__grid, .grid-2, .grid-3 { grid-template-columns: 1fr !important; }</code></p>
+        <p>Статус: <strong>УЖЕ ИСПРАВЛЕНО</strong> в style-mobile-secondary.css lines 1687-1701</p>
+    </div>
+    
+    <hr style="margin: 40px 0;">
+    
+    <h2>Тестовая консоль JavaScript</h2>
+    <button onclick="runDiagnostics()">Запустить диагностику</button>
+    <pre id="output" style="background: #f5f5f5; padding: 15px; border-radius: 8px; overflow-x: auto;"></pre>
+    
+    <script>
+        function runDiagnostics() {
+            const output = document.getElementById('output');
+            let log = '';
+            
+            // Test 1: Patient journey
+            const journey = document.querySelector('#patient-journey, .patient-journey, .timeline, .steps-section-v2');
+            log += '=== БАГ 1: Путь пациента ===\n';
+            log += 'Найден элемент: ' + (!!journey) + '\n';
+            if (journey) {
+                const computed = window.getComputedStyle(journey);
+                log += '  display: ' + computed.display + '\n';
+                log += '  visibility: ' + computed.visibility + '\n';
+                log += '  opacity: ' + computed.opacity + '\n';
+            }
+            log += '\n';
+            
+            // Test 2: Buttons
+            const btns = document.querySelectorAll('.hero .cta-button.primary, .hero .btn--primary');
+            log += '=== БАГ 2: Кнопки ===\n';
+            log += 'Найдено кнопок: ' + btns.length + '\n';
+            btns.forEach((btn, i) => {
+                const computed = window.getComputedStyle(btn);
+                log += '  Кнопка ' + (i+1) + ':\n';
+                log += '    background: ' + computed.backgroundColor + '\n';
+                log += '    color: ' + computed.color + '\n';
+            });
+            log += '\n';
+            
+            // Test 3: Menu
+            const menuSheet = document.querySelector('.mobile-nav-sheet');
+            log += '=== БАГ 3: Меню ===\n';
+            if (menuSheet) {
+                const computed = window.getComputedStyle(menuSheet);
+                log += '  padding: ' + computed.padding + '\n';
+                log += '  min-height: ' + computed.minHeight + '\n';
+            } else {
+                log += '  Элемент не найден\n';
+            }
+            log += '\n';
+            
+            // Test 4: Guarantees
+            const guarantees = document.querySelectorAll('.proof-item, .guarantee-item');
+            log += '=== БАГ 4: Гарантии ===\n';
+            log += 'Найдено карточек: ' + guarantees.length + '\n';
+            guarantees.forEach((item, i) => {
+                const img = item.querySelector('img, .proof-icon');
+                if (img && i < 3) {
+                    const computed = window.getComputedStyle(img);
+                    log += '  Иконка ' + (i+1) + ':\n';
+                    log += '    width: ' + computed.width + '\n';
+                    log += '    height: ' + computed.height + '\n';
+                    log += '    object-fit: ' + computed.objectFit + '\n';
+                    log += '    padding: ' + computed.padding + '\n';
+                }
+            });
+            
+            output.textContent = log;
+        }
+    </script>
+</body>
+</html>
