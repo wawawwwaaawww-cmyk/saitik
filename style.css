@@ -5855,6 +5855,7 @@ main > .danger-signals {
     
     /* Mobile menu overlay */
     .mobile-nav-overlay {
+        display: block !important; /* Override global display: none */
         position: fixed;
         inset: 0;
         background: rgba(0,0,0,.32);
@@ -5870,6 +5871,7 @@ main > .danger-signals {
     }
     
     .mobile-nav-sheet {
+        display: block !important; /* Override global display: none */
         position: fixed;
         left: 0;
         right: 0;
@@ -8437,6 +8439,7 @@ main > .danger-signals {
     
     /* Mobile Navigation Bottom Sheet */
     .mobile-nav-overlay {
+        display: block !important; /* Override global display: none */
         position: fixed;
         inset: 0;
         background: rgba(0, 0, 0, 0.5);
@@ -8452,6 +8455,7 @@ main > .danger-signals {
     }
     
     .mobile-nav-sheet {
+        display: block !important; /* Override global display: none */
         position: fixed;
         bottom: 0;
         left: 0;
@@ -9303,6 +9307,7 @@ main > .danger-signals {
     
     /* Mobile Navigation Overlay - Top Dropdown (not bottom sheet) */
     .mobile-nav-overlay {
+        display: block !important; /* Override global display: none */
         position: fixed;
         inset: 0;
         background: rgba(0,0,0,.32);
@@ -9318,6 +9323,7 @@ main > .danger-signals {
     }
     
     .mobile-nav-sheet {
+        display: block !important; /* Override global display: none */
         position: fixed;
         left: 0;
         right: 0;

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST: Mobile Menu Debug</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-mobile-secondary.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <img src="assets/logo.png" alt="Логотип">
+                <div class="logo-text">
+                    <span class="logo-title">Свой Нарколог</span>
+                    <a href="tel:+78000000000" class="logo-phone">8 (800) 000-00-00</a>
+                </div>
+            </div>
+            
+            <a href="tel:+78000000000" class="call-btn" aria-label="Позвонить в клинику">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                    <path d="M6.6 10.8c1.6 3.1 3.5 5 6.6 6.6l2.2-2.2a1.5 1.5 0 0 1 1.6-.36c1.7.6 3.6 1 3.6 1.6 0 2.2-1.8 3.6-4 3.6-8.1 0-14.6-6.5-14.6-14.6 0-2.2 1.4-4 3.6-4 0 0 1 .9 1.6 3.6.12.6-.08 1.2-.5 1.6l-2.1 2.2Z"/>
+                </svg>
+                <span class="call-btn__text">Позвонить</span>
+            </a>
+            
+            <button class="burger-menu" aria-label="Открыть меню" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav-overlay"></div>
+    <div class="mobile-nav-sheet">
+        <nav class="mobile-nav-links">
+            <a href="index.html">Главная</a>
+            <a href="about.html">О клинике</a>
+            <a href="contacts.html">Контакты</a>
+        </nav>
+        <div class="mobile-nav-ctas">
+            <a href="tel:+78000000000" class="mobile-nav-cta mobile-nav-cta--call">
+                <span>Позвонить</span>
+            </a>
+        </div>
+    </div>
+
+    <main style="padding: 100px 20px;">
+        <h1>Test Page</h1>
+        <p>Click burger menu to test</p>
+        
+        <div style="margin-top: 40px; padding: 20px; background: #f0f0f0; border-radius: 8px;">
+            <h2>Debug Info:</h2>
+            <div id="debug"></div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        // Additional debug
+        document.addEventListener('DOMContentLoaded', () => {
+            const debug = document.getElementById('debug');
+            const burger = document.querySelector('.burger-menu');
+            const overlay = document.querySelector('.mobile-nav-overlay');
+            const sheet = document.querySelector('.mobile-nav-sheet');
+            
+            function updateDebug() {
+                debug.innerHTML = `
+                    <p><strong>Burger found:</strong> ${burger ? '✅ YES' : '❌ NO'}</p>
+                    <p><strong>Overlay found:</strong> ${overlay ? '✅ YES' : '❌ NO'}</p>
+                    <p><strong>Sheet found:</strong> ${sheet ? '✅ YES' : '❌ NO'}</p>
+                    <p><strong>Window width:</strong> ${window.innerWidth}px</p>
+                    <p><strong>Burger aria-expanded:</strong> ${burger?.getAttribute('aria-expanded')}</p>
+                    <p><strong>Overlay has .is-open:</strong> ${overlay?.classList.contains('is-open') ? '✅ YES' : '❌ NO'}</p>
+                    <p><strong>Sheet has .is-open:</strong> ${sheet?.classList.contains('is-open') ? '✅ YES' : '❌ NO'}</p>
+                    <p><strong>Overlay opacity:</strong> ${overlay ? window.getComputedStyle(overlay).opacity : 'N/A'}</p>
+                    <p><strong>Sheet transform:</strong> ${sheet ? window.getComputedStyle(sheet).transform : 'N/A'}</p>
+                `;
+            }
+            
+            updateDebug();
+            
+            if (burger) {
+                burger.addEventListener('click', () => {
+                    setTimeout(updateDebug, 100);
+                });
+            }
+            
+            if (overlay) {
+                overlay.addEventListener('click', () => {
+                    setTimeout(updateDebug, 100);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
