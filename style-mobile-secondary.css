@@ -1716,3 +1716,850 @@
         padding-right: max(16px, env(safe-area-inset-right));
     }
 }
+
+/* ===================================================================
+ * SNYATIE-LOMKI.HTML MOBILE ADAPTATION
+ * Added for ticket: Мобильная адаптация snyatie-lomki.html
+ * ================================================================ */
+
+@media (max-width: 960px) {
+    /* ========================================
+     * 1. HERO SECTION - SNYATIE LOMKI
+     * ======================================== */
+    .hero-snyatie-lomki {
+        position: relative;
+        padding: 24px 0;
+        text-align: center;
+        min-height: auto;
+    }
+
+    .hero-snyatie-lomki .hero__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 60%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .hero-snyatie-lomki .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-snyatie-lomki .hero-title {
+        font-size: clamp(22px, 6.4vw, 28px);
+        line-height: 1.2;
+        margin: 0 0 12px;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .hero-snyatie-lomki .hero-subtitle {
+        font-size: clamp(14px, 3.6vw, 16px);
+        line-height: 1.45;
+        margin: 0 0 16px;
+        text-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+
+    .hero-snyatie-lomki .hero-buttons {
+        display: grid;
+        gap: 12px;
+        margin-top: 16px;
+        max-width: 420px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-snyatie-lomki .hero-buttons .cta-button {
+        width: 100%;
+        height: 52px;
+        min-height: 52px;
+    }
+
+    .hero-snyatie-lomki .hero-sub-features {
+        margin-top: 12px;
+        font-size: 13px;
+        opacity: 0.9;
+    }
+
+    /* Hide service features grid on mobile */
+    .hero-snyatie-lomki .service-features {
+        display: none;
+    }
+
+    /* ========================================
+     * 2. RISK SECTION (2 cards stacked)
+     * ======================================== */
+    .risk-section {
+        padding: 32px 0;
+    }
+
+    .risk-section .risk-wrap {
+        display: grid;
+        gap: 16px;
+    }
+
+    .risk-section .risk-left,
+    .risk-section .risk-cta {
+        background: #fff;
+        border-radius: 16px;
+        padding: 20px 16px;
+        box-shadow: 0 6px 24px rgba(0,0,0,.08);
+    }
+
+    .risk-section .risk-left h2 {
+        font-size: clamp(18px, 5.6vw, 24px);
+        margin: 0 0 8px;
+    }
+
+    .risk-section .risk-lead {
+        font-size: clamp(14px, 3.6vw, 16px);
+        margin: 0 0 16px;
+        color: #666;
+    }
+
+    .risk-section .risk-grid {
+        display: grid;
+        gap: 12px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .risk-section .risk-item {
+        display: grid;
+        grid-template-columns: 32px 1fr;
+        gap: 12px;
+        align-items: start;
+        padding: 12px;
+        background: #f9fafb;
+        border-radius: 12px;
+    }
+
+    .risk-section .risk-icon {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #03d3dd;
+        flex-shrink: 0;
+    }
+
+    .risk-section .risk-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .risk-section .risk-text {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .risk-section .risk-text strong {
+        font-weight: 700;
+        font-size: clamp(14px, 3.8vw, 16px);
+        color: #111;
+    }
+
+    .risk-section .risk-text span {
+        font-size: clamp(13px, 3.4vw, 14px);
+        color: #666;
+    }
+
+    /* Right CTA card */
+    .risk-section .risk-cta h3 {
+        font-size: clamp(16px, 4.8vw, 18px);
+        margin: 0 0 8px;
+    }
+
+    .risk-section .risk-cta p {
+        font-size: clamp(14px, 3.6vw, 16px);
+        margin: 0 0 16px;
+        color: #3a3a3a;
+    }
+
+    .risk-section .risk-cta .btn-primary {
+        width: 100%;
+        height: 52px;
+        min-height: 52px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+    }
+
+    /* ========================================
+     * 3. DANGER ALERT SECTION
+     * ======================================== */
+    .danger {
+        background: #fff3cd;
+        padding: 20px 16px;
+        text-align: center;
+    }
+
+    .danger p {
+        margin: 8px 0;
+        font-size: clamp(14px, 3.6vw, 16px);
+        color: #856404;
+    }
+
+    /* ========================================
+     * 4. STEPS TIMELINE SECTION
+     * ======================================== */
+    .steps-section-v2 {
+        position: relative;
+        padding: 40px 0;
+    }
+
+    .steps-section-v2 .steps-section-v2__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 50%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .steps-section-v2 .steps-timeline-container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .steps-section-v2 .section-title {
+        text-align: center;
+        margin: 0 0 24px;
+        font-size: clamp(18px, 5.6vw, 24px);
+    }
+
+    .steps-section-v2 .timeline {
+        display: grid;
+        gap: 16px;
+    }
+
+    .steps-section-v2 .timeline-step {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 6px 24px rgba(0,0,0,.08);
+        padding: 16px;
+        position: relative;
+    }
+
+    .steps-section-v2 .timeline-step__number {
+        position: absolute;
+        left: 16px;
+        top: 16px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #03d3dd;
+        color: #000;
+        font-weight: 800;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .steps-section-v2 .timeline-step__card {
+        padding-left: 44px;
+    }
+
+    .steps-section-v2 .timeline-step__title {
+        font-size: clamp(15px, 4.2vw, 17px);
+        font-weight: 700;
+        margin: 0 0 8px;
+        color: #111;
+    }
+
+    .steps-section-v2 .timeline-step__title .subtitle {
+        font-weight: 400;
+        color: #666;
+        display: block;
+        margin-top: 4px;
+    }
+
+    .steps-section-v2 .step-accordion__content {
+        font-size: clamp(14px, 3.6vw, 16px);
+        line-height: 1.5;
+        color: #3a3a3a;
+        margin: 8px 0;
+    }
+
+    .steps-section-v2 .step-accordion__toggle {
+        background: transparent;
+        border: 1px solid #03d3dd;
+        color: #03d3dd;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 8px;
+    }
+
+    .steps-section-v2 .steps-cta-banner {
+        margin-top: 24px;
+        text-align: center;
+    }
+
+    .steps-section-v2 .steps-cta-banner .cta-button {
+        width: 100%;
+        max-width: 420px;
+        height: 52px;
+    }
+
+    /* ========================================
+     * 5. USP SECTION (Безопасно, Анонимно, etc)
+     * ======================================== */
+    .usp {
+        padding: 32px 0;
+    }
+
+    .usp h2 {
+        text-align: center;
+        margin: 0 0 8px;
+        font-size: clamp(18px, 5.6vw, 24px);
+    }
+
+    .usp .lead {
+        text-align: center;
+        margin: 0 0 24px;
+        font-size: clamp(14px, 3.6vw, 16px);
+        color: #666;
+    }
+
+    .usp-grid {
+        display: grid;
+        gap: 16px;
+        list-style: none;
+        padding: 0;
+        margin: 0 0 24px;
+    }
+
+    .usp-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 6px 24px rgba(0,0,0,.08);
+        padding: 16px;
+        display: grid;
+        grid-template-columns: 48px 1fr;
+        gap: 12px;
+        align-items: start;
+    }
+
+    .usp-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #03d3dd;
+        flex-shrink: 0;
+    }
+
+    .usp-icon svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    .usp-content h3 {
+        font-size: clamp(16px, 4.8vw, 18px);
+        margin: 0 0 6px;
+        font-weight: 700;
+    }
+
+    .usp-content p {
+        font-size: clamp(14px, 3.6vw, 16px);
+        margin: 0 0 8px;
+        color: #3a3a3a;
+    }
+
+    .usp-content .more {
+        font-size: clamp(13px, 3.4vw, 14px);
+        color: #666;
+        line-height: 1.4;
+    }
+
+    .usp-cta {
+        display: grid;
+        gap: 12px;
+        max-width: 420px;
+        margin: 0 auto;
+    }
+
+    .usp-cta .btn-primary,
+    .usp-cta .btn-ghost {
+        width: 100%;
+        height: 52px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        border-radius: 999px;
+        font-weight: 700;
+    }
+
+    .usp-cta .btn-primary {
+        background: #03d3dd;
+        color: #000;
+        border: none;
+    }
+
+    .usp-cta .btn-ghost {
+        background: #fff;
+        color: #111;
+        border: 2px solid #03d3dd;
+    }
+
+    /* ========================================
+     * 6. PROOF/GUARANTEES SECTION
+     * ======================================== */
+    .proof {
+        padding: 32px 0;
+    }
+
+    .proof .section-title {
+        text-align: center;
+        margin: 0 0 8px;
+        font-size: clamp(18px, 5.6vw, 24px);
+    }
+
+    .proof .section-subtitle {
+        text-align: center;
+        margin: 0 0 24px;
+        font-size: clamp(14px, 3.6vw, 16px);
+        color: #666;
+    }
+
+    .proof-items {
+        display: grid;
+        gap: 16px;
+        margin: 0 0 24px;
+    }
+
+    .proof-item {
+        display: grid !important;
+        grid-template-columns: 48px 1fr;
+        gap: 12px;
+        align-items: start;
+        background: #fff;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 6px 24px rgba(0,0,0,.08);
+        font-size: inherit !important;
+    }
+
+    .proof-item .proof-icon {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        flex-shrink: 0;
+    }
+
+    .proof-item__content {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .proof-item__content h3 {
+        margin: 0;
+        font-weight: 700;
+        font-size: clamp(16px, 4.8vw, 18px);
+        color: #111;
+    }
+
+    .proof-item__content p {
+        margin: 0;
+        font-size: clamp(14px, 3.6vw, 16px);
+        color: #3a3a3a;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        line-height: 1.45;
+    }
+
+    .proof-cta {
+        text-align: center;
+        padding-top: 8px;
+    }
+
+    .proof-cta p {
+        margin: 0 0 12px;
+        font-size: clamp(14px, 3.6vw, 16px);
+    }
+
+    .proof-cta .cta-button {
+        width: 100%;
+        max-width: 420px;
+        height: 52px;
+    }
+
+    /* ========================================
+     * 7. WITHDRAWAL ALERT SECTION (Symptoms)
+     * ======================================== */
+    .withdrawal-alert {
+        padding: 32px 0;
+        background: #f9fafb;
+    }
+
+    .withdrawal-alert .section-title {
+        text-align: center;
+        margin: 0 0 8px;
+        font-size: clamp(18px, 5.6vw, 24px);
+    }
+
+    .withdrawal-alert .section-subtitle {
+        text-align: center;
+        margin: 0 0 24px;
+        font-size: clamp(14px, 3.6vw, 16px);
+        color: #666;
+    }
+
+    .withdrawal-alert__grid {
+        display: grid;
+        gap: 16px;
+    }
+
+    .withdrawal-alert__card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 6px 24px rgba(0,0,0,.08);
+    }
+
+    .withdrawal-alert__card h3 {
+        font-size: clamp(16px, 4.8vw, 18px);
+        margin: 0 0 12px;
+        font-weight: 700;
+    }
+
+    .withdrawal-alert__card h4 {
+        font-size: clamp(15px, 4.2vw, 17px);
+        margin: 16px 0 8px;
+        font-weight: 700;
+    }
+
+    .withdrawal-alert__card p {
+        font-size: clamp(14px, 3.6vw, 16px);
+        line-height: 1.5;
+        margin: 0 0 12px;
+        color: #3a3a3a;
+    }
+
+    .symptoms-list,
+    .doctor-actions-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 8px;
+    }
+
+    .symptoms-list li,
+    .doctor-actions-list li {
+        display: grid;
+        grid-template-columns: 20px 1fr;
+        gap: 8px;
+        font-size: clamp(14px, 3.6vw, 16px);
+        line-height: 1.45;
+        color: #3a3a3a;
+    }
+
+    .symptoms-list li::before {
+        content: "⚠️";
+        font-size: 16px;
+    }
+
+    .doctor-actions-list li::before {
+        content: "✓";
+        font-size: 16px;
+        color: #03d3dd;
+        font-weight: 700;
+    }
+
+    .withdrawal-alert__card.wide-card .cta-buttons {
+        display: grid;
+        gap: 12px;
+        margin: 16px 0;
+    }
+
+    .withdrawal-alert__card .cta-button {
+        width: 100%;
+        height: 52px;
+    }
+
+    .withdrawal-alert__card .disclaimer {
+        display: block;
+        font-size: 12px;
+        color: #666;
+        margin-top: 12px;
+        line-height: 1.4;
+    }
+
+    /* ========================================
+     * 8. PRICING SECTION (Horizontal Swiper)
+     * ======================================== */
+    .services {
+        padding: 32px 0;
+        overflow: hidden;
+    }
+
+    .services .section-title {
+        text-align: center;
+        margin: 0 0 24px;
+        font-size: clamp(18px, 5.6vw, 24px);
+        display: block !important;
+    }
+
+    /* Convert to horizontal swiper */
+    .services {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        margin: 0 -16px;
+        padding: 0 16px 12px;
+    }
+
+    .services::-webkit-scrollbar {
+        display: none;
+    }
+
+    .service-card {
+        min-width: 86vw;
+        scroll-snap-align: center;
+        flex-shrink: 0;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 6px 24px rgba(0,0,0,.08);
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .service-card__icon {
+        width: 100%;
+        height: 160px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .service-card__icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .service-card__title {
+        font-size: clamp(18px, 5.2vw, 20px);
+        font-weight: 700;
+        margin: 0 0 8px;
+        color: #111;
+    }
+
+    .service-card__subtitle,
+    .service-card__lead {
+        font-size: clamp(14px, 3.6vw, 16px);
+        margin: 0 0 12px;
+        color: #666;
+    }
+
+    .service-card__benefits-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 16px;
+        display: grid;
+        gap: 6px;
+    }
+
+    .service-card__benefits-list li {
+        display: grid;
+        grid-template-columns: 16px 1fr;
+        gap: 8px;
+        font-size: clamp(13px, 3.4vw, 14px);
+        line-height: 1.4;
+        color: #3a3a3a;
+    }
+
+    .service-card__benefits-list li::before {
+        content: "•";
+        color: #03d3dd;
+        font-weight: 700;
+    }
+
+    .service-card__price {
+        font-size: clamp(22px, 6vw, 26px);
+        font-weight: 800;
+        margin: 0 0 8px;
+        color: #03d3dd;
+    }
+
+    .service-card__accent-line {
+        font-size: 13px;
+        margin: 0 0 12px;
+        color: #666;
+        text-align: center;
+    }
+
+    .service-card__cta {
+        width: 100%;
+        height: 52px;
+        margin-bottom: 8px;
+    }
+
+    .price-card-note {
+        font-size: 12px;
+        color: #999;
+        margin: 0;
+        text-align: center;
+    }
+
+    /* ========================================
+     * 9. FAQ SECTION (Accordion)
+     * ======================================== */
+    .faq-section {
+        padding: 32px 0;
+    }
+
+    .faq-section .section-title {
+        text-align: center;
+        margin: 0 0 24px;
+        font-size: clamp(18px, 5.6vw, 24px);
+    }
+
+    .faq {
+        display: grid;
+        gap: 10px;
+    }
+
+    .faq-item {
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 4px 14px rgba(0,0,0,.06);
+        overflow: hidden;
+    }
+
+    .faq-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 16px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .faq-head h3 {
+        margin: 0;
+        font-size: clamp(14px, 4vw, 16px);
+        font-weight: 700;
+        color: #111;
+        flex: 1;
+        padding-right: 12px;
+    }
+
+    .faq-icon {
+        flex-shrink: 0;
+        font-size: 12px;
+        color: #03d3dd;
+        transition: transform .2s ease;
+        display: inline-block;
+    }
+
+    .faq-item.is-open .faq-icon {
+        transform: rotate(180deg);
+    }
+
+    .faq-body {
+        padding: 0 16px 14px;
+        display: none;
+    }
+
+    .faq-item.is-open .faq-body {
+        display: block;
+        animation: fadeIn 0.2s ease;
+    }
+
+    .faq-body p {
+        margin: 0;
+        font-size: clamp(14px, 3.6vw, 16px);
+        line-height: 1.5;
+        color: #3a3a3a;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-4px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* ========================================
+     * 10. LEAD FORM
+     * ======================================== */
+    .lead-form {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 6px 24px rgba(0,0,0,.08);
+        padding: 20px 16px;
+        margin: 24px 0;
+    }
+
+    .lead-form h3 {
+        text-align: center;
+        margin: 0 0 16px;
+        font-size: clamp(16px, 4.8vw, 18px);
+    }
+
+    .lead-form .fields {
+        display: grid;
+        gap: 10px;
+    }
+
+    .lead-form input[type="tel"],
+    .lead-form input[type="text"],
+    .lead-form input[type="email"] {
+        width: 100%;
+        height: 56px;
+        border-radius: 12px;
+        padding: 0 14px;
+        border: 1px solid #ddd;
+        font-size: 16px;
+    }
+
+    .lead-form .btn {
+        width: 100%;
+        height: 52px;
+        margin-top: 2px;
+    }
+
+    .lead-form__note {
+        font-size: 12px;
+        color: #666;
+        text-align: center;
+        margin-top: 8px;
+        line-height: 1.4;
+    }
+
+    /* ========================================
+     * 11. BOTTOM CTA
+     * ======================================== */
+    .bottom-cta {
+        text-align: center;
+        padding: 24px 0;
+    }
+
+    .bottom-cta .btn,
+    .bottom-cta .cta-button {
+        width: 100%;
+        max-width: 420px;
+        height: 52px;
+    }
+}
