@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Burger Menu</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Force mobile view */
+        body {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <img src="assets/logo.png" alt="Логотип">
+                <div class="logo-text">
+                    <span class="logo-title">Свой Нарколог</span>
+                    <a href="tel:+78000000000" class="logo-phone">8 (800) 000-00-00</a>
+                </div>
+            </div>
+            
+            <a href="tel:+78000000000" class="call-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6.6 10.8c1.6 3.1 3.5 5 6.6 6.6l2.2-2.2a1.5 1.5 0 0 1 1.6-.36c1.7.6 3.6 1 3.6 1.6 0 2.2-1.8 3.6-4 3.6-8.1 0-14.6-6.5-14.6-14.6 0-2.2 1.4-4 3.6-4 0 0 1 .9 1.6 3.6.12.6-.08 1.2-.5 1.6l-2.1 2.2Z"/>
+                </svg>
+                <span class="call-btn__text">Позвонить</span>
+            </a>
+            
+            <button class="burger-menu" aria-label="Открыть меню" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="mobile-nav-overlay"></div>
+    <div class="mobile-nav-sheet">
+        <nav class="mobile-nav-links">
+            <a href="index.html">Главная</a>
+            <a href="about.html">О клинике</a>
+            <a href="contacts.html">Контакты</a>
+        </nav>
+        <div class="mobile-nav-ctas">
+            <a href="tel:+78000000000" class="mobile-nav-cta mobile-nav-cta--call">
+                <span>Позвонить</span>
+            </a>
+        </div>
+    </div>
+
+    <main>
+        <div style="padding: 20px; margin-top: 80px;">
+            <h1>Test Burger Menu</h1>
+            <p>Click the burger menu button in the header to test functionality.</p>
+            <p>Check the browser console for debug logs.</p>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        console.log('=== TEST PAGE LOADED ===');
+        console.log('Window width:', window.innerWidth);
+        
+        // Manual test button
+        setTimeout(() => {
+            console.log('\n=== MANUAL TEST ===');
+            const burger = document.querySelector('.burger-menu');
+            if (burger) {
+                console.log('✅ Burger found:', burger);
+                console.log('Click the burger or run: document.querySelector(".burger-menu").click()');
+            } else {
+                console.error('❌ Burger not found!');
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
