@@ -1684,7 +1684,87 @@
     }
 
     /* ========================================
-     * 11. PERFORMANCE ENHANCEMENTS
+     * 11. ALL MULTI-COLUMN GRIDS → SINGLE COLUMN
+     * ======================================== */
+    .danger-signals__grid,
+    .threat-v2__cards-grid,
+    .threat-v2__main-grid,
+    .composition-v2__grid,
+    .real-results-v2__grid,
+    .services,
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px;
+    }
+
+    /* Card-based content within grids */
+    .danger-signals__info-column,
+    .threat-v2__content,
+    .composition-v2-card,
+    .real-results-v2__text-card,
+    .service-card {
+        width: 100%;
+        margin: 0;
+    }
+
+    /* Aside/CTA columns stack below on mobile */
+    .threat-v2__cta-aside {
+        order: 2;
+        margin-top: 16px;
+    }
+
+    /* Danger signals specific layout */
+    .danger-signals__symptoms-card,
+    .danger-signals__info-column {
+        display: grid;
+        gap: 12px;
+    }
+
+    .info-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    }
+
+    .info-card__accent-line {
+        width: 4px;
+        height: 100%;
+        background: #03d3dd;
+        border-radius: 2px;
+        margin-right: 12px;
+    }
+
+    /* Composition cards horizontal swiper on mobile */
+    .composition-v2__grid {
+        display: flex !important;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 12px;
+        padding: 0 16px 8px;
+        margin: 0 -16px;
+        scrollbar-width: none;
+    }
+
+    .composition-v2__grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .composition-v2-card {
+        min-width: 240px;
+        scroll-snap-align: center;
+        flex-shrink: 0;
+        background: #fff;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    }
+
+    /* ========================================
+     * 12. PERFORMANCE ENHANCEMENTS
      * ======================================== */
     img {
         loading: lazy;
@@ -1692,7 +1772,7 @@
     }
 
     /* ========================================
-     * 12. MOBILE-SPECIFIC UTILITIES
+     * 13. MOBILE-SPECIFIC UTILITIES
      * ======================================== */
     .mobile-only {
         display: block;
@@ -1714,6 +1794,17 @@
         margin-right: calc(-1 * max(16px, env(safe-area-inset-right)));
         padding-left: max(16px, env(safe-area-inset-left));
         padding-right: max(16px, env(safe-area-inset-right));
+    }
+
+    /* ========================================
+     * 14. SCROLL MANAGEMENT
+     * ======================================== */
+    html {
+        scroll-padding-top: 80px;
+    }
+
+    section[id] {
+        scroll-margin-top: 80px;
     }
 }
 
@@ -2549,7 +2640,186 @@
     }
 
     /* ========================================
-     * 11. BOTTOM CTA
+     * 11. ALL MULTI-COLUMN GRIDS → SINGLE COLUMN
+     * ======================================== */
+    .risk-wrap,
+    .usp-grid,
+    .proof-items,
+    .withdrawal-alert__grid,
+    .services,
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px;
+    }
+
+    /* Risk section two-column layout on mobile */
+    .risk-left,
+    .risk-cta {
+        width: 100%;
+    }
+
+    .risk-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .risk-item {
+        display: grid;
+        grid-template-columns: 32px 1fr;
+        gap: 12px;
+        align-items: start;
+        background: #fff;
+        border-radius: 12px;
+        padding: 12px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    }
+
+    .risk-icon {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1fbfc;
+        border-radius: 50%;
+    }
+
+    .risk-icon svg {
+        width: 24px;
+        height: 24px;
+        color: #03d3dd;
+    }
+
+    /* USP cards with icon + text */
+    .usp-card {
+        display: grid;
+        grid-template-columns: 48px 1fr;
+        gap: 12px;
+        align-items: start;
+        background: #fff;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    }
+
+    .usp-icon {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1fbfc;
+        border-radius: 50%;
+    }
+
+    .usp-icon svg {
+        width: 32px;
+        height: 32px;
+        color: #03d3dd;
+    }
+
+    .usp-content h3 {
+        margin: 0 0 6px;
+        font-size: clamp(16px, 4.8vw, 18px);
+        font-weight: 800;
+    }
+
+    .usp-content p {
+        margin: 0 0 8px;
+        font-size: clamp(14px, 3.6vw, 16px);
+        color: #666;
+    }
+
+    .usp-content .more {
+        font-size: clamp(13px, 3.4vw, 14px);
+        color: #999;
+        line-height: 1.4;
+    }
+
+    /* Withdrawal alert cards */
+    .withdrawal-alert__card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    }
+
+    .withdrawal-alert__card h3 {
+        font-size: clamp(16px, 4.8vw, 18px);
+        margin: 0 0 12px;
+        font-weight: 800;
+    }
+
+    .withdrawal-alert__card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 8px;
+    }
+
+    .withdrawal-alert__card li {
+        position: relative;
+        padding-left: 24px;
+        font-size: clamp(14px, 3.6vw, 16px);
+        line-height: 1.4;
+    }
+
+    .withdrawal-alert__card li::before {
+        content: "⚠️";
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .doctor-actions-list {
+        list-style: none;
+        padding: 0;
+        margin: 12px 0;
+        display: grid;
+        gap: 8px;
+    }
+
+    .doctor-actions-list li {
+        position: relative;
+        padding-left: 24px;
+        font-size: clamp(14px, 3.6vw, 16px);
+        line-height: 1.4;
+    }
+
+    .doctor-actions-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #03d3dd;
+        font-weight: 800;
+    }
+
+    /* Wide card spans full width */
+    .wide-card {
+        grid-column: 1 / -1;
+    }
+
+    /* CTA buttons in cards */
+    .cta-buttons {
+        display: grid;
+        gap: 10px;
+        margin-top: 16px;
+    }
+
+    .cta-buttons .cta-button {
+        width: 100%;
+    }
+
+    /* ========================================
+     * 12. BOTTOM CTA
      * ======================================== */
     .bottom-cta {
         text-align: center;
@@ -2561,5 +2831,16 @@
         width: 100%;
         max-width: 420px;
         height: 52px;
+    }
+
+    /* ========================================
+     * 13. SCROLL MANAGEMENT
+     * ======================================== */
+    html {
+        scroll-padding-top: 80px;
+    }
+
+    section[id] {
+        scroll-margin-top: 80px;
     }
 }
