@@ -384,12 +384,14 @@ function initMobileNavigation() {
     const burger = document.querySelector('.burger-menu');
     const overlay = document.querySelector('.mobile-nav-overlay');
     const sheet = document.querySelector('.mobile-nav-sheet');
+    const closeBtn = document.getElementById('closeMenuBtn');
     const stickyBar = document.querySelector('.sticky-bottom-bar');
     
     console.log('Элементы найдены:', {
         burger: !!burger,
         overlay: !!overlay,
-        sheet: !!sheet
+        sheet: !!sheet,
+        closeBtn: !!closeBtn
     });
     
     if (!burger || !overlay || !sheet) {
@@ -488,6 +490,20 @@ function initMobileNavigation() {
         e.stopPropagation();
         toggleMenu();
     });
+    
+    // Close button (X) click
+    if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+            console.log('❌ КЛИК ПО КРЕСТИКУ');
+            e.preventDefault();
+            e.stopPropagation();
+            if (isOpen) {
+                closeMenu();
+            }
+        });
+    } else {
+        console.warn('⚠️ Кнопка закрытия не найдена');
+    }
     
     // Overlay click (close menu)
     overlay.addEventListener('click', (e) => {
