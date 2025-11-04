@@ -329,7 +329,7 @@ main > section:not(.section):not(.full-width-bg) {
 
 .cta-button.primary {
     background-color: #03d3dd;
-    color: white;
+    color: #fff;
 }
 
 .cta-button.primary:hover {
@@ -476,7 +476,7 @@ main > section:not(.section):not(.full-width-bg) {
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     min-height: 400px; /* Задаем высоту карточки */
     overflow: hidden; /* Скрываем все, что выходит за пределы */
-    color: white; /* Делаем текст белым */
+    color: #fff; /* Делаем текст белым */
 }
 
 .service-card:hover {
@@ -1133,7 +1133,7 @@ main > section:not(.section):not(.full-width-bg) {
         left: 0;
         right: 0;
         background-color: #03d3dd;
-        color: white;
+        color: #fff;
         text-align: center;
         padding: 15px;
         font-size: 1.2em;
@@ -1318,7 +1318,7 @@ main > section:not(.section):not(.full-width-bg) {
 
 .chat-widget__header {
     background-color: #03d3dd;
-    color: white;
+    color: #fff;
     padding: 20px;
     text-align: center;
 }
@@ -1369,7 +1369,7 @@ main > section:not(.section):not(.full-width-bg) {
     .contact-info .phone-number {
         position: static;
         background-color: transparent;
-        color: white;
+        color: #fff;
         padding: 0;
         font-size: 1.5em;
         z-index: auto;
@@ -1562,7 +1562,7 @@ main > section:not(.section):not(.full-width-bg) {
     width: 50px;
     height: 50px;
     background-color: #03d3dd;
-    color: white;
+    color: #fff;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1617,11 +1617,11 @@ main > section:not(.section):not(.full-width-bg) {
 .final-cta-section {
     text-align: center;
     background-color: #2B2B2B;
-    color: white;
+    color: #fff;
 }
 
 .final-cta-section .section-title {
-    color: white;
+    color: #fff;
 }
 
 .phone-number-cta {
@@ -2736,7 +2736,7 @@ body {
 
 .pre-footer-cta__buttons .cta-button.primary {
     background-color: var(--footer-accent-color);
-    color: white;
+    color: #fff;
 }
 
 .pre-footer-cta__buttons .cta-button.secondary {
@@ -6787,14 +6787,14 @@ main > .danger-signals {
 
 .steps-cta-banner .cta-button.primary {
     background-color: #03d3dd;
-    color: white;
+    color: #fff;
     opacity: 1;
     box-shadow: 0 4px 15px rgba(3, 211, 221, 0.4);
 }
 
 .steps-cta-banner .cta-button.primary {
     background-color: #03d3dd;
-    color: white;
+    color: #fff;
     opacity: 1;
     box-shadow: 0 4px 15px rgba(3, 211, 221, 0.4);
 }
@@ -7579,9 +7579,9 @@ main > .danger-signals {
   box-shadow: 0 12px 28px rgba(0,0,0,.15);
 }
 
-.btn--call { background-color: #03d3dd; color: white; }
-.btn--wa { background-color: #25D366; color: white; }
-.btn--tg { background-color: #0088cc; color: white; }
+.btn--call { background-color: #03d3dd; color: #fff; }
+.btn--wa { background-color: #25D366; color: #fff; }
+.btn--tg { background-color: #0088cc; color: #fff; }
 
 .contact-hero .micro {
   margin-top: 24px;
@@ -7674,7 +7674,7 @@ main > .danger-signals {
 
 .cta-bottom .cta-band {
   background-color: #03d3dd;
-  color: white;
+  color: #fff;
   border-radius: 16px;
   padding: 24px;
   display: flex;
@@ -8667,7 +8667,7 @@ main > .danger-signals {
     
     .mobile-nav-cta--call {
         background: #03d3dd;
-        color: white;
+        color: #fff;
     }
     
     .mobile-nav-cta--call:active {
@@ -8677,7 +8677,7 @@ main > .danger-signals {
     
     .mobile-nav-cta--wa {
         background: #25D366;
-        color: white;
+        color: #fff;
     }
     
     .mobile-nav-cta--wa:active {
