@@ -6182,6 +6182,7 @@ main > .danger-signals {
     
     /* ========================================
        BENEFITS GRID - 2x2 on mobile
+       БАГ 4: Исправление отображения гарантий
        ======================================== */
     .benefits-grid,
     .proof-items,
@@ -6189,14 +6190,17 @@ main > .danger-signals {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: var(--space-3);
+        padding: 0; /* убрать лишние отступы */
+        margin: 0;
     }
     
     .benefits-grid .card,
     .proof-item,
     .guarantees-grid .card {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        display: grid; /* grid вместо flex для лучшего контроля */
+        grid-template-columns: 1fr; /* одна колонка */
+        gap: var(--space-2);
+        align-items: start;
         padding: var(--space-3);
         text-align: center;
         background: var(--surface);
@@ -6207,11 +6211,13 @@ main > .danger-signals {
     .benefits-grid img,
     .proof-item img,
     .proof-icon {
-        width: 64px;
-        height: 64px;
-        object-fit: cover;
+        width: 56px !important; /* БАГ 4: увеличен размер и добавлен padding */
+        height: 56px !important;
+        object-fit: contain !important; /* contain вместо cover */
         border-radius: var(--radius-12);
         margin-bottom: var(--space-1);
+        padding: 4px; /* внутренний отступ для видимости краев */
+        flex-shrink: 0;
     }
     
     /* Ensure text is visible in proof/guarantees items */
@@ -6271,7 +6277,7 @@ main > .danger-signals {
     .btn--primary,
     .cta-button.primary {
         background: var(--accent);
-        color: #000;
+        color: #fff !important; /* БАГ 2: белый текст вместо черного */
         box-shadow: 0 12px 24px rgba(3,211,221,.35);
     }
     
@@ -6355,7 +6361,20 @@ main > .danger-signals {
     
     /* ========================================
        STEPS / TIMELINE - Vertical on mobile
+       БАГ 1: Обеспечение видимости секции "Путь пациента"
        ======================================== */
+    /* Убедимся, что все секции timeline/steps/patient-journey видимы */
+    .steps-section-v2,
+    .steps-timeline-section,
+    .patient-journey,
+    .timeline,
+    .recovery-path,
+    .steps {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
     .steps {
         display: grid;
         gap: var(--space-3);
@@ -8034,7 +8053,9 @@ main > .danger-signals {
     }
 
     .proof-icon {
-        max-width: 40px;
+        max-width: 56px; /* БАГ 4: увеличено с 40px */
+        width: 56px !important;
+        height: 56px !important;
     }
 
     .proof-item__content {
@@ -8120,9 +8141,15 @@ main > .danger-signals {
         display: none;
     }
 
-    /* STEPS/TIMELINE SECTION - Horizontal scroller */
-    .steps-timeline-section {
+    /* STEPS/TIMELINE SECTION - Horizontal scroller 
+       БАГ 1: Видимость и правильное отображение "Путь пациента"
+    */
+    .steps-timeline-section,
+    .steps-section-v2 {
         padding: 40px 0;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     .steps-timeline-container {
@@ -8140,7 +8167,9 @@ main > .danger-signals {
     }
 
     .timeline {
-        display: flex;
+        display: flex !important; /* БАГ 1: принудительно flex для horizontal scroll */
+        visibility: visible !important;
+        opacity: 1 !important;
         overflow-x: auto;
         overflow-y: hidden;
         scroll-snap-type: x mandatory;
@@ -9441,5 +9470,336 @@ main > .danger-signals {
     .mobile-nav-cta--wa {
         background: #25d366;
         color: #fff;
+    }
+    
+    /* ============================================
+       БАГ 5: СТРАНИЦА VYVOD-IZ-ZAPOYA - ИСПРАВЛЕНИЕ
+       ============================================ */
+    
+    /* === 1. ХИРО-БЛОК === */
+    .hero-vyvod,
+    .hero-vyvod-iz-zapoya,
+    .hero-service {
+        position: relative;
+        padding: 32px 16px;
+        text-align: center;
+        min-height: auto;
+    }
+    
+    /* Градиент поверх фото */
+    .hero-service::before,
+    .hero__overlay {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,0) 60%);
+        z-index: 1;
+        pointer-events: none;
+    }
+    
+    .hero-service > *,
+    .hero__content > * {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-service h1,
+    .hero-service .hero-title {
+        font-size: clamp(24px, 7vw, 32px);
+        line-height: 1.2;
+        margin: 0 0 12px;
+        color: #fff;
+        text-shadow: 0 2px 8px rgba(0,0,0,.3);
+    }
+    
+    .hero-service p,
+    .hero-service .hero-subtitle {
+        font-size: clamp(16px, 4.2vw, 18px);
+        line-height: 1.4;
+        margin: 0 0 20px;
+        color: #fff;
+        opacity: 0.95;
+        text-shadow: 0 1px 4px rgba(0,0,0,.3);
+    }
+    
+    /* Кнопки хиро */
+    .hero-service .hero-buttons,
+    .hero-service .hero__buttons,
+    .hero-service .buttons {
+        display: grid;
+        gap: 12px;
+        max-width: 420px;
+        margin: 0 auto;
+    }
+    
+    .hero-service .btn,
+    .hero-service .cta-button {
+        width: 100%;
+        height: 52px;
+    }
+    
+    /* Скрыть feature грids на мобиле */
+    .hero-service .service-features {
+        display: none !important;
+    }
+    
+    /* === 2. БЛОКИ ИНФОРМАЦИИ (РИСКИ, СИМПТОМЫ) === */
+    
+    /* ВСЕ многоколоночные сетки → 1 колонка */
+    .danger-signals__grid,
+    .symptoms-grid,
+    .reasons-grid,
+    .threat-v2__cards-grid,
+    .threat-v2__main-grid,
+    .composition-v2__grid,
+    .real-results-v2__grid,
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px;
+    }
+    
+    /* Карточки с иконками */
+    .symptom-card,
+    .reason-card,
+    .info-card,
+    .threat-v2-card {
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        gap: 10px;
+        align-items: start;
+        background: #fff;
+        border-radius: 12px;
+        padding: 14px;
+        box-shadow: 0 4px 14px rgba(0,0,0,.06);
+    }
+    
+    .symptom-card__icon,
+    .reason-card__icon {
+        width: 28px;
+        height: 28px;
+        flex-shrink: 0;
+    }
+    
+    .symptom-card h3,
+    .reason-card h3 {
+        font-size: 16px;
+        margin: 0 0 4px;
+        font-weight: 700;
+    }
+    
+    .symptom-card p,
+    .reason-card p {
+        font-size: 14px;
+        line-height: 1.4;
+        margin: 0;
+        color: #667085;
+    }
+    
+    /* === 3. МЕТОДЫ/ЦЕНЫ - ГОРИЗОНТАЛЬНЫЙ СВАЙПЕР === */
+    .methods-slider,
+    .pricing-cards,
+    .price-cards {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        padding: 0 16px 12px;
+        margin: 0 -16px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    
+    .methods-slider::-webkit-scrollbar,
+    .pricing-cards::-webkit-scrollbar,
+    .price-cards::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .method-card,
+    .price-card {
+        min-width: 86vw;
+        scroll-snap-align: center;
+        flex-shrink: 0;
+        background: #fff;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 6px 24px rgba(0,0,0,.08);
+    }
+    
+    .method-card h3,
+    .price-card h3 {
+        font-size: clamp(18px, 5.2vw, 20px);
+        margin: 0 0 12px;
+        font-weight: 800;
+    }
+    
+    .method-card .price,
+    .price-card .price,
+    .price-card-price {
+        font-size: clamp(24px, 6.4vw, 28px);
+        color: #03d3dd;
+        font-weight: 800;
+        margin: 12px 0;
+    }
+    
+    .method-card ul,
+    .price-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 16px;
+    }
+    
+    .method-card li,
+    .price-card li {
+        padding: 6px 0;
+        font-size: 14px;
+        position: relative;
+        padding-left: 24px;
+    }
+    
+    .method-card li::before,
+    .price-card li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #03d3dd;
+        font-weight: 800;
+    }
+    
+    .method-card .btn,
+    .method-card .cta-button,
+    .price-card .btn,
+    .price-card .cta-button {
+        width: 100%;
+        background: #03d3dd !important;
+        color: #fff !important;
+    }
+    
+    /* === 4. ШАГИ ПРОЦЕДУРЫ - ВЕРТИКАЛЬНЫЙ ТАЙМЛАЙН === */
+    .steps,
+    .procedure-steps {
+        display: grid;
+        gap: 12px;
+        counter-reset: step;
+    }
+    
+    .step-item {
+        position: relative;
+        padding-left: 44px;
+        background: #fff;
+        border-radius: 12px;
+        padding: 16px 16px 16px 56px;
+        box-shadow: 0 4px 14px rgba(0,0,0,.06);
+    }
+    
+    .step-item::before {
+        counter-increment: step;
+        content: counter(step);
+        position: absolute;
+        left: 16px;
+        top: 16px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #03d3dd;
+        color: #fff;
+        font-weight: 800;
+        font-size: 16px;
+        display: grid;
+        place-items: center;
+    }
+    
+    .step-item h3 {
+        font-size: 16px;
+        margin: 0 0 6px;
+        font-weight: 800;
+    }
+    
+    .step-item p {
+        font-size: 14px;
+        line-height: 1.4;
+        margin: 0;
+        color: #667085;
+    }
+    
+    /* === 5. ФОРМЫ === */
+    .callback-form,
+    .lead-form {
+        background: #fff;
+        border-radius: 16px;
+        padding: 20px 16px;
+        box-shadow: 0 6px 24px rgba(0,0,0,.08);
+        margin: 24px 0;
+    }
+    
+    .callback-form input,
+    .callback-form select,
+    .lead-form input {
+        width: 100%;
+        height: 56px;
+        border-radius: 12px;
+        padding: 0 14px;
+        border: 1px solid #e5e5e5;
+        margin-bottom: 12px;
+        font-size: 16px;
+    }
+    
+    .callback-form .btn,
+    .callback-form .cta-button,
+    .lead-form .btn,
+    .lead-form .cta-button {
+        width: 100%;
+        height: 52px;
+        background: #03d3dd !important;
+        color: #fff !important;
+    }
+    
+    .callback-form__note,
+    .lead-form__note {
+        font-size: 12px;
+        color: #666;
+        text-align: center;
+        margin-top: 8px;
+    }
+    
+    /* === 6. УБРАТЬ РАЗРЫВЫ И ВЫРОВНЯТЬ === */
+    
+    /* Секции - одинаковые отступы */
+    section {
+        margin-block: 32px;
+    }
+    
+    /* Контейнеры */
+    .container {
+        max-width: 100%;
+        padding: 0 16px;
+    }
+    
+    /* Заголовки секций */
+    section h2,
+    .section-title {
+        font-size: clamp(20px, 6vw, 26px);
+        line-height: 1.25;
+        margin: 0 0 16px;
+        text-align: center;
+        font-weight: 800;
+    }
+    
+    /* === 7. СКРЫТЬ НЕНУЖНОЕ НА МОБИЛЕ === */
+    
+    /* Скрыть липкие панели */
+    .sticky,
+    .sticky-bar,
+    .mobile-sticky,
+    #sticky-cta {
+        display: none !important;
+    }
+    
+    /* Скрыть десктопные элементы */
+    .desktop-only {
+        display: none !important;
     }
 }
