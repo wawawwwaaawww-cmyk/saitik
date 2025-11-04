@@ -5542,25 +5542,275 @@ main > .danger-signals {
 
 /* --- Адаптация для шапки сайта --- */
 @media (max-width: 960px) {
+    /* Mobile header structure */
+    .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: #fff;
+        box-shadow: 0 1px 8px rgba(0,0,0,.06);
+    }
+    
     .site-header .container {
-        padding: 0 24px;
+        display: grid;
+        grid-template-columns: auto 1fr auto auto; /* logo | brand/phone | burger | call */
+        align-items: center;
+        column-gap: 12px;
+        padding: 8px max(16px, env(safe-area-inset-right)) 8px max(16px, env(safe-area-inset-left));
+        min-height: 56px;
+    }
+    
+    /* Logo styling */
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .logo img {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .logo-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        line-height: 1.1;
+    }
+    
+    .logo-title {
+        font-size: 14px;
+        font-weight: 700;
+    }
+    
+    .logo-phone {
+        font-size: 13px;
+        color: #111;
+        text-decoration: none;
     }
 
     .nav {
         display: none; /* Скрываем навигацию на планшетах и мобильных */
     }
 
-    .actions .phone,
-    .actions .search-btn {
-        display: none; /* Скрываем телефон и поиск в actions */
+    .actions {
+        display: none; /* Скрываем actions на мобиле */
     }
 
-    .burger-menu {
-        display: flex; /* Показываем бургер */
-    }
-
+    /* Call button - styled like main CTA */
     .call-btn {
-        display: flex; /* Показываем кнопку звонка */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        padding: 0 14px;
+        background: #03d3dd;
+        color: #000;
+        font-weight: 800;
+        font-size: 14px;
+        border: 0;
+        border-radius: 999px;
+        text-decoration: none;
+        box-shadow: 0 12px 24px rgba(3,211,221,.35);
+        transition: transform .15s ease, box-shadow .15s ease;
+    }
+    
+    .call-btn:active {
+        transform: scale(0.98);
+        box-shadow: 0 8px 16px rgba(3,211,221,.3);
+    }
+    
+    .call-btn svg {
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+    }
+    
+    /* On very narrow screens - icon only */
+    @media (max-width: 360px) {
+        .call-btn__text {
+            display: none;
+        }
+        .call-btn {
+            width: 44px;
+            padding: 0;
+        }
+        .call-btn svg {
+            margin-right: 0;
+        }
+    }
+    
+    /* Burger menu - 3 lines to X */
+    .burger-menu {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        position: relative;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        padding: 0;
+    }
+    
+    .burger-menu::before,
+    .burger-menu span:first-child,
+    .burger-menu::after {
+        content: "";
+        position: absolute;
+        left: 8px;
+        right: 8px;
+        height: 2.5px;
+        background: #111;
+        border-radius: 2px;
+        transition: transform .2s ease, opacity .2s ease, top .2s ease, bottom .2s ease;
+    }
+    
+    .burger-menu::before {
+        top: 12px;
+    }
+    
+    .burger-menu span:first-child {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    
+    .burger-menu::after {
+        bottom: 12px;
+    }
+    
+    /* Hide extra spans */
+    .burger-menu span:nth-child(2),
+    .burger-menu span:nth-child(3) {
+        display: none;
+    }
+    
+    /* Burger active state - X shape */
+    .burger-menu[aria-expanded="true"]::before {
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+    }
+    
+    .burger-menu[aria-expanded="true"] span:first-child {
+        opacity: 0;
+    }
+    
+    .burger-menu[aria-expanded="true"]::after {
+        bottom: auto;
+        top: 50%;
+        transform: translateY(-50%) rotate(-45deg);
+    }
+    
+    /* Mobile menu overlay */
+    .mobile-nav-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.32);
+        z-index: 98;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .2s ease;
+    }
+    
+    .mobile-nav-overlay.is-open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .mobile-nav-sheet {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 56px; /* Below header */
+        background: #fff;
+        box-shadow: 0 16px 40px rgba(0,0,0,.16);
+        transform: translateY(-12px);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform .2s ease, opacity .2s ease;
+        padding: 12px 16px 16px;
+        z-index: 99;
+        max-height: calc(100vh - 56px);
+        overflow-y: auto;
+    }
+    
+    .mobile-nav-sheet.is-open {
+        transform: none;
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .mobile-nav-links {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+    
+    .mobile-nav-links a {
+        display: block;
+        padding: 12px 8px;
+        border-radius: 12px;
+        color: #111;
+        text-decoration: none;
+        font-size: 16px;
+        transition: background .15s ease;
+    }
+    
+    .mobile-nav-links a:active,
+    .mobile-nav-links a.active {
+        background: #f1fbfc;
+    }
+    
+    /* Mobile nav CTAs */
+    .mobile-nav-ctas {
+        display: grid;
+        gap: 10px;
+        padding-top: 12px;
+        border-top: 1px solid #e5e5e5;
+    }
+    
+    .mobile-nav-cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 15px;
+        transition: transform .15s ease;
+    }
+    
+    .mobile-nav-cta:active {
+        transform: scale(0.98);
+    }
+    
+    .mobile-nav-cta--call {
+        background: #03d3dd;
+        color: #000;
+    }
+    
+    .mobile-nav-cta--wa {
+        background: #25d366;
+        color: #fff;
+    }
+    
+    /* Hide sticky bar on mobile */
+    .sticky-bottom-bar,
+    .sticky-bar,
+    .mobile-sticky,
+    #sticky-cta,
+    .btn-sticky-call {
+        display: none !important;
+    }
+    
+    /* Prevent scroll when menu is open */
+    body.no-scroll,
+    html.no-scroll {
+        overflow: hidden !important;
     }
 }
 
@@ -8366,5 +8616,113 @@ main > .danger-signals {
         .map-modal iframe {
             height: 500px;
         }
+    }
+    
+    /* ========================================
+       MOBILE HEADER & MENU OVERLAY REDESIGN
+       Overrides previous bottom sheet styles
+       ======================================== */
+    
+    /* Mobile Navigation Overlay - Top Dropdown (not bottom sheet) */
+    .mobile-nav-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.32);
+        z-index: 98;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .2s ease;
+    }
+    
+    .mobile-nav-overlay.is-open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .mobile-nav-sheet {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 56px; /* Below header */
+        bottom: auto; /* Override bottom sheet */
+        background: #fff;
+        box-shadow: 0 16px 40px rgba(0,0,0,.16);
+        transform: translateY(-12px); /* Slide down from top */
+        opacity: 0;
+        pointer-events: none;
+        transition: transform .2s ease, opacity .2s ease;
+        padding: 12px 16px 16px;
+        z-index: 99;
+        max-height: calc(100vh - 56px);
+        overflow-y: auto;
+        border-radius: 0; /* Remove bottom sheet radius */
+    }
+    
+    .mobile-nav-sheet.is-open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .mobile-nav-links {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+    
+    .mobile-nav-links a {
+        display: block;
+        padding: 12px 8px;
+        border-radius: 12px;
+        color: #111;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 400;
+        border-bottom: none; /* Remove bottom sheet borders */
+        transition: background .15s ease;
+    }
+    
+    .mobile-nav-links a:active,
+    .mobile-nav-links a.active {
+        background: #f1fbfc;
+        color: #03d3dd;
+    }
+    
+    /* Mobile nav CTAs */
+    .mobile-nav-ctas {
+        display: grid;
+        grid-template-columns: 1fr; /* Single column */
+        gap: 10px;
+        padding-top: 12px;
+        margin-top: 0;
+        border-top: 1px solid #e5e5e5;
+    }
+    
+    .mobile-nav-cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 48px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 15px;
+        transition: transform .15s ease;
+    }
+    
+    .mobile-nav-cta:active {
+        transform: scale(0.98);
+    }
+    
+    .mobile-nav-cta--call {
+        background: #03d3dd;
+        color: #000;
+    }
+    
+    .mobile-nav-cta--wa {
+        background: #25d366;
+        color: #fff;
     }
 }
