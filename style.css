@@ -281,7 +281,8 @@ body {
 .header-mobile-wa,
 .mobile-nav-overlay,
 .mobile-nav-sheet,
-.sticky-bottom-bar {
+.sticky-bottom-bar,
+.call-btn {
     display: none;
 }
 
@@ -5540,7 +5541,7 @@ main > .danger-signals {
 }
 
 /* --- Адаптация для шапки сайта --- */
-@media (max-width: 1024px) {
+@media (max-width: 960px) {
     .site-header .container {
         padding: 0 24px;
     }
@@ -5556,6 +5557,10 @@ main > .danger-signals {
 
     .burger-menu {
         display: flex; /* Показываем бургер */
+    }
+
+    .call-btn {
+        display: flex; /* Показываем кнопку звонка */
     }
 }
 
