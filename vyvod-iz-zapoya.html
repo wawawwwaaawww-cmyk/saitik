@@ -72,8 +72,34 @@
             </a>
         </div>
     </div>
+
+    <!-- Warning Modal -->
+    <div class="modal" id="warnModal" aria-hidden="true">
+        <div class="modal__scrim" data-close></div>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="warnTitle">
+            <div class="modal__head">
+                <span class="badge" id="warnTitle">⚠ Внимание</span>
+                <button class="modal__close" data-close aria-label="Закрыть">✕</button>
+            </div>
+            <div class="modal__body">
+                <h3>Важная информация о выводе из запоя</h3>
+                <p>Запой — это опасное состояние, которое может привести к необратимым последствиям для здоровья и жизни.</p>
+                <p><strong>Не пытайтесь справиться самостоятельно!</strong> Только профессиональная медицинская помощь может безопасно вывести из запоя и предотвратить осложнения.</p>
+                <ul>
+                    <li>Риск инфаркта и инсульта</li>
+                    <li>Алкогольный делирий ("белая горячка")</li>
+                    <li>Отказ печени и почек</li>
+                    <li>Психические расстройства</li>
+                </ul>
+                <p>Наши врачи доступны 24/7. Вызов бригады — это первый шаг к безопасному восстановлению.</p>
+                <button class="cta-button primary" data-close style="width: 100%; margin-top: 16px;">Понятно</button>
+            </div>
+        </div>
+    </div>
 <header class="hero hero-service hero-vyvod-iz-zapoya">
-        <div class="hero-content">
+        <div class="hero__overlay"></div>
+        <div class="hero-content hero__content">
+            <button class="warning-badge" data-open="warn" aria-label="Важная информация">⚠ ВНИМАНИЕ</button>
             <h1 class="hero-title">Вывод из запоя на дому за 30 минут. Круглосуточно и анонимно.</h1>
             <p class="hero-subtitle">Опытные врачи-наркологи приедут к вам, поставят капельницу и безопасно снимут тяжелые симптомы. Мы не осуждаем — мы помогаем.</p>
             <div class="service-features">
@@ -95,7 +121,7 @@
                     <p>Врачи с опытом 10+ лет (только лицензированные специалисты).</p>
                 </div>
             </div>
-            <div class="hero-buttons">
+            <div class="hero-buttons hero__buttons">
                 <button class="cta-button primary">Вызвать нарколога сейчас</button>
                 <button class="cta-button secondary">Получить консультацию бесплатно</button>
             </div>
