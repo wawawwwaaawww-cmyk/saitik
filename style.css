@@ -921,6 +921,9 @@ main > section:not(.section):not(.full-width-bg) {
 
 .proof-item__content {
     flex: 1;
+    display: block;
+    opacity: 1;
+    visibility: visible;
 }
 
 .proof-item:hover {
@@ -932,11 +935,19 @@ main > section:not(.section):not(.full-width-bg) {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.2em;
     margin: 0 0 10px 0;
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    color: #111;
 }
 
 .proof-item__content p {
     margin: 0;
     margin-bottom: 10px;
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    color: #6c757d;
 }
 
 .proof-icon {
@@ -6148,6 +6159,9 @@ main > .danger-signals {
     .benefits-grid .card,
     .proof-item,
     .guarantees-grid .card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         padding: var(--space-3);
         text-align: center;
         background: var(--surface);
@@ -6163,6 +6177,39 @@ main > .danger-signals {
         object-fit: cover;
         border-radius: var(--radius-12);
         margin-bottom: var(--space-1);
+    }
+    
+    /* Ensure text is visible in proof/guarantees items */
+    .proof-item__content,
+    .guarantees-grid .card__content {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: 100%;
+    }
+    
+    .proof-item__content h3,
+    .proof-item__content h4,
+    .guarantees-grid .card h3,
+    .guarantees-grid .card h4 {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        color: var(--text);
+        font-size: clamp(14px, 3.8vw, 16px);
+        font-weight: 700;
+        margin: 0 0 var(--space-1) 0;
+    }
+    
+    .proof-item__content p,
+    .guarantees-grid .card p {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        color: var(--muted);
+        font-size: clamp(13px, 3.4vw, 14px);
+        line-height: 1.45;
+        margin: 0;
     }
     
     /* ========================================
@@ -7930,12 +7977,29 @@ main > .danger-signals {
         max-width: 40px;
     }
 
+    .proof-item__content {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: 100%;
+    }
+
     .proof-item__content h3 {
         font-size: 1.125rem;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        color: var(--text);
+        margin: 0 0 8px 0;
     }
 
     .proof-item__content p {
         font-size: 0.9375rem;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        color: var(--muted);
+        margin: 0;
     }
 
     .proof-cta p {
