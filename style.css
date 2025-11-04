@@ -5807,6 +5807,11 @@ main > .danger-signals {
         display: none !important;
     }
     
+    /* Hide chat widget "Нужна помощь?" on mobile */
+    .chat-widget {
+        display: none !important;
+    }
+    
     /* Prevent scroll when menu is open */
     body.no-scroll,
     html.no-scroll {
