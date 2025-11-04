@@ -2509,3 +2509,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Export for external use
 window.initContactsPage = initContactsPage;
+
+/**
+ * Width debugger - helps identify elements causing horizontal scroll
+ * Call in console: debugMobileWidth()
+ * This function highlights elements that extend beyond the viewport
+ */
+window.debugMobileWidth = function() {
+    // Only run on mobile viewport
+    if (window.innerWidth > 960) {
+        console.log('⚠️ Width debugger is for mobile viewports (≤960px)');
+        return;
+    }
+    
+    console.log('🔍 Scanning for width issues...');
+    
+    const vw = document.documentElement.clientWidth;
+    const issues = [];
+    
+    [...document.querySelectorAll('body *')].forEach(el => {
+        const r = el.getBoundingClientRect();
+        
+        // Check if element extends beyond viewport
+        if (r.left < -1 || r.right > vw + 1) {
+            issues.push({
+                element: el,
+                left: r.left,
+                right: r.right,
+                width: r.width,
+                overflow: r.right - vw
+            });
+            
+            // Highlight problematic element
+            el.style.outline = '2px solid red';
+            el.style.outlineOffset = '-2px';
+        }
+    });
+    
+    if (issues.length === 0) {
+        console.log('✅ No width issues found!');
+    } else {
+        console.log(`❌ Found ${issues.length} width issues:`);
+        issues.forEach((issue, i) => {
+            console.log(`${i + 1}. Element overflows by ${issue.overflow.toFixed(2)}px:`, issue.element);
+        });
+        console.log('💡 Problematic elements are outlined in red');
+    }
+    
+    return issues;
+};
+
+// Auto-run debugger in development (optional - can comment out)
+// setTimeout(() => {
+//     if (window.innerWidth <= 960) {
+//         console.log('🔧 Auto-running mobile width debugger...');
+//         debugMobileWidth();
+//     }
+// }, 2000);
