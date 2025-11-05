@@ -40,24 +40,41 @@
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
+        background: #fff; /* Match desktop */
+        border-radius: 16px; /* Match desktop */
+        padding: 30px; /* Match desktop */
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08); /* Match desktop */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Match desktop */
+        text-align: center; /* Match desktop */
     }
 
     .team-card img {
-        width: 140px;
-        height: 140px;
+        width: 120px; /* Match desktop */
+        height: 120px; /* Match desktop */
         object-fit: cover;
         border-radius: 50%;
-        margin-bottom: 16px;
+        margin-bottom: 20px; /* Match desktop */
     }
 
     .team-card h3 {
-        font-size: 1.1rem;
-        margin-bottom: 8px;
+        font-family: 'Montserrat', sans-serif; /* Match desktop */
+        font-size: 20px; /* Match desktop */
+        font-weight: 700; /* Match desktop */
+        margin: 0 0 12px 0; /* Match desktop */
+        color: #111; /* Match desktop */
     }
 
     .team-card p {
-        font-size: 0.9rem;
+        font-size: 16px; /* Match desktop */
+        line-height: 1.5; /* Match desktop */
+        color: #667085; /* Match desktop */
+        margin: 0; /* Match desktop */
         text-align: center;
+    }
+
+    .team-card:hover {
+        transform: translateY(-5px); /* Match desktop */
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12); /* Match desktop */
     }
 }
 
@@ -76,14 +93,14 @@
 .license-gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    gap: 24px; /* Match desktop */
 }
 
 .license-item {
     background: white;
-    border-radius: 12px;
-    padding: 16px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-radius: 16px; /* Match desktop */
+    padding: 24px; /* Match desktop */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); /* Match desktop */
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     text-align: center;
@@ -91,7 +108,7 @@
 
 .license-item:hover {
     transform: translateY(-4px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); /* Match desktop */
 }
 
 .license-item:focus {
@@ -101,17 +118,19 @@
 
 .license-item img {
     width: 100%;
-    height: 200px;
+    height: 180px; /* Match desktop */
     object-fit: cover;
     border-radius: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 16px; /* Match desktop */
 }
 
 .license-item p {
     margin: 0;
-    font-size: 0.9rem;
-    color: #6A6A6A;
-    font-weight: 600;
+    font-family: 'Montserrat', sans-serif; /* Match desktop */
+    font-size: 16px; /* Match desktop */
+    font-weight: 600; /* Match desktop */
+    color: #111; /* Match desktop */
+    line-height: 1.4; /* Match desktop */
 }
 
 @media (max-width: 768px) {
