@@ -989,6 +989,124 @@ main > section:not(.section):not(.full-width-bg) {
     max-width: 80px;
 }
 
+/* ========================================
+   TEAM CARDS DESKTOP STYLES
+   ======================================== */
+
+.team-section {
+    padding: 80px 0;
+}
+
+.team-cards-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.team-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.team-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.team-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.team-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    color: #111;
+}
+
+.team-card p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #667085;
+    margin: 0;
+}
+
+/* ========================================
+   LICENSE GALLERY DESKTOP STYLES
+   ======================================== */
+
+.license-section {
+    padding: 80px 0;
+    background-color: #f9fafb;
+}
+
+.license-gallery-wrapper {
+    position: relative;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.license-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.license-item {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
+}
+
+.license-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.license-item:focus {
+    outline: 3px solid #03d3dd;
+    outline-offset: 2px;
+}
+
+.license-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.license-item p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #111;
+    margin: 0;
+    line-height: 1.4;
+}
+
 /* Секция Как мы работаем */
 .how-it-works .steps {
     display: flex;
@@ -8971,6 +9089,107 @@ main > .danger-signals {
         gap: var(--gap-mobile);
     }
     
+    /* ========================================
+       MOBILE SERVICE CARDS - SQUARE SWIPER
+       ======================================== */
+    
+    .services {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        padding: 0 16px 12px;
+        margin: 0 -16px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .services::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .service-card {
+        min-width: 88vw;
+        scroll-snap-align: center;
+        flex-shrink: 0;
+        aspect-ratio: 1/1;
+        height: 88vw;
+        max-height: 88vw;
+    }
+    
+    .service-card__icon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+    
+    .service-card__icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+    
+    /* Смещаем фон для первой карточки, чтобы люди были по центру */
+    .service-card:nth-child(1) .service-card__icon img {
+        object-position: 30% 50%;
+    }
+    
+    /* Затемняющий слой для читаемости текста */
+    .service-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0.05));
+        z-index: 2;
+        transition: background 0.3s ease;
+    }
+    
+    .service-card:hover::after {
+        background: linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0.1));
+    }
+    
+    /* Выносим весь контент поверх фона и затемнения */
+    .service-card__title,
+    .service-card__subtitle,
+    .service-card__lead {
+        position: relative;
+        z-index: 3;
+        text-shadow: 0px 1px 6px rgba(0, 0, 0, 0.5);
+        color: #fff;
+        padding: 16px;
+    }
+    
+    .service-card__title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: clamp(18px, 5.2vw, 22px);
+        font-weight: 800;
+        line-height: 1.15;
+        margin-bottom: 0;
+    }
+    
+    .service-card__subtitle,
+    .service-card__lead {
+        font-size: clamp(14px, 3.8vw, 16px);
+        opacity: 0.95;
+        line-height: 1.35;
+    }
+    
+    /* Hide elements that don't fit in square layout */
+    .service-card__benefits-list,
+    .service-card__price,
+    .service-card__accent-line,
+    .service-card__cta {
+        display: none !important;
+    }
+    
     /* Mobile Typography Headings */
     h1 {
         font-size: var(--text-3xl);
@@ -9597,6 +9816,7 @@ main > .danger-signals {
        ============================================ */
     
     /* === 1. ХИРО-БЛОК === */
+    .hero,
     .hero-vyvod,
     .hero-vyvod-iz-zapoya,
     .hero-service {
@@ -9606,7 +9826,7 @@ main > .danger-signals {
         min-height: auto;
     }
     
-    /* Градиент поверх фото */
+    /* Градиент поверх фото - Service pages (dark overlay, white text) */
     .hero-service::before,
     .hero__overlay {
         content: "";
@@ -9617,12 +9837,26 @@ main > .danger-signals {
         pointer-events: none;
     }
     
+    /* Main homepage hero (white overlay, dark text) - matching desktop */
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.75); /* Осветляющий слой - matches desktop */
+        z-index: 1;
+    }
+    
     .hero-service > *,
-    .hero__content > * {
+    .hero__content > *,
+    .hero > * {
         position: relative;
         z-index: 2;
     }
     
+    /* Service pages text (white on dark) */
     .hero-service h1,
     .hero-service .hero-title {
         font-size: clamp(24px, 7vw, 32px);
@@ -9642,7 +9876,30 @@ main > .danger-signals {
         text-shadow: 0 1px 4px rgba(0,0,0,.3);
     }
     
+    /* Main homepage hero text (dark on light) - matching desktop */
+    .hero h1,
+    .hero .hero-title {
+        font-size: clamp(24px, 7vw, 32px);
+        line-height: 1.2;
+        margin: 0 0 12px;
+        color: #2B2B2B; /* Dark text like desktop */
+        text-shadow: none; /* No text shadow on light background */
+    }
+    
+    .hero p,
+    .hero .hero-subtitle {
+        font-size: clamp(16px, 4.2vw, 18px);
+        line-height: 1.4;
+        margin: 0 0 20px;
+        color: #2B2B2B; /* Dark text like desktop */
+        opacity: 1; /* Full opacity on light background */
+        text-shadow: none; /* No text shadow on light background */
+    }
+    
     /* Кнопки хиро */
+    .hero .hero-buttons,
+    .hero .hero__buttons,
+    .hero .buttons,
     .hero-service .hero-buttons,
     .hero-service .hero__buttons,
     .hero-service .buttons {
@@ -9652,6 +9909,8 @@ main > .danger-signals {
         margin: 0 auto;
     }
     
+    .hero .btn,
+    .hero .cta-button,
     .hero-service .btn,
     .hero-service .cta-button {
         width: 100%;
