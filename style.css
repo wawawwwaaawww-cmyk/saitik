@@ -18,6 +18,13 @@
   --muted:#667085;
   --accent:#03d3dd;
   --ring: rgba(3,211,221,.45);
+  --header-height: 88px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 /* контейнер страницы */
@@ -89,7 +96,10 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
-    padding-top: 70px; /* Добавляем отступ для фиксированного меню */
+}
+
+main {
+    padding-top: var(--header-height);
 }
 
 /* --- Стили для новой шапки сайта --- */
@@ -98,8 +108,8 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
-    height: 88px;
+    z-index: 5000;
+    min-height: var(--header-height);
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(12px);
     box-shadow: 0 1px 12px rgba(0, 0, 0, 0.05);
@@ -117,6 +127,7 @@ body {
     align-items: center;
     padding: 0 32px;
     gap: 20px;
+    min-height: var(--header-height);
 }
 
 /* 2. Логотип и типографика */
@@ -264,6 +275,10 @@ body {
     cursor: pointer;
     padding: 0;
     z-index: 10;
+    position: relative;
+    align-items: center;
+    color: #0b1220;
+    transition: width 0.2s ease, height 0.2s ease;
 }
 
 .burger-menu span {
@@ -273,8 +288,38 @@ body {
     border-radius: 10px;
     transition: all 0.3s linear;
     position: relative;
-    transform-origin: 1px;
+    transform-origin: center;
 }
+
+.burger-menu__close-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.65);
+    transform-origin: center;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.burger-menu__close-icon rect {
+    fill: currentColor;
+}
+
+.burger-menu.is-active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.burger-menu.is-active span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-menu.is-active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
 
 h1, h2, h3 {
     font-family: 'Montserrat', sans-serif;
@@ -720,7 +765,19 @@ main > section:not(.section):not(.full-width-bg) {
     }
 
     .solution-new__benefits {
-        grid-template-columns: 1fr;
+        display: flex !important;
+        flex-direction: column;
+        width: 100%;
+        gap: 16px;
+    }
+
+    .solution-new__benefits .benefit-item {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        margin: 0;
+        box-sizing: border-box;
     }
 }
 
@@ -1144,20 +1201,21 @@ main > section:not(.section):not(.full-width-bg) {
 
     /* Слайдер для Услуг */
     .services {
-        display: grid;
-        grid-auto-flow: column;
-        grid-auto-columns: 85%; /* Ширина карточки, чтобы было видно следующую */
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        gap: 15px;
-        padding: 0 15px 20px 15px; /* Отступы, чтобы карточки не прилипали к краям */
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        overflow: visible;
+        scroll-snap-type: none;
+        -webkit-overflow-scrolling: auto;
+        padding: 0 0 20px 0;
     }
 
+
     .service-card {
-        scroll-snap-align: start;
-        font-size: 18px; /* Увеличенный шрифт для мобильных */
+        scroll-snap-align: unset;
+        font-size: 18px;
     }
+
 
     /* Секция Решение */
     .solution ul {
@@ -1292,7 +1350,35 @@ main > section:not(.section):not(.full-width-bg) {
     color: white;
     padding: 20px;
     text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
+.chat-widget__close {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-widget__close-icon {
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+
 
 .chat-widget__header h3 {
     margin: 0 0 5px 0;
@@ -1320,23 +1406,7 @@ main > section:not(.section):not(.full-width-bg) {
     border-radius: 5px;
 }
 
-
-/* Sticky кнопка на мобайле */
-.sticky-mobile-button {
-    display: none; /* Скрыта по умолчанию */
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 400px;
-    z-index: 1000;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Переопределяем стили для мобильных, чтобы использовать новую кнопку */
 @media (max-width: 768px) {
-    /* Скрываем старую "кнопку" из футера */
     .contact-info .phone-number {
         position: static;
         background-color: transparent;
@@ -1347,16 +1417,12 @@ main > section:not(.section):not(.full-width-bg) {
         margin-bottom: 15px;
     }
 
-    /* Показываем новую sticky-кнопку */
-    .sticky-mobile-button {
-        display: block;
-    }
-
-    /* Убираем лишний отступ снизу */
     body {
         padding-bottom: 0;
     }
 }
+
+
 /* Стили для страницы "Вывод из запоя" */
 
 .hero-service {
@@ -4524,6 +4590,10 @@ main > .danger-signals {
     font-size: 14px;
 }
 
+.danger-signals__symptoms-card .symptoms-list li::before {
+    content: none; /* отключаем вторую галочку */
+}
+
 /* Right Column: Info Cards */
 .danger-signals__info-column {
     display: flex;
@@ -5532,6 +5602,14 @@ main > .danger-signals {
 
 /* --- Адаптация для шапки сайта --- */
 @media (max-width: 1024px) {
+    .site-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 5000;
+    }
+
     .site-header .container {
         padding: 0 24px;
     }
@@ -5557,15 +5635,18 @@ main > .danger-signals {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.97);
     backdrop-filter: blur(15px);
-    z-index: 999;
+    z-index: 6000;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    gap: 32px;
+    padding: 32px 24px 40px;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
+    overflow-y: auto;
 }
 
 .mobile-nav.is-open {
@@ -5587,11 +5668,15 @@ main > .danger-signals {
 .mobile-nav .actions {
     flex-direction: column;
     gap: 20px;
+    width: 100%;
+    align-items: center;
 }
 
 .mobile-nav .phone {
     display: flex;
     font-size: 20px;
+    align-items: center;
+    gap: 10px;
 }
 
 .mobile-nav .btn-primary {
@@ -5599,6 +5684,70 @@ main > .danger-signals {
     font-size: 18px;
 }
 
+.mobile-nav__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(11, 18, 32, 0.08);
+}
+
+.mobile-nav__close {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: rgba(11, 18, 32, 0.05);
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #0b1220;
+    margin-right: 16px;
+}
+
+.mobile-nav__close-icon {
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+.mobile-nav__close:focus-visible {
+    outline: 2px solid rgba(11, 18, 32, 0.35);
+    outline-offset: 2px;
+}
+
+.mobile-nav__brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #0b1220;
+}
+
+.mobile-nav__brand-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.mobile-nav__brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.4;
+}
+
+.mobile-nav__brand-name {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.mobile-nav__brand-phone {
+    color: #0b1220;
+    font-weight: 600;
+    text-decoration: none;
+}
 /* Анимация бургера */
 .burger-menu.is-active span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
@@ -5610,6 +5759,27 @@ main > .danger-signals {
 
 .burger-menu.is-active span:nth-child(3) {
     transform: rotate(-45deg) translate(4px, -4px);
+}
+
+body.mobile-nav-open,
+html.mobile-nav-open {
+    overflow: hidden;
+    height: 100%;
+}
+
+.burger-menu.is-active {
+    width: 48px;
+    height: 48px;
+}
+
+.burger-menu.is-active .burger-menu__close-icon {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(2);
+}
+
+.burger-menu.is-active span {
+    opacity: 0;
+    transform: none;
 }
 /* --- Стили для страницы "Снятие ломки" --- */
 
@@ -6788,18 +6958,49 @@ main > .danger-signals {
 }
 
 .close-button {
-    color: #aaa;
     position: absolute;
     top: 10px;
     right: 20px;
-    font-size: 28px;
-    font-weight: bold;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
     cursor: pointer;
+    padding: 0;
 }
 
-.close-button:hover,
-.close-button:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
+.close-button::before,
+.close-button::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 22px;
+    height: 2.5px;
+    background: #aaa;
+    border-radius: 2px;
+    transform-origin: center;
+    transition: background 0.2s ease;
 }
+
+.close-button::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-button::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.close-button:hover::before,
+.close-button:hover::after,
+.close-button:focus-visible::before,
+.close-button:focus-visible::after {
+    background: #000;
+}
+
+.close-button:focus-visible {
+    outline: 2px solid rgba(3, 211, 221, 0.5);
+    outline-offset: 2px;
+}
+
+

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="assets/logo.png">
 </head>
 <body>
 
@@ -17,7 +18,7 @@
                 <img src="assets/logo.png" alt="Логотип Свой Нарколог">
                 <div class="logo-text">
                     <span class="logo-title">Свой Нарколог</span>
-                    <a href="tel:+78000000000" class="logo-phone">8 (800) 000-00-00</a>
+                    <a href="tel:+79964014014" class="logo-phone">+7 996 401 4014</a>
                 </div>
             </div>
     
@@ -38,12 +39,32 @@
                 <span></span>
                 <span></span>
                 <span></span>
+                <svg class="burger-menu__close-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                    <rect x="11" y="4" width="2" height="16" rx="1" transform="rotate(45 12 12)" fill="currentColor"></rect>
+                    <rect x="11" y="4" width="2" height="16" rx="1" transform="rotate(135 12 12)" fill="currentColor"></rect>
+                </svg>
             </button>
         </div>
     </header>
 
     <!-- Мобильная навигация -->
     <div class="mobile-nav">
+        <div class="mobile-nav__header">
+            <div class="mobile-nav__brand">
+                <img src="assets/logo.png" alt="Свой Нарколог" class="mobile-nav__brand-logo">
+                <div class="mobile-nav__brand-text">
+                    <span class="mobile-nav__brand-name">Свой Нарколог</span>
+                    <a href="tel:+79964014014" class="mobile-nav__brand-phone">+7 996 401 4014</a>
+                </div>
+            </div>
+            <button class="mobile-nav__close" aria-label="Закрыть меню">
+                <svg class="mobile-nav__close-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" role="presentation">
+                    <rect x="11" y="4" width="2" height="16" rx="1" transform="rotate(45 12 12)" fill="currentColor"></rect>
+                    <rect x="11" y="4" width="2" height="16" rx="1" transform="rotate(135 12 12)" fill="currentColor"></rect>
+                </svg>
+            </button>
+        </div>
+
         <nav class="nav">
             <a href="index.html" class="active">Главная</a>
             <a href="about.html">О&nbsp;клинике</a>
@@ -54,9 +75,9 @@
             <a href="contacts.html">Контакты</a>
         </nav>
         <div class="actions">
-            <a href="tel:+78000000000" class="phone">
+            <a href="tel:+79964014014" class="phone">
                 <svg class="phone-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                8 (800) 000-00-00
+                +7 996 401 4014
             </a>
         </div>
     </div>
@@ -223,9 +244,9 @@
                 <div class="support-block__content">
                     <h2 class="support-block__title">Первый шаг к трезвости</h2>
                     <p class="support-block__text">Каждый день кто-то выбирает трезвость и поддержку. Вы не одни — помощь рядом и без осуждения. Обратитесь сегодня, чтобы стало легче завтра.</p>
-                    <form class="support-block__form" action="#" method="post">
-                        <input type="text" name="name" placeholder="Ваше имя" required>
-                        <input type="tel" name="phone" placeholder="Ваш телефон" required>
+                    <form class="support-block__form" action="#" method="post" data-telegram-form="Форма поддержки (главная)">
+                        <input type="text" name="name" placeholder="Ваше имя (Необязательно)" data-label="Имя">
+                        <input type="tel" name="phone" placeholder="Ваш телефон" data-label="Телефон" required>
                         <button type="submit" class="cta-button primary">Оставить заявку</button>
                     </form>
                 </div>
@@ -470,7 +491,7 @@
             <p class="cta-band__text">
               <strong>Готовы начать с шага 1?</strong> Врач приедет анонимно за 30–60 минут.
             </p>
-            <a href="tel:+7XXXXXXXXXX" class="cta-button primary">Позвонить 24/7</a>
+            <a href="tel:+79964014014" class="cta-button primary">Позвонить 24/7</a>
           </div>
         </section>
         </div>
@@ -521,7 +542,7 @@
             <div class="pre-footer-cta__actions">
                 <div class="pre-footer-cta__buttons">
                     <button class="cta-button primary" data-analytics-event="footer_cta_call_doctor_click">Вызвать врача 24/7</button>
-                    <a href="https://wa.me/78000000000" target="_blank" class="cta-button secondary" data-analytics-event="footer_whatsapp_click">
+                    <a href="https://wa.me/79964014014" target="_blank" class="cta-button secondary" data-analytics-event="footer_whatsapp_click">
                         <img src="assets/whatsapp.png" alt="WhatsApp" width="20" height="20" style="margin-right: 8px;">
                         Написать в WhatsApp
                     </a>
@@ -530,7 +551,7 @@
                         Написать в Telegram
                     </a>
                 </div>
-                <a href="tel:88000000000" class="pre-footer-cta__phone" data-analytics-event="footer_phone_click">8 (800) 000-00-00</a>
+                <a href="tel:+79964014014" class="pre-footer-cta__phone" data-analytics-event="footer_phone_click">+7 996 401 4014</a>
             </div>
         </div>
     </div>
@@ -546,13 +567,12 @@
                 <h3 class="site-footer__title">Бренд и контакты</h3>
                 <div class="site-footer__content">
                     <p class="site-footer__brand-name">[Название юр-лица/бренд]</p>
-                    <a href="tel:88000000000" class="site-footer__phone" data-analytics-event="footer_phone_click">8 (800) 000-00-00</a>
+                    <a href="tel:+79964014014" class="site-footer__phone" data-analytics-event="footer_phone_click">+7 996 401 4014</a>
                     <div class="site-footer__messengers">
-                        <a href="https://wa.me/78000000000" target="_blank" aria-label="Написать в WhatsApp" data-analytics-event="footer_whatsapp_click"><img src="assets/whatsapp.png" alt="WhatsApp" width="28" height="28"></a>
+                        <a href="https://wa.me/79964014014" target="_blank" aria-label="Написать в WhatsApp" data-analytics-event="footer_whatsapp_click"><img src="assets/whatsapp.png" alt="WhatsApp" width="28" height="28"></a>
                         <a href="https://t.me/your_username" target="_blank" aria-label="Написать в Telegram" data-analytics-event="footer_telegram_click"><img src="assets/Telegram.png" alt="Telegram" width="28" height="28"></a>
                     </div>
                     <p><strong>Время работы:</strong> Круглосуточно, без выходных</p>
-                    <p class="site-footer__disclaimer--small">В экстренных ситуациях — звоните 112</p>
                 </div>
             </div>
 
@@ -640,11 +660,7 @@
 
     <!-- UX-фишки -->
 
-
-    <button class="cta-button primary sticky-mobile-button">🚑 Вызвать врача</button>
-
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 
     <!-- Элемент для "Живой Ленты" -->
     <div id="live-feed-notification">
@@ -655,33 +671,44 @@
         </div>
         <p id="live-feed-text">Семья из ЦАО только что оставила благодарность бригаде №3.</p>
     </div>
-</body>
-    &lt;div id="application-modal" class="modal"&gt;
-        &lt;div class="modal-content"&gt;
-            &lt;span class="close-button"&gt;&amp;times;&lt;/span&gt;
-            &lt;h2&gt;Оставьте заявку&lt;/h2&gt;
-            &lt;p&gt;Мы перезвоним в течении 2-х минут&lt;/p&gt;
-            &lt;p&gt;Врач будет у Вас через 30-40 минут&lt;/p&gt;
-            &lt;form&gt;
-                &lt;input type="text" placeholder="Ваше имя"&gt;
-                &lt;input type="tel" placeholder="Ваш телефон"&gt;
-                &lt;button type="submit" class="cta-button primary"&gt;Отправить&lt;/button&gt;
-            &lt;/form&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-</html>
+    <div id="application-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="application-modal-title">
+        <div class="modal-content">
+            <button type="button" class="close-button" aria-label="Закрыть окно"></button>
+            <h2 id="application-modal-title">Оставьте заявку</h2>
+            <p>Мы перезвоним в течении 2-х минут</p>
+            <p>Врач будет у Вас через 30-40 минут</p>
+            <form action="#" method="post" data-telegram-form="Модальное окно заявки">
+                <input type="text" name="name" placeholder="Ваше имя (Необязательно)" data-label="Имя">
+                <input type="tel" name="phone" placeholder="Телефон" data-label="Телефон" required>
+                <button type="submit" class="cta-button primary">Оставить заявку</button>
+            </form>
+        </div>
+    </div>
+
     <div class="chat-widget">
         <button class="chat-widget__toggle" aria-label="Открыть чат">💬</button>
         <div class="chat-widget__window">
             <div class="chat-widget__header">
+                <button class="chat-widget__close" aria-label="Закрыть чат">
+                    <svg class="chat-widget__close-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                        <path d="m6 6 12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+                        <path d="M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+                    </svg>
+                </button>
                 <h3>Нужна помощь?</h3>
                 <p>Оставьте номер, врач перезвонит за 1 минуту.</p>
             </div>
             <div class="chat-widget__body">
-                <form action="#" method="post" class="chat-widget__form">
-                    <input type="tel" name="phone" placeholder="Ваш номер телефона" required>
+                <form action="#" method="post" class="chat-widget__form" data-telegram-form="Виджет чата">
+                    <input type="tel" name="phone" placeholder="Ваш номер телефона" data-label="Телефон" required>
                     <button type="submit" class="cta-button primary">Жду звонка</button>
                 </form>
             </div>
         </div>
     </div>
+</body>
+</html>
+
+
+
+

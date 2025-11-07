@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -9,16 +9,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="assets/logo.png">
 </head>
 <body>
 
-    <header class="site-header">
+    
+
+<header class="site-header">
         <div class="container">
             <div class="logo">
                 <img src="assets/logo.png" alt="Логотип Свой Нарколог">
                 <div class="logo-text">
                     <span class="logo-title">Свой Нарколог</span>
-                    <a href="tel:+78000000000" class="logo-phone">8 (800) 000-00-00</a>
+                    <a href="tel:+79964014014" class="logo-phone">+7 996 401 4014</a>
                 </div>
             </div>
     
@@ -39,12 +42,32 @@
                 <span></span>
                 <span></span>
                 <span></span>
+                <svg class="burger-menu__close-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                    <rect x="11" y="4" width="2" height="16" rx="1" transform="rotate(45 12 12)" fill="currentColor"></rect>
+                    <rect x="11" y="4" width="2" height="16" rx="1" transform="rotate(135 12 12)" fill="currentColor"></rect>
+                </svg>
             </button>
         </div>
     </header>
 
     <!-- Мобильная навигация -->
     <div class="mobile-nav">
+        <div class="mobile-nav__header">
+            <div class="mobile-nav__brand">
+                <img src="assets/logo.png" alt="Свой Нарколог" class="mobile-nav__brand-logo">
+                <div class="mobile-nav__brand-text">
+                    <span class="mobile-nav__brand-name">Свой Нарколог</span>
+                    <a href="tel:+79964014014" class="mobile-nav__brand-phone">+7 996 401 4014</a>
+                </div>
+            </div>
+            <button class="mobile-nav__close" aria-label="Закрыть меню">
+                <svg class="mobile-nav__close-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" role="presentation">
+                    <rect x="11" y="4" width="2" height="16" rx="1" transform="rotate(45 12 12)" fill="currentColor"></rect>
+                    <rect x="11" y="4" width="2" height="16" rx="1" transform="rotate(135 12 12)" fill="currentColor"></rect>
+                </svg>
+            </button>
+        </div>
+
         <nav class="nav">
             <a href="index.html">Главная</a>
             <a href="about.html">О&nbsp;клинике</a>
@@ -55,12 +78,21 @@
             <a href="contacts.html">Контакты</a>
         </nav>
         <div class="actions">
-            <a href="tel:+78000000000" class="phone">
+            <a href="tel:+79964014014" class="phone">
                 <svg class="phone-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                8 (800) 000-00-00
+                +7 996 401 4014
             </a>
         </div>
     </div>
+
+    <!-- Мобильная навигация -->
+    
+
+    <!-- Мобильная навигация -->
+    
+
+    <!-- Мобильная навигация -->
+    
 
     <main>
         <!-- 1. Hero-блок -->
@@ -149,7 +181,7 @@
     <aside class="risk-cta" aria-label="Вызов врача">
       <h3>Самостоятельно пережить ломку — опасно</h3>
       <p>Только врач безопасно остановит боль и вернёт контроль над телом.</p>
-      <a href="tel:8 (800) 000-00-00" class="btn-primary" aria-label="Позвонить врачу 24/7">Позвонить врачу сейчас</a>
+      <a href="tel:+79964014014" class="btn-primary" aria-label="Позвонить врачу 24/7">Позвонить врачу сейчас</a>
     </aside>
   </div>
 </section>
@@ -161,68 +193,89 @@
                 <p>Не ждите, пока станет поздно.</p>
             </div>
         </section>
-        <!-- 3. Блок: “Как проходит снятие ломки” -->
-        <section class="steps-section-v2 steps-timeline-section snyatie-lomki-steps-bg full-width-bg">
-             <div class="steps-section-v2__overlay"></div>
-             <div class="steps-timeline-container">
-                <h2 class="section-title">Как проходит снятие ломки под контролем врача</h2>
-                <div class="timeline">
-                    <article class="timeline-step">
-                        <div class="timeline-step__number">1</div>
-                        <div class="timeline-step__card">
-                            <h4 class="timeline-step__title">Заявка и консультация — <span class="subtitle">Всё анонимно, без формальностей.</span></h4>
-                            <div class="step-accordion__content">
-                                <p>После заявки врач перезванивает в течение нескольких минут. Консультация проходит конфиденциально — без регистрации, фамилий и лишних вопросов. Врач уточняет состояние, наличие сопутствующих болезней и подбирает безопасные препараты.</p>
-                            </div>
-                            <button class="step-accordion__toggle">Подробнее</button>
-                        </div>
-                    </article>
-                    <article class="timeline-step">
-                        <div class="timeline-step__number">2</div>
-                        <div class="timeline-step__card">
-                            <h4 class="timeline-step__title">Выезд врача — <span class="subtitle">За 30–60 минут. Осмотр, диагностика, давление, пульс.</span></h4>
-                            <div class="step-accordion__content">
-                                <p>Врач приезжает с готовым набором для снятия ломки. Проверяет давление, пульс, дыхание, уровень кислорода и другие показатели. При необходимости измеряет температуру и уровень сахара. После осмотра решает, можно ли провести процедуру дома или лучше предложить госпитализацию.</p>
-                            </div>
-                            <button class="step-accordion__toggle">Подробнее</button>
-                        </div>
-                    </article>
-                    <article class="timeline-step">
-                        <div class="timeline-step__number">3</div>
-                        <div class="timeline-step__card">
-                            <h4 class="timeline-step__title">Капельница и медикаменты — <span class="subtitle">Обезболивающие, седативные, противорвотные, витамины.</span></h4>
-                            <div class="step-accordion__content">
-                                <p>Состав капельницы подбирается индивидуально. Препараты снимают боль, тревогу, судороги и восстанавливают электролитный баланс. При необходимости применяются снотворные, детоксикационные и поддерживающие средства. Все препараты сертифицированы и используются под контролем нарколога.</p>
-                            </div>
-                            <button class="step-accordion__toggle">Подробнее</button>
-                        </div>
-                    </article>
-                    <article class="timeline-step">
-                        <div class="timeline-step__number">4</div>
-                        <div class="timeline-step__card">
-                            <h4 class="timeline-step__title">Снятие симптомов — <span class="subtitle">Проходит боль, дрожь, тревога, восстанавливается сон.</span></h4>
-                            <div class="step-accordion__content">
-                                <p>Через 30–40 минут снижается интенсивность боли, проходит рвота, стабилизируется давление и пульс. К концу процедуры пациент чувствует физическое облегчение, возвращается аппетит и способность спокойно спать.</p>
-                            </div>
-                            <button class="step-accordion__toggle">Подробнее</button>
-                        </div>
-                    </article>
-                    <article class="timeline-step">
-                        <div class="timeline-step__number">5</div>
-                        <div class="timeline-step__card">
-                            <h4 class="timeline-step__title">Рекомендации и поддержка — <span class="subtitle">Врач оставляет назначения, при необходимости возможна госпитализация.</span></h4>
-                            <div class="step-accordion__content">
-                                <p>После процедуры врач объясняет, как поддерживать организм, какие витамины принимать и что есть в первые дни восстановления. При необходимости назначается курс терапии или наблюдение. Мы остаёмся на связи круглосуточно, чтобы пациент мог получить помощь повторно.</p>
-                            </div>
-                            <button class="step-accordion__toggle">Подробнее</button>
-                        </div>
-                    </article>
+<!-- STEPS SECTION V2 -->
+<section class="steps-section-v2 steps-timeline-section full-width-bg" style="background-color: transparent;">
+    <div class="steps-section-v2__overlay"></div>
+    <div class="container">
+        <div class="steps-timeline-container" style="position: relative; z-index: 2;">
+        <h2 class="section-title" style="margin-bottom: 16px;">Путь пациента к восстановлению</h2>
+        
+        <p class="section-subtitle" style="text-align: center; max-width: 600px; margin-top: 0; margin-bottom: 40px;">Всё происходит быстро, анонимно и под контролем врача. От звонка до облегчения проходит около двух часов.</p>
+        <div class="timeline">
+            <article class="timeline-step">
+                <div class="timeline-step__number">1</div>
+                <div class="timeline-step__card">
+                    <div class="timeline-step__header">
+                        <h3 class="timeline-step__title">Заявка и консультация</h3>
+                    </div>
+                    <div class="timeline-step__body">
+                        <p>Вы оставляете заявку на сайте или звоните. Врач связывается в течение нескольких минут, уточняет состояние и подбирает оптимальный способ снятия интоксикации.</p>
+                    </div>
                 </div>
-                <div class="steps-cta-banner">
-                    <button class="cta-button primary">Вызвать врача сейчас</button>
+            </article>
+
+            <article class="timeline-step">
+                <div class="timeline-step__number">2</div>
+                <div class="timeline-step__card">
+                    <div class="timeline-step__header">
+                        <h3 class="timeline-step__title">Приезд врача</h3>
+                    </div>
+                    <div class="timeline-step__body">
+                        <p>Специалист приезжает за 30–60 минут, проводит осмотр, оценивает давление, пульс, состояние сердца и печени. Определяет состав капельницы и дозировки препаратов.</p>
+                    </div>
                 </div>
-            </div>
+            </article>
+
+            <article class="timeline-step">
+                <div class="timeline-step__number">3</div>
+                <div class="timeline-step__card">
+                    <div class="timeline-step__header">
+                        <h3 class="timeline-step__title">Проведение процедуры</h3>
+                    </div>
+                    <div class="timeline-step__body">
+                        <p>Врач устанавливает капельницу, контролирует давление и самочувствие, следит за безопасностью. Процедура длится 40–60 минут, уже во время неё проходит тошнота и головная боль.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="timeline-step">
+                <div class="timeline-step__number">4</div>
+                <div class="timeline-step__card">
+                    <div class="timeline-step__header">
+                        <h3 class="timeline-step__title">Рекомендации после процедуры</h3>
+                    </div>
+                    <div class="timeline-step__body">
+                        <p>После завершения врач оставляет назначения и объясняет, как восстановить силы, сон и аппетит, чтобы не допустить повторного похмелья или запоя.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="timeline-step">
+                <div class="timeline-step__number">5</div>
+                <div class="timeline-step__card">
+                    <div class="timeline-step__header">
+                        <h3 class="timeline-step__title">Поддержка 24/7</h3>
+                    </div>
+                    <div class="timeline-step__body">
+                        <p>После процедуры мы остаёмся на связи. Можно получить повторную консультацию, уточнить дозировки или вызвать врача повторно при необходимости.</p>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- CTA Band -->
+        <section class="cta-band" role="region" aria-label="Вызов врача">
+          <div class="cta-band__inner">
+            <p class="cta-band__text">
+              <strong>Готовы начать с шага 1?</strong> Врач приедет анонимно за 30–60 минут.
+            </p>
+            <a href="tel:+79964014014" class="cta-button primary">Позвонить 24/7</a>
+          </div>
         </section>
+        </div>
+    </div>
+</section>
+<!-- /STEPS SECTION V2 -->
 
 
 <!-- БЛОК 1: УСЛУГИ -->
@@ -279,7 +332,7 @@
     </ul>
 
     <div class="usp-cta">
-      <a href="tel:+7XXXXXXXXXX" class="btn-primary" aria-label="Позвонить врачу 24/7">Получить помощь сейчас</a>
+      <a href="tel:+79964014014" class="btn-primary" aria-label="Позвонить врачу 24/7">Получить помощь сейчас</a>
       <a href="#pricing" class="btn-ghost">Узнать стоимость и время приезда</a>
     </div>
   </div>
@@ -376,7 +429,6 @@
                             <a href="tel:+7..." class="cta-button primary" data-analytics-category="withdrawal_block" data-analytics-action="cta_click" data-analytics-label="call">Позвонить врачу сейчас</a>
                             <a href="#consult-form" class="cta-button secondary" data-analytics-category="withdrawal_block" data-analytics-action="cta_click" data-analytics-label="consult">Анонимная консультация</a>
                         </div>
-                        <small class="disclaimer">Препараты и объём лечения подбираются индивидуально после осмотра. При угрозе жизни — звоните 103 или 112.</small>
                     </div>
                 </div>
             </div>
@@ -555,9 +607,9 @@
                 <div class="support-block__content">
                     <h2 class="support-block__title">Первый шаг к трезвости</h2>
                     <p class="support-block__text">Каждый день кто-то выбирает трезвость и поддержку. Вы не одни — помощь рядом и без осуждения. Обратитесь сегодня, чтобы стало легче завтра.</p>
-                    <form class="support-block__form" action="#" method="post">
-                        <input type="text" name="name" placeholder="Ваше имя" required>
-                        <input type="tel" name="phone" placeholder="Ваш телефон" required>
+                    <form class="support-block__form" action="#" method="post" data-telegram-form="Форма поддержки (снятие ломки)">
+                        <input type="text" name="name" placeholder="Ваше имя (Необязательно)" data-label="Имя">
+                        <input type="tel" name="phone" placeholder="Ваш телефон" data-label="Телефон" required>
                         <button type="submit" class="cta-button primary">Оставить заявку</button>
                     </form>
                 </div>
@@ -582,7 +634,7 @@
                 <div class="pre-footer-cta__actions">
                     <div class="pre-footer-cta__buttons">
                         <button class="cta-button primary" data-analytics-event="footer_cta_call_doctor_click">Вызвать врача 24/7</button>
-                        <a href="https://wa.me/78000000000" target="_blank" class="cta-button secondary" data-analytics-event="footer_whatsapp_click">
+                        <a href="https://wa.me/79964014014" target="_blank" class="cta-button secondary" data-analytics-event="footer_whatsapp_click">
                             <img src="assets/whatsapp.png" alt="WhatsApp" width="20" height="20" style="margin-right: 8px;">
                             Написать в WhatsApp
                         </a>
@@ -591,7 +643,7 @@
                             Написать в Telegram
                         </a>
                     </div>
-                    <a href="tel:88000000000" class="pre-footer-cta__phone" data-analytics-event="footer_phone_click">8 (800) 000-00-00</a>
+                    <a href="tel:+79964014014" class="pre-footer-cta__phone" data-analytics-event="footer_phone_click">+7 996 401 4014</a>
                 </div>
             </div>
         </div>
@@ -607,13 +659,12 @@
                     <h3 class="site-footer__title">Бренд и контакты</h3>
                     <div class="site-footer__content">
                         <p class="site-footer__brand-name">[Название юр-лица/бренд]</p>
-                        <a href="tel:88000000000" class="site-footer__phone" data-analytics-event="footer_phone_click">8 (800) 000-00-00</a>
+                        <a href="tel:+79964014014" class="site-footer__phone" data-analytics-event="footer_phone_click">+7 996 401 4014</a>
                         <div class="site-footer__messengers">
-                            <a href="https://wa.me/78000000000" target="_blank" aria-label="Написать в WhatsApp" data-analytics-event="footer_whatsapp_click"><img src="assets/whatsapp.png" alt="WhatsApp" width="28" height="28"></a>
+                            <a href="https://wa.me/79964014014" target="_blank" aria-label="Написать в WhatsApp" data-analytics-event="footer_whatsapp_click"><img src="assets/whatsapp.png" alt="WhatsApp" width="28" height="28"></a>
                             <a href="https://t.me/your_username" target="_blank" aria-label="Написать в Telegram" data-analytics-event="footer_telegram_click"><img src="assets/Telegram.png" alt="Telegram" width="28" height="28"></a>
                         </div>
                         <p><strong>Время работы:</strong> Круглосуточно, без выходных</p>
-                        <p class="site-footer__disclaimer--small">В экстренных ситуациях — звоните 112</p>
                     </div>
                 </div>
 
@@ -703,3 +754,7 @@
 
 </body>
 </html>
+
+
+
+

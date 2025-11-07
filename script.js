@@ -2,25 +2,90 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Логика модального окна заявки
      */
-    const applicationModal = document.getElementById('application-modal');
-    console.log('applicationModal element:', applicationModal); // Debug
+    const createApplicationModal = () => {
+        if (!document.body) {
+            return null;
+        }
+
+        const modal = document.createElement('div');
+        modal.id = 'application-modal';
+        modal.className = 'modal';
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
+        modal.setAttribute('aria-labelledby', 'application-modal-title');
+
+        modal.innerHTML = `
+            <div class="modal-content">
+                <button type="button" class="close-button" aria-label="Закрыть окно"></button>
+                <h2 id="application-modal-title">Оставьте заявку</h2>
+                <p>Мы перезвоним в течении 2-х минут</p>
+                <p>Врач будет у Вас через 30-40 минут</p>
+                <form action="#" method="post" data-telegram-form="Модальное окно заявки">
+                    <input type="text" name="name" placeholder="Ваше имя (Необязательно)" data-label="Имя">
+                    <input type="tel" name="phone" placeholder="Телефон" data-label="Телефон" required>
+                    <button type="submit" class="cta-button primary">Оставить заявку</button>
+                </form>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+        return modal;
+    };
+
+    let applicationModal = document.getElementById('application-modal');
+    if (!applicationModal) {
+        applicationModal = createApplicationModal();
+    }
     const closeButton = applicationModal ? applicationModal.querySelector('.close-button') : null;
 
-    const openModalButtons = document.querySelectorAll(
-        'button.cta-button.primary:not([href^="tel:"]):not([data-analytics-event^="footer_phone_click"]), ' + // Кнопки с классом primary, не являющиеся ссылками на телефон
-        'button.cta-button.secondary:not([href^="tel:"]):not([data-analytics-event^="footer_phone_click"]), ' + // Кнопки с классом secondary, не являющиеся ссылками на телефон
-        'a.cta-button.primary:not([href^="tel:"]):not([href*="wa.me"]):not([href*="t.me"]), ' + // Ссылки с классом primary, не являющиеся ссылками на телефон/мессенджеры
-        'a.cta-button.secondary:not([href^="tel:"]):not([href*="wa.me"]):not([href*="t.me"]), ' + // Ссылки с классом secondary, не являющиеся ссылками на телефон/мессенджеры
-        '.pre-footer-cta__buttons .cta-button.primary, ' + // Конкретная кнопка в pre-footer
-        '.pre-footer-cta__buttons .cta-button.secondary:not([href*="wa.me"]):not([href*="t.me"]), ' + // Конкретные кнопки в pre-footer, не являющиеся ссылками на мессенджеры
-        '.sticky-mobile-button' // Плавающая кнопка на мобильных
-    );
-    console.log('openModalButtons elements:', openModalButtons); // Debug
+    if (applicationModal) {
+        applicationModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    const openModalButtons = Array.from(document.querySelectorAll('.cta-button')).filter((button) => {
+        if (!button) {
+            return false;
+        }
+
+        if (applicationModal && applicationModal.contains(button)) {
+            return false;
+        }
+
+        if (button.closest('.chat-widget')) {
+            return false;
+        }
+
+        if (button.closest('form[data-telegram-form]')) {
+            return false;
+        }
+
+        if (button.matches('[data-analytics-event^="footer_phone_click"]')) {
+            return false;
+        }
+
+        if (button.tagName === 'A') {
+            const href = button.getAttribute('href') || '';
+            if (href.startsWith('tel:') || href.includes('wa.me/') || href.includes('t.me/')) {
+                return false;
+            }
+        }
+
+        return true;
+    });
+
+    let isApplicationModalOpen = false;
+
+    const TELEGRAM_BOT_TOKEN = '8507158747:AAHnkHF8-NX3onKxJZ6dLu65Nf8IL-tSyPo';
+    const TELEGRAM_CHAT_ID = '-1002591344879';
+    const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    const TELEGRAM_MESSAGE_TITLE = 'Новая заявка с сайта';
 
     function openApplicationModal() {
         if (applicationModal) {
             applicationModal.style.display = 'flex';
             document.body.style.overflow = 'hidden'; // Запретить прокрутку фона
+            isApplicationModalOpen = true;
         }
     }
 
@@ -28,8 +93,115 @@ document.addEventListener('DOMContentLoaded', () => {
         if (applicationModal) {
             applicationModal.style.display = 'none';
             document.body.style.overflow = ''; // Разрешить прокрутку фона
+            isApplicationModalOpen = false;
         }
     }
+
+    const getFieldElement = (form, fieldName) => form.querySelector(`[name="${fieldName}"]`);
+
+    const getFieldLabel = (fieldElement, fallbackLabel) => {
+        if (!fieldElement) {
+            return fallbackLabel;
+        }
+        return fieldElement.dataset.label || fieldElement.placeholder || fieldElement.name || fallbackLabel;
+    };
+
+    const buildTelegramMessage = (form) => {
+        const formData = new FormData(form);
+        const formName = form.dataset.telegramForm || 'Форма';
+        const pageTitle = document.title || 'Без названия';
+        const pageUrl = window.location.href;
+
+        const lines = [
+            TELEGRAM_MESSAGE_TITLE,
+            '',
+            `Форма: ${formName}`,
+            `Страница: ${pageTitle}`,
+            `URL: ${pageUrl}`
+        ];
+
+        formData.forEach((value, key) => {
+            const fieldElement = getFieldElement(form, key);
+            const label = getFieldLabel(fieldElement, key);
+            const fieldType = fieldElement && fieldElement.type ? fieldElement.type.toLowerCase() : '';
+
+            if (fieldType === 'checkbox') {
+                const checkboxValue = fieldElement.checked ? 'Да' : 'Нет';
+                lines.push(`${label}: ${checkboxValue}`);
+                return;
+            }
+
+            const trimmedValue = typeof value === 'string' ? value.trim() : '';
+            if (!trimmedValue) {
+                if (key === 'name') {
+                    lines.push(`${label}: не указано`);
+                }
+                return;
+            }
+
+            lines.push(`${label}: ${trimmedValue}`);
+        });
+
+        return lines.join('\n');
+    };
+
+    const sendLeadToTelegram = async (message) => {
+        const response = await fetch(TELEGRAM_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: message,
+                disable_web_page_preview: true
+            })
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.ok) {
+            throw new Error((data && data.description) || 'Telegram API error');
+        }
+    };
+
+    const handleTelegramFormSubmit = async (form) => {
+        const submitButton = form.querySelector('[type="submit"]');
+        const originalButtonText = submitButton ? submitButton.textContent : '';
+
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Отправляем...';
+        }
+
+        try {
+            const message = buildTelegramMessage(form);
+            await sendLeadToTelegram(message);
+            form.reset();
+            alert('Спасибо! Мы уже получили вашу заявку.');
+        } catch (error) {
+            console.error('Не удалось отправить заявку', error);
+            alert('Не удалось отправить заявку. Попробуйте ещё раз.');
+        } finally {
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
+            }
+        }
+    };
+
+    const initTelegramLeadForms = () => {
+        const telegramForms = document.querySelectorAll('form[data-telegram-form]');
+        if (!telegramForms.length) {
+            return;
+        }
+
+        telegramForms.forEach((form) => {
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                await handleTelegramFormSubmit(form);
+            });
+        });
+    };
 
     if (applicationModal && closeButton) {
         openModalButtons.forEach(button => {
@@ -45,12 +217,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         closeButton.addEventListener('click', closeApplicationModal);
 
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isApplicationModalOpen) {
+                closeApplicationModal();
+            }
+        });
         applicationModal.addEventListener('click', (e) => {
             if (e.target === applicationModal) {
+                closeApplicationModal();
+                return;
+            }
+
+            const closeTarget = e.target.closest('.close-button');
+            if (closeTarget) {
+                e.preventDefault();
                 closeApplicationModal();
             }
         });
     }
+
+    initTelegramLeadForms();
 
 
     const initHangoverRisksAnalytics = () => {
@@ -252,7 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * 5. Форма заявки
      * При клике на CTA-кнопки плавно прокручиваем страницу к форме.
      */
-    const callButtons = document.querySelectorAll('.hero .cta-button.primary, .solution-new .cta-button.primary');
+    const callButtons = document.querySelectorAll('.solution-new .cta-button.primary');
     const ctaForm = document.getElementById('cta-form');
 
     if (ctaForm && callButtons.length > 0) {
@@ -273,10 +459,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (chatWidget) {
         const toggleButton = chatWidget.querySelector('.chat-widget__toggle');
         const chatWindow = chatWidget.querySelector('.chat-widget__window');
+        const chatCloseButton = chatWidget.querySelector('.chat-widget__close');
 
         toggleButton.addEventListener('click', () => {
             chatWindow.classList.toggle('is-open');
         });
+
+        if (chatCloseButton) {
+            chatCloseButton.addEventListener('click', () => {
+                chatWindow.classList.remove('is-open');
+            });
+        }
 
         // Показываем окно чата через 30 секунд
         setTimeout(() => {
@@ -284,16 +477,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 chatWindow.classList.add('is-open');
             }
         }, 30000);
-    }
-
-
-    // --- 6.4. Sticky кнопка на мобайле ---
-    const stickyButton = document.querySelector('.sticky-mobile-button');
-    if (stickyButton && ctaForm) {
-        stickyButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            ctaForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
     }
 
     /**
@@ -375,6 +558,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Запускаем логику живой ленты
     liveFeed();
+
+    /**
+     * 7. Слайдер услуг
+     * Реализация слайдера с ручным переключением по стрелкам.
+     */
+    const servicesSection = document.querySelector('.services');
+    if (servicesSection && window.innerWidth < 768) {
+        const slidesContainer = servicesSection;
+        const prevButton = servicesSection.querySelector('.slider-prev');
+        const nextButton = servicesSection.querySelector('.slider-next');
+
+        if (slidesContainer && prevButton && nextButton) {
+            const slideWidth = window.innerWidth;
+
+            nextButton.addEventListener('click', () => {
+                slidesContainer.scrollBy({ left: slideWidth, behavior: 'smooth' });
+            });
+
+            prevButton.addEventListener('click', () => {
+                slidesContainer.scrollBy({ left: -slideWidth, behavior: 'smooth' });
+            });
+        }
+    }
 });
 
 
@@ -754,11 +960,45 @@ function initStepsScrollAnimation(section) {
 document.addEventListener('DOMContentLoaded', function() {
     const burgerMenu = document.querySelector('.burger-menu');
     const mobileNav = document.querySelector('.mobile-nav');
+    const mobileNavCloseButton = mobileNav ? mobileNav.querySelector('.mobile-nav__close') : null;
+    const rootElement = document.documentElement;
 
     if (burgerMenu && mobileNav) {
-        burgerMenu.addEventListener('click', function() {
-            burgerMenu.classList.toggle('is-active');
-            mobileNav.classList.toggle('is-open');
+        if (mobileNav.parentElement !== document.body) {
+            document.body.appendChild(mobileNav);
+        }
+
+        const toggleMobileNav = () => {
+            const isOpen = mobileNav.classList.toggle('is-open');
+            burgerMenu.classList.toggle('is-active', isOpen);
+            document.body.classList.toggle('mobile-nav-open', isOpen);
+            rootElement.classList.toggle('mobile-nav-open', isOpen);
+        };
+
+        const closeMobileNav = () => {
+            if (!mobileNav.classList.contains('is-open')) {
+                return;
+            }
+            mobileNav.classList.remove('is-open');
+            burgerMenu.classList.remove('is-active');
+            document.body.classList.remove('mobile-nav-open');
+            rootElement.classList.remove('mobile-nav-open');
+        };
+
+        burgerMenu.addEventListener('click', toggleMobileNav);
+
+        if (mobileNavCloseButton) {
+            mobileNavCloseButton.addEventListener('click', closeMobileNav);
+            mobileNavCloseButton.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    closeMobileNav();
+                }
+            });
+        }
+
+        mobileNav.querySelectorAll('a, .phone').forEach((interactiveElement) => {
+            interactiveElement.addEventListener('click', closeMobileNav);
         });
     }
 });
@@ -927,3 +1167,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+
+

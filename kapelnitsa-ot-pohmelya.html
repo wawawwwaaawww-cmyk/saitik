@@ -8,21 +8,86 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="assets/logo.png">
 </head>
 <body>
-    <header class="site-header">
-        <div class="logo">Наркологическая Служба</div>
-        <nav class="site-nav">
+    
+
+<header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <img src="assets/logo.png" alt="Логотип Свой Нарколог">
+                <div class="logo-text">
+                    <span class="logo-title">Свой Нарколог</span>
+                    <a href="tel:+79964014014" class="logo-phone">+7 996 401 4014</a>
+                </div>
+            </div>
+    
+            <nav class="nav">
+                <a href="index.html">Главная</a>
+                <a href="about.html">О&nbsp;клинике</a>
+                <a href="vyvod-iz-zapoya.html">Вывод&nbsp;из запоя</a>
+                <a href="snyatie-lomki.html">Снятие ломки</a>
+                <a href="kodirovanie.html">Кодирование</a>
+                <a href="snyatie-pohmelya.html">Снятие похмелья</a>
+                <a href="contacts.html">Контакты</a>
+            </nav>
+    
+            <div class="actions">
+            </div>
+            
+            <button class="burger-menu" aria-label="Открыть меню">
+                <span></span>
+                <span></span>
+                <span></span>
+                <svg class="burger-menu__close-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                    <rect x="11" y="4" width="2" height="16" rx="1" transform="rotate(45 12 12)" fill="currentColor"></rect>
+                    <rect x="11" y="4" width="2" height="16" rx="1" transform="rotate(135 12 12)" fill="currentColor"></rect>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Мобильная навигация -->
+    <div class="mobile-nav">
+        <div class="mobile-nav__header">
+            <div class="mobile-nav__brand">
+                <img src="assets/logo.png" alt="Свой Нарколог" class="mobile-nav__brand-logo">
+                <div class="mobile-nav__brand-text">
+                    <span class="mobile-nav__brand-name">Свой Нарколог</span>
+                    <a href="tel:+79964014014" class="mobile-nav__brand-phone">+7 996 401 4014</a>
+                </div>
+            </div>
+            <button class="mobile-nav__close" aria-label="Закрыть меню">
+                <svg class="mobile-nav__close-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" role="presentation">
+                    <rect x="11" y="4" width="2" height="16" rx="1" transform="rotate(45 12 12)" fill="currentColor"></rect>
+                    <rect x="11" y="4" width="2" height="16" rx="1" transform="rotate(135 12 12)" fill="currentColor"></rect>
+                </svg>
+            </button>
+        </div>
+
+        <nav class="nav">
             <a href="index.html">Главная</a>
-            <a href="about.html">О клинике</a>
-            <a href="vyvod-iz-zapoya.html">Вывод из запоя</a>
+            <a href="about.html">О&nbsp;клинике</a>
+            <a href="vyvod-iz-zapoya.html">Вывод&nbsp;из запоя</a>
+            <a href="snyatie-lomki.html">Снятие ломки</a>
             <a href="kodirovanie.html">Кодирование</a>
-            <a href="kapelnitsa-ot-pohmelya.html">Капельница от похмелья</a>
+            <a href="snyatie-pohmelya.html">Снятие похмелья</a>
             <a href="contacts.html">Контакты</a>
         </nav>
-        <a href="tel:88000000000" class="header-phone">8 (800) 000-00-00</a>
-        <button class="cta-button primary">Вызвать врача</button>
-    </header>
+        <div class="actions">
+            <a href="tel:+79964014014" class="phone">
+                <svg class="phone-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                +7 996 401 4014
+            </a>
+        </div>
+    </div>
+
+    <!-- Мобильная навигация -->
+    
+
+    <!-- Мобильная навигация -->
+    
 
     <header class="hero hero-premium-hangover">
         <div class="hero-content">
@@ -231,9 +296,9 @@
                     <h2>Ваш близкий отказывается лечиться?</h2>
                     <p class="lead-magnet__subtitle">Не совершайте этих ошибок.</p>
                     <p>Получите бесплатно PDF-инструкцию от нашего главного психолога: '5 фатальных ошибок в разговоре с зависимым (и как их избежать)'.</p>
-                    <form class="lead-magnet__form">
-                        <input type="text" placeholder="Введите ваш Email или Telegram">
-                        <button type="submit" class="cta-button primary">Получить инструкцию анонимно</button>
+                    <form class="lead-magnet__form" data-telegram-form="Лид-магнит (капельница)">
+                        <input type="text" name="contact" placeholder="Ваш контакт Email или Telegram" data-label="Контакт для связи" required>
+                        <button type="submit" class="cta-button primary">Получить бесплатный материал</button>
                     </form>
                     <p class="lead-magnet__note">Никакого спама. 100% конфиденциально.</p>
                 </div>
@@ -282,7 +347,7 @@
             <div class="pre-footer-cta__actions">
                 <div class="pre-footer-cta__buttons">
                     <button class="cta-button primary" data-analytics-event="footer_cta_call_doctor_click">Вызвать врача 24/7</button>
-                    <a href="https://wa.me/78000000000" target="_blank" class="cta-button secondary" data-analytics-event="footer_whatsapp_click">
+                    <a href="https://wa.me/79964014014" target="_blank" class="cta-button secondary" data-analytics-event="footer_whatsapp_click">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.61 15.35 3.48 16.82L2.1 21.9L7.29 20.53C8.71 21.32 10.35 21.8 12.04 21.8H12.05C17.5 21.8 21.95 17.35 21.95 11.89C21.95 9.22 20.91 6.78 19.09 4.95C17.26 3.13 14.82 2.08 12.16 2.08L12.04 2ZM10.13 6.15L10.12 6.15C10.34 6.15 10.55 6.16 10.74 6.18C10.94 6.2 11.1 6.22 11.23 6.48C11.38 6.74 11.82 7.93 11.92 8.15C12.02 8.37 12.04 8.59 11.97 8.79C11.9 8.99 11.82 9.11 11.67 9.28C11.52 9.45 11.37 9.6 11.24 9.74C11.11 9.88 10.98 10.03 11.12 10.29C11.26 10.55 11.64 11.11 12.21 11.65C12.95 12.36 13.64 12.78 13.95 12.93C14.26 13.08 14.41 13.04 14.59 12.86C14.77 12.68 15.16 12.16 15.38 11.87C15.6 11.58 15.82 11.53 16.09 11.63C16.36 11.73 17.43 12.27 17.65 12.37C17.87 12.47 18.02 12.52 18.09 12.62C18.16 12.72 18.16 13.06 17.97 13.43C17.78 13.8 16.96 14.54 16.59 14.89C16.22 15.24 15.75 15.38 15.3 15.38C14.85 15.38 14.28 15.24 13.57 14.95C12.73 14.6 11.64 14.04 10.41 12.9C9.03 11.61 8.11 10.04 7.86 9.5C7.61 8.96 7.35 8.31 7.35 7.78C7.35 7.25 7.54 6.8 7.76 6.58C7.98 6.36 8.28 6.19 8.59 6.16C8.9 6.13 9.14 6.15 9.33 6.15H9.55L9.8 6.15H10.13Z" fill="currentColor"></path></svg>
                         Написать в WhatsApp
                     </a>
@@ -291,7 +356,7 @@
                         Написать в Telegram
                     </a>
                 </div>
-                <a href="tel:88000000000" class="pre-footer-cta__phone" data-analytics-event="footer_phone_click">8 (800) 000-00-00</a>
+                <a href="tel:+79964014014" class="pre-footer-cta__phone" data-analytics-event="footer_phone_click">+7 996 401 4014</a>
             </div>
         </div>
     </div>
@@ -307,13 +372,12 @@
                 <h3 class="site-footer__title">Бренд и контакты</h3>
                 <div class="site-footer__content">
                     <p class="site-footer__brand-name">[Название юр-лица/бренд]</p>
-                    <a href="tel:88000000000" class="site-footer__phone" data-analytics-event="footer_phone_click">8 (800) 000-00-00</a>
+                    <a href="tel:+79964014014" class="site-footer__phone" data-analytics-event="footer_phone_click">+7 996 401 4014</a>
                     <div class="site-footer__messengers">
-                        <a href="https://wa.me/78000000000" target="_blank" aria-label="Написать в WhatsApp" data-analytics-event="footer_whatsapp_click"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.61 15.35 3.48 16.82L2.1 21.9L7.29 20.53C8.71 21.32 10.35 21.8 12.04 21.8H12.05C17.5 21.8 21.95 17.35 21.95 11.89C21.95 9.22 20.91 6.78 19.09 4.95C17.26 3.13 14.82 2.08 12.16 2.08L12.04 2ZM10.13 6.15L10.12 6.15C10.34 6.15 10.55 6.16 10.74 6.18C10.94 6.2 11.1 6.22 11.23 6.48C11.38 6.74 11.82 7.93 11.92 8.15C12.02 8.37 12.04 8.59 11.97 8.79C11.9 8.99 11.82 9.11 11.67 9.28C11.52 9.45 11.37 9.6 11.24 9.74C11.11 9.88 10.98 10.03 11.12 10.29C11.26 10.55 11.64 11.11 12.21 11.65C12.95 12.36 13.64 12.78 13.95 12.93C14.26 13.08 14.41 13.04 14.59 12.86C14.77 12.68 15.16 12.16 15.38 11.87C15.6 11.58 15.82 11.53 16.09 11.63C16.36 11.73 17.43 12.27 17.65 12.37C17.87 12.47 18.02 12.52 18.09 12.62C18.16 12.72 18.16 13.06 17.97 13.43C17.78 13.8 16.96 14.54 16.59 14.89C16.22 15.24 15.75 15.38 15.3 15.38C14.85 15.38 14.28 15.24 13.57 14.95C12.73 14.6 11.64 14.04 10.41 12.9C9.03 11.61 8.11 10.04 7.86 9.5C7.61 8.96 7.35 8.31 7.35 7.78C7.35 7.25 7.54 6.8 7.76 6.58C7.98 6.36 8.28 6.19 8.59 6.16C8.9 6.13 9.14 6.15 9.33 6.15H9.55L9.8 6.15H10.13Z" fill="currentColor"></path></svg></a>
+                        <a href="https://wa.me/79964014014" target="_blank" aria-label="Написать в WhatsApp" data-analytics-event="footer_whatsapp_click"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.61 15.35 3.48 16.82L2.1 21.9L7.29 20.53C8.71 21.32 10.35 21.8 12.04 21.8H12.05C17.5 21.8 21.95 17.35 21.95 11.89C21.95 9.22 20.91 6.78 19.09 4.95C17.26 3.13 14.82 2.08 12.16 2.08L12.04 2ZM10.13 6.15L10.12 6.15C10.34 6.15 10.55 6.16 10.74 6.18C10.94 6.2 11.1 6.22 11.23 6.48C11.38 6.74 11.82 7.93 11.92 8.15C12.02 8.37 12.04 8.59 11.97 8.79C11.9 8.99 11.82 9.11 11.67 9.28C11.52 9.45 11.37 9.6 11.24 9.74C11.11 9.88 10.98 10.03 11.12 10.29C11.26 10.55 11.64 11.11 12.21 11.65C12.95 12.36 13.64 12.78 13.95 12.93C14.26 13.08 14.41 13.04 14.59 12.86C14.77 12.68 15.16 12.16 15.38 11.87C15.6 11.58 15.82 11.53 16.09 11.63C16.36 11.73 17.43 12.27 17.65 12.37C17.87 12.47 18.02 12.52 18.09 12.62C18.16 12.72 18.16 13.06 17.97 13.43C17.78 13.8 16.96 14.54 16.59 14.89C16.22 15.24 15.75 15.38 15.3 15.38C14.85 15.38 14.28 15.24 13.57 14.95C12.73 14.6 11.64 14.04 10.41 12.9C9.03 11.61 8.11 10.04 7.86 9.5C7.61 8.96 7.35 8.31 7.35 7.78C7.35 7.25 7.54 6.8 7.76 6.58C7.98 6.36 8.28 6.19 8.59 6.16C8.9 6.13 9.14 6.15 9.33 6.15H9.55L9.8 6.15H10.13Z" fill="currentColor"></path></svg></a>
                         <a href="https://t.me/your_username" target="_blank" aria-label="Написать в Telegram" data-analytics-event="footer_telegram_click"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.448 3.565a2.25 2.25 0 0 0-1.93-1.123C17.53 2.25 12.884 3.84 9.73 5.634c-4.16 2.367-8.062 4.573-9.183 5.19a1.5 1.5 0 0 0-.546 2.245c.3.398.75.71 1.2.89l3.38 1.353 1.352 4.223a1.5 1.5 0 0 0 2.163 1.01c.31-.11.58-.31.78-.58l1.89-2.52 3.46 2.58a1.5 1.5 0 0 0 2.17-.503l4.21-9.58a2.25 2.25 0 0 0-.01-1.766ZM6.39 12.32l7.13-4.28-5.76 5.64-1.37-.55v.19Zm8.01 5.9-3.3-2.46 5.76-5.64-2.46 8.1Z" fill="currentColor"></path></svg></a>
                     </div>
                     <p><strong>Время работы:</strong> Круглосуточно, без выходных</p>
-                    <p class="site-footer__disclaimer--small">В экстренных ситуациях — звоните 112</p>
                 </div>
             </div>
 
